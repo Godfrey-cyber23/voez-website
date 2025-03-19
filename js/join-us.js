@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Hide the loader once the page is fully loaded
   if (loader) {
-      loader.style.display = 'none';
+      loader.style.visibility = 'hidden'; // Hide the loader and stop its animation
   }
 
   // Show/hide "Others (Specify)" field based on dropdown selection
@@ -38,19 +38,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Show the loader during form submission
       if (loader) {
-          loader.style.display = 'block';
+          loader.style.visibility = 'visible'; // Show the loader and start its animation
       }
 
       // Simulate form submission delay (e.g., API call or processing)
       setTimeout(function () {
           // Hide the loader after submission
           if (loader) {
-              loader.style.display = 'none';
+              loader.style.visibility = 'hidden'; // Hide the loader and stop its animation
           }
 
           // Hide the form and show the success message
           form.style.display = 'none';
           successMessage.style.display = 'block';
       }, 2000); // Adjust the timeout as needed (2 seconds in this case)
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+
+  hamburger.addEventListener('click', function () {
+      navLinks.classList.toggle('active');
   });
 });
