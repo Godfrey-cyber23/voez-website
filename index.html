@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,38 +8,240 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
+  <!-- Header -->
   <header>
     <div class="logo">
       <img src="images/logo.svg" alt="VOEZ Logo">
     </div>
     <nav>
       <ul>
-        <!-- <li><a href="index.html">Home</a></li>
+        <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="music.html">Music</a></li>
         <li><a href="events.html">Events</a></li>
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="join.html">Join Us</a></li>
-        <li><a href="contact.html">Contact</a></li> -->
+        <li><a href="contact.html">Contact</a></li>
         <li><a href="login.html">Login</a></li>
       </ul>
+      <div class="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
     </nav>
   </header>
 
-  <section class="hero">
-    <video autoplay muted loop id="hero-video">
-      <source src="videos/performance1.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <div class="hero-content">
-      <h1>Inspiring Faith Through Music</h1>
-      <a href="join.html" class="cta-button">Join Us</a>
-      <a href="music.html" class="cta-button">Listen to Our Music</a>
+ <section class="hero">
+  <!-- Background image using <img> tag -->
+  <img src="images/473611145_122231804882071248_4685746320694649629_n.jpg" alt="VOEZ Background" class="hero-background">
+  
+  <div class="hero-content">
+    <!-- Welcome Message with Typing Effect -->
+    <h1 class="fade-in"><span id="welcome-text"></span><span class="cursor">|</span></h1>
+    
+    <!-- Main Text with Typing Effect -->
+    <h1 class="fade-in"><span id="typing-text"></span><span class="cursor">|</span></h1>
+    
+    <p class="fade-in">Join us in spreading the message of love, hope, and unity through the power of music.</p>
+    <div class="cta-buttons">
+      <a href="join.html" class="cta-button slide-in">Join Us</a>
+      <a href="music.html" class="cta-button slide-in">Listen to Our Music</a>
+    </div>
+  </div>
+</section>
+
+  <!-- About Section -->
+  <section class="about">
+    <div class="about-content">
+      <h2 class="fade-in">About Voice of Ecclesia Zambia</h2>
+      <p class="fade-in">We are a vibrant Catholic musical choir dedicated to inspiring faith, strengthening Christian
+        unity, and uplifting communities through the power of music. Join us in our mission to glorify God and spread
+        His message of love.</p>
+      <a href="about.html" class="cta-button fade-in">Learn More</a>
     </div>
   </section>
 
+  <section class="gallery">
+    <h2>Gallery</h2>
+    <div class="gallery-container">
+      <div class="gallery-track">
+        <!-- Images will be dynamically inserted here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Music Section -->
+  <section class="music">
+    <h2 class="fade-in">Our Music</h2>
+    <div class="music-grid">
+      <div class="music-card fade-in">
+        <img src="images/hqdefault (1).avif" alt="Album 1">
+        <h3>Album 1</h3>
+        <p>Experience the soulful melodies of our first album.</p>
+        <a href="music.html" class="cta-button">Listen Now</a>
+      </div>
+      <div class="music-card fade-in">
+        <img src="images/videoframe_24072.png" alt="Album 2">
+        <h3>Album 2</h3>
+        <p>Discover the uplifting rhythms of our second album.</p>
+        <a href="music.html" class="cta-button">Listen Now</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-music">
+    <h2>Featured Music</h2>
+    <div class="music-grid">
+      <div class="music-card">
+        <img src="images/hq720.jpg" alt="Album 1">
+        <h3>Album 1</h3>
+        <p>Experience the soulful melodies of our first album.</p>
+        <a href="music.html" class="cta-button">Listen Now</a>
+      </div>
+      <div class="music-card">
+        <img src="images/album2.jpg" alt="Album 2">
+        <h3>Album 2</h3>
+        <p>Discover the uplifting rhythms of our second album.</p>
+        <a href="music.html" class="cta-button">Listen Now</a>
+      </div>
+    </div>
+  </section>
+  <section class="countdown">
+    <h2>Next Event in:</h2>
+    <div id="countdown-timer">
+      <span id="days">00</span> Days
+      <span id="hours">00</span> Hours
+      <span id="minutes">00</span> Minutes
+      <span id="seconds">00</span> Seconds
+    </div>
+  </section>
+
+  <section class="upcoming-events">
+    <h2>Upcoming Events</h2>
+    <div class="events-grid">
+
+      <div class="testimonial-card">
+        <iframe
+          src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fweb.facebook.com%2FVoE.Zambia%2Fposts%2Fpfbid02s1iRzLK5GTHHb6V9rKLcKzxCdgitCVFfERjmfbEZoQctfPJ6aXmUg2CzbGoPGpSZl&show_text=true&width=500"
+          width="500" class="iframe-style" scrolling="no" frameborder="0" allowfullscreen="true"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Facebook Post 1">
+          ></iframe>
+        <a href="https://web.facebook.com/VoE.Zambia/posts/pfbid02s1iRzLK5GTHHb6V9rKLcKzxCdgitCVFfERjmfbEZoQctfPJ6aXmUg2CzbGoPGpSZl"
+          class="cta-button">View Details</a>
+      </div>
+
+      <!-- Event 2: Community Outreach -->
+      <div class="event-card">
+        <h3>Community Outreach</h3>
+        <p>Date: January 15, 2024</p>
+        <p>Location: Kabwata Orphanage</p>
+        <a href="#event-details" class="cta-button">View Details</a>
+      </div>
+
+      <!-- Event 3: PERSONAL BASED | PRAYER & FASTING -->
+      <div class="event-card">
+        <h3>PERSONAL BASED | PRAYER & FASTING 🖤💜</h3>
+        <p><strong>Highlights:</strong></p>
+        <ul>
+          <li>Bible readings for reflections will be shared.</li>
+          <li>Further insights on the passion will be shared via an additional Online Bible VoEZ Chitente.</li>
+          <li>Individually, one will determine how long they will fast (from food/entertainment) and personal prayers
+            they will make.</li>
+        </ul>
+        <p><strong>Timings:</strong> 06:00 AM & 12:00 PM</p>
+        <a href="#event-details" class="cta-button">View Details</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="blog">
+    <h2>Latest News</h2>
+    <div class="blog-grid">
+      <div class="blog-card">
+        <img src="images/blog1.jpg" alt="Blog Post 1">
+        <h3>New Album Release</h3>
+        <p>We are excited to announce the release of our new album. Listen now!</p>
+        <a href="blog-post.html" class="cta-button">Read More</a>
+      </div>
+      <div class="blog-card">
+        <img src="images/blog2.jpg" alt="Blog Post 2">
+        <h3>Community Outreach Success</h3>
+        <p>Our recent outreach program at Kabwata Orphanage was a huge success.</p>
+        <a href="blog-post.html" class="cta-button">Read More</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <h2>What People Are Saying</h2>
+    <div class="testimonials-grid">
+
+      <!-- Embedded Facebook Post 1 -->
+      <div class="testimonial-card">
+        <iframe
+          src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fweb.facebook.com%2Fthandose.mary.9%2Fposts%2Fpfbid033jEG6UsNn98Rf68gsE62j6MfBPJ9Mr78ygAEcGpdWMM85RG9onfkkXuy7FnE1qQwl&show_text=true&width=500"
+          class="iframe-style" scrolling="no" frameborder="0" allowfullscreen="true"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Facebook Post 1">
+        </iframe>
+      </div>
+
+      <!-- Embedded Facebook Post 2 -->
+      <div class="testimonial-card">
+        <iframe
+          src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fweb.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid06CdAf2dnb9a6JLe1REZ89rX4vsR9AjA9K8D4Er4UmASkGCu5h3pP4h6yUzJgY83dl%26id%3D100004216276278&show_text=true&width=500"
+          class="iframe-style" scrolling="no" frameborder="0" allowfullscreen="true"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Facebook Post 2">
+        </iframe>
+      </div>
+
+      <!-- Embedded Facebook Post 3 -->
+      <div class="testimonial-card">
+        <iframe
+          src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fweb.facebook.com%2Fpius.chisanga%2Fposts%2Fpfbid092YnFEVW5Gy7s4NKMqywYgVTDeFDfw68HZDo9ye7UYUoaYTTumVN4t8Luk2LbTuhl&show_text=true&width=500"
+          class="iframe-style" scrolling="no" frameborder="0" allowfullscreen="true"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Facebook Post 3">
+        </iframe>
+      </div>
+
+      <!-- Embedded Facebook Post 4 -->
+      <div class="testimonial-card">
+        <iframe
+          src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fweb.facebook.com%2Fmarianakelly.zimba.3%2Fposts%2Fpfbid0SQtKgTxdiDy2ThLBW6X74hTnxqM3F1gP13AxhXe4Fe2qWm1xJBrLCv6xZ3ZmFpUkl&show_text=true&width=500"
+          class="iframe-style" scrolling="no" frameborder="0" allowfullscreen="true"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Facebook Post 4">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter">
+    <h2>Stay Updated</h2>
+    <p>Subscribe to our newsletter for the latest news, music, and events.</p>
+    <form class="newsletter-form">
+      <input type="email" placeholder="Enter your email" required>
+      <button type="submit" class="cta-button">Subscribe</button>
+    </form>
+  </section>
+
+  <section class="cta-banner">
+    <h2>Join Us in Spreading Faith Through Music</h2>
+    <a href="join.html" class="cta-button">Join the Choir</a>
+    <a href="donate.html" class="cta-button">Donate Now</a>
+  </section>
+
+  <section class="location">
+    <h2>Find Us</h2>
+    <div class="map">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.753622315747!2d28.28921531532844!3d-15.417489289049487!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1940f5b9d9f8f8f9%3A0x9f8f8f9f8f8f8f9!2sLusaka%2C%20Zambia!5e0!3m2!1sen!2sus!4v1629999999999!5m2!1sen!2sus"
+        class="map-iframe" allowfullscreen="" title="VOEZ Location"></iframe>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
     <div class="footer-content">
       <!-- Quick Links -->
@@ -54,28 +257,96 @@
           <li><a href="contact.html">Contact Us</a></li>
         </ul>
       </div>
-  
+
       <!-- Social Media Links -->
       <div class="footer-section">
         <h3>Follow Us</h3>
-        <div class="social-icons">
-          <a href="https://facebook.com" target="_blank" rel="noopener" title="Visit our Facebook page"><i class="fab fa-facebook"></i></a>
-          <a href="https://instagram.com" target="_blank" rel="noopener" title="Visit our Instagram page"><i class="fab fa-instagram"></i></a>
-          <a href="https://youtube.com" target="_blank" rel="noopener" title="Visit our YouTube channel"><i class="fab fa-youtube"></i></a>
-          <a href="https://twitter.com" target="_blank" rel="noopener" title="Visit our Twitter page"><i class="fab fa-twitter"></i></a>
-        </div>
+        <ul class="example-2">
+          <li class="icon-content">
+            <a
+              data-social="whatsapp"
+              aria-label="Whatsapp"
+              href="https://api.whatsapp.com/send?phone=+260123456789&amp;text=Hello%20VOEZ!"
+            >
+              <div class="filled"></div>
+              <svg
+                xml:space="preserve"
+                viewBox="0 0 24 24"
+                class="bi bi-whatsapp"
+                fill="currentColor"
+                height="24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill="currentColor"
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+                ></path>
+              </svg>
+            </a>
+            <div class="tooltip">WhatsApp</div>
+          </li>
+          <li class="icon-content">
+            <a
+              data-social="facebook"
+              aria-label="Facebook"
+              href="https://web.facebook.com/VoE.Zambia"
+            >
+              <div class="filled"></div>
+              <svg
+                xml:space="preserve"
+                viewBox="0 0 24 24"
+                class="bi bi-facbook"
+                fill="currentColor"
+                height="24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill="currentColor"
+                  d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"
+                ></path>
+              </svg>
+            </a>
+            <div class="tooltip">Facebook</div>
+          </li>
+          <li class="icon-content">
+            <a
+              data-social="instagram"
+              aria-label="Instagram"
+              href="https://www.instagram.com/"
+            >
+              <div class="filled"></div>
+              <svg
+                xml:space="preserve"
+                viewBox="0 0 16 16"
+                class="bi bi-instagram"
+                fill="currentColor"
+                height="16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill="currentColor"
+                  d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"
+                ></path>
+              </svg>
+            </a>
+            <div class="tooltip">Instagram</div>
+          </li>
+        </ul>
       </div>
-  
+
       <!-- Contact Info -->
       <div class="footer-section">
         <h3>Contact Us</h3>
         <ul>
-          <li><i class="fas fa-envelope"></i> info@voez.org</li>
-          <li><i class="fas fa-phone"></i> +260 123 456 789</li>
+          <li><i class="fas fa-envelope"></i> voice.of.ecclesia.zambia@gmail.com</li>
+          <li><i class="fas fa-phone"></i> +260 963408518</li>
           <li><i class="fas fa-map-marker-alt"></i> Lusaka, Zambia</li>
         </ul>
       </div>
-  
+
       <!-- Legal Links -->
       <div class="footer-section">
         <h3>Legal</h3>
@@ -85,11 +356,44 @@
         </ul>
       </div>
     </div>
-  
+
     <!-- Copyright -->
     <div class="footer-bottom">
       <p>&copy; 2023 Voice of Ecclesia Zambia. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Back-to-Top Button -->
+  <button id="back-to-top" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+  <script>
+    // Set the date and time of the event (YYYY-MM-DDTHH:MM:SSZ)
+    const eventDate = new Date("2025-06-18T00:00:00Z").getTime();
+  
+    // Update the countdown every second
+    const countdown = setInterval(() => {
+      const now = new Date().getTime(); // Current date and time
+      const timeRemaining = eventDate - now; // Time remaining in milliseconds
+  
+      // Calculate days, hours, minutes, and seconds
+      const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+  
+      // Display the countdown
+      document.getElementById("days").innerText = String(days).padStart(2, "0");
+      document.getElementById("hours").innerText = String(hours).padStart(2, "0");
+      document.getElementById("minutes").innerText = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").innerText = String(seconds).padStart(2, "0");
+  
+      // If the countdown is over, display a message
+      if (timeRemaining < 0) {
+        clearInterval(countdown);
+        document.getElementById("countdown-timer").innerHTML = "<p>The event has started!</p>";
+      }
+    }, 1000); // Update every second
+  </script>
+  <script src="js/main.js"></script>
 </body>
+
 </html>
