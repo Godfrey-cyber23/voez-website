@@ -350,122 +350,39 @@
     background-color: rgba(30, 30, 30, 0.95);
   }
   
-  .newsletter-card {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 1.5rem;
-  }
-  
-  .newsletter-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .newsletter-content p {
-    color: #555;
-    margin-bottom: 1.5rem;
-    text-align: left;
-    font-size: 1.1rem;
-    line-height: 1.6;
-  }
-  
-  .dark-mode .newsletter-content p {
-    color: #ccc;
-  }
-  
-  .newsletter-benefits {
-    background: rgba(110, 72, 170, 0.1);
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-  }
-  
-  .dark-mode .newsletter-benefits {
-    background: rgba(110, 72, 170, 0.2);
-  }
-  
-  .newsletter-benefits h3 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.2rem;
-  }
-  
-  .newsletter-benefits ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .newsletter-benefits li {
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #555;
-    font-size: 1rem;
-  }
-  
-  .dark-mode .newsletter-benefits li {
-    color: #ccc;
-  }
-  
-  .newsletter-benefits i.fa-check {
-    color: var(--primary-color);
-  }
-  
-  /* Form styles
-  .form-group {
-    position: relative;
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-group input {
-    width: 50%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-  }
-  
-  .form-group label {
-    position: absolute;
-    left: 12px;
-    top: 12px;
-    color: #999;
-    transition: all 0.3s ease;
-    pointer-events: none;
-  }
-  
-  .form-group input:focus + label,
-  .form-group input:valid + label {
-    top: -10px;
-    left: 10px;
-    font-size: 0.8rem;
-    background: white;
-    padding: 0 5px;
-    color: var(--primary-color);
-  }
-  
-  .btn-secondary {
-    background-color: var(--primary-color);
+  /* Buttons */
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     border: none;
     padding: 12px 24px;
     border-radius: var(--border-radius);
+    font-weight: 600;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
+    transition: var(--transition);
+    box-shadow: var(--box-shadow);
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(110, 72, 170, 0.3);
+  }
+  
+  .btn-secondary {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
   }
   
   .btn-secondary:hover {
-    background-color: #7d4ac5;
-  } */
+    background: var(--primary-color);
+    color: white;
+  }
   
   /* Search Suggestions Styling */
 #search-suggestions {
@@ -832,12 +749,12 @@
 }
 
 .contact-section {
-  background: rgba(110, 72, 170, 0.1);
+    background: white;
     padding: 2rem;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     width: 100%;
-    max-width: 1600px;
+    max-width: 1000px;
 }
 
 .dark-mode .contact-section {
@@ -868,20 +785,6 @@
 .dark-mode .section-subtitle {
     color: #aaa;
 }
-
-.logout-link {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
-}
-
-.logout-icon {
-  margin-right: 8px;
-  font-size: 16px;
-  color: #dc2626; /* Optional: Tailwind red-600 */
-}
-
 
 /* Get in Touch Section */
 .contact-methods {
@@ -977,110 +880,61 @@
   }
   
   /* Stay Updated Section */
-
- .newsletter-card {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 1.5rem;
-}
-
-.newsletter-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.newsletter-content p {
-  color: #555;
-  margin-bottom: 1.5rem;
-  text-align: left;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-.dark-mode .newsletter-content p {
-  color: #ccc;
-}
-
-.newsletter-benefits {
-  background: rgba(110, 72, 170, 0.1);
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-}
-
-.dark-mode .newsletter-benefits {
-  background: rgba(110, 72, 170, 0.2);
-}
-
-.newsletter-benefits h3 {
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.2rem;
-}
-
-.newsletter-benefits ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.newsletter-benefits li {
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #555;
-  font-size: 1rem;
-}
-
-.dark-mode .newsletter-benefits li {
-  color: #ccc;
-}
-
-.newsletter-benefits i.fa-check {
-  color: var(--primary-color);
-}
-
-/* Form styles */
-.form-group {
-  position: relative;
-  margin-bottom: 1.5rem;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  font-size: 1rem;
-}
-
-.form-group label {
-  position: absolute;
-  left: 12px;
-  top: 12px;
-  color: #999;
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-.form-group input:focus + label,
-.form-group input:valid + label {
-  top: -10px;
-  left: 10px;
-  font-size: 0.8rem;
-  background: white;
-  padding: 0 5px;
-  color: var(--primary-color);
-}
-
- 
+  .newsletter-card {
+    display: grid;
+    gap: 1.5rem;
+  }
+  
+  .newsletter-content p {
+    color: #555;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .dark-mode .newsletter-content p {
+    color: #ccc;
+  }
+  
+  .newsletter-benefits {
+    background: rgba(110, 72, 170, 0.1);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+  }
+  
+  .dark-mode .newsletter-benefits {
+    background: rgba(110, 72, 170, 0.2);
+  }
+  
+  .newsletter-benefits h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .newsletter-benefits ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .newsletter-benefits li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #555;
+  }
+  
+  .dark-mode .newsletter-benefits li {
+    color: #ccc;
+  }
+  
+  .newsletter-benefits i.fa-check {
+    color: var(--primary-color);
+  }
+  
   /* Map Section */
   .map-section {
     margin-top: 3rem;
@@ -1105,14 +959,12 @@
   /* Form Styles (Shared) */
   .form-group {
     position: relative;
-    align-items: center;
   }
   
   .form-group input,
   .form-group textarea {
-    width: 80%;
+    width: 100%;
     padding: 1rem;
-    align-items: center;
     border: 1px solid #ddd;
     border-radius: var(--border-radius);
     background: transparent;
@@ -1159,7 +1011,7 @@
   }
   
   .form-group textarea {
-    min-height: 80px;
+    min-height: 150px;
     resize: vertical;
   }
   
@@ -1246,13 +1098,11 @@
   }
   
   .join-form {
-    background: rgba(110, 72, 170, 0.1);
+    background: white;
     padding: 2.5rem;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    
   }
   
   .dark-mode .join-form {
@@ -1269,7 +1119,6 @@
     color: var(--primary-color);
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
-    align-content: center;
     text-align: center;
   }
   
@@ -1280,7 +1129,7 @@
   
   #join-form input,
   #join-form textarea {
-    width: 95%;
+    width: 100%;
     padding: 1rem;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -1311,8 +1160,6 @@
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     border: none;
-    text-align: center;
-    width: 45%;
     padding: 1rem 2rem;
     border-radius: 8px;
     font-size: 1rem;
@@ -1347,6 +1194,7 @@
     /* End of Join Us Styles */
 
     /* Gallery Styles Start */
+    /* Gallery Section */
 #gallery {
     padding: 4rem 0;
     text-align: center;
@@ -2054,6 +1902,7 @@
     /* End of Testmonial section */
 
     /* Music Section */
+    /* Music Section */
 #music {
     padding: 4rem 0;
     background-color: #f5f5f5;
@@ -2247,30 +2096,3 @@
   }
 
     /* End of Music Section */
-
-    .footer-section {
-      max-width: 400px;
-    }
-    
-    .quick-links {
-      -webkit-columns: 2;
-      -moz-columns: 2;
-      columns: 2; /* Makes it two columns */
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    
-    .quick-links li {
-      margin-bottom: 8px;
-    }
-    
-    .quick-links a {
-      text-decoration: none;
-      color: #333;
-    }
-    
-    .quick-links a:hover {
-      color: #2563eb; /* Optional hover color */
-    }
-    
