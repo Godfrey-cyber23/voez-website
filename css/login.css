@@ -3,8 +3,7 @@
   *****Header Section*
   ********************
   ********************/
-
-/* Header Styles */
+  
 header {
   display: flex;
   justify-content: space-between;
@@ -54,7 +53,7 @@ nav a.active {
 }
 
 .login-icon {
-  margin-right: 8px; /* Adds space between icon and text */
+  margin-right: 8px; 
   font-size: 16px;
   color: #2563eb; /* Optional: make the icon blue */
 }

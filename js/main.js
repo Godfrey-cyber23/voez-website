@@ -24,9 +24,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Event listeners
-  hamburger.addEventListener('click', toggleMenu);
+  hamburger.addEventListener('click', function(e) {
+    e.stopPropagation(); // Prevent event from bubbling to document
+    toggleMenu();
+  });
 
-  overlay.addEventListener('click', closeMenu);
+  // Close when clicking anywhere outside the menu
+  document.addEventListener('click', function(e) {
+    if (navLinks.classList.contains('active') && 
+        !navLinks.contains(e.target) && 
+        e.target !== hamburger) {
+      closeMenu();
+    }
+  });
 
   // Close when clicking on nav links
   document.querySelectorAll('nav ul li a').forEach(link => {
