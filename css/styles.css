@@ -81,15 +81,17 @@ nav a.active {
 }
 
 .hamburger {
-  display: none;
-  font-size: 2rem;             /* Increase size (default: 1.5rem) */
+  display: none; /* Hidden by default on desktop */
+  font-size: 2rem;
   cursor: pointer;
-  color: #ff6f61;             /* Change color (matches your theme) */
-  background: transparent; 
-  border: none;              /* Remove border */
-  padding: 10px;            /* Add padding for better click area */
-  transition: transform 0.3s ease, color 0.3s ease; /* Smooth hover effects */
+  color: #ff6f61;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  transition: all 0.3s ease;
+  z-index: 1001;
 }
+
 
 /* Hover state */
 .hamburger:hover {
@@ -98,9 +100,9 @@ nav a.active {
 }
 
 /* Active state (when menu is open) */
-.hamburger.is-active {
-  color: #333;           /* Different color when active */
-}
+.hamburger .fa-times { display: none; }
+.hamburger.is-active .fa-bars { display: none; }
+.hamburger.is-active .fa-times { display: block; }
 
 /* Hero Section */
 .hero {
@@ -558,48 +560,64 @@ section {
 }
 
 @media (max-width: 768px) {
-  .hamburger {
-    display: block;      /* Ensure it's visible on mobile */
-    z-index: 1001;      /* Keep above other elements */
-    margin-left: auto;  /* Push to the right */
-  }
-
-  /* Optional: Change color when menu is open */
-  .hamburger.is-active {
-    color: white;
-    position: fixed;    /* Keep in place when scrolling */
-    right: 20px;        /* Align with header padding */
-  }
-
-  .hamburger {
-    transition: transform 0.3s ease;
-  }
-  
-  .hamburger.is-active {
-    transform: rotate(90deg); /* Rotate when active */
-  }
-
-  nav ul {
-    display: none;
-    flex-direction: column;
+  /* Mobile menu overlay */
+  .overlay {
     position: fixed;
     top: 0;
-    right: 0;
-    width: 70%;
-    height: 100vh;
-    background-color: white;
-    padding: 80px 20px 20px;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    z-index: 1000;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Mobile menu panel */
+  nav ul {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Adjust width here (80% of screen) */
+    max-width: 300px; /* Maximum width */
+    height: 70vh; /* 70% of viewport height */
+    max-height: 500px; /* Maximum height */
+    background: white;
+    border-radius: 15px; /* Rounded corners */
+    /* box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2); */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
   }
 
   nav ul.active {
-    display: flex;
-    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
   }
 
-  
+  /* Menu items */
+  nav ul li {
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  nav ul li:last-child {
+    border-bottom: none;
+  }
 
   /* Add overlay when menu is open */
   nav ul::before {
@@ -797,42 +815,63 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .hamburger {
-    display: block;      /* Ensure it's visible on mobile */
-    z-index: 1001;      /* Keep above other elements */
-    margin-left: auto;  /* Push to the right */
+  /* Mobile menu overlay */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
   }
 
-  /* Optional: Change color when menu is open */
-  .hamburger.is-active {
-    color: white;
-    position: fixed;    /* Keep in place when scrolling */
-    right: 20px;        /* Align with header padding */
+  .overlay.active {
+    opacity: 1;
+    visibility: visible;
   }
 
-  .hamburger {
-    transition: transform 0.3s ease;
-  }
-  
-  .hamburger.is-active {
-    transform: rotate(90deg); /* Rotate when active */
-  }
-
+  /* Mobile menu panel */
   nav ul {
-    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Adjust width here (80% of screen) */
+    max-width: 300px; /* Maximum width */
+    height: 70vh; /* 70% of viewport height */
+    max-height: 500px; /* Maximum height */
+    background: white;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
     flex-direction: column;
-    gap: 10px;
-    background-color: white;
-    position: absolute;
-    top: 70px;
-    right: 20px;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
   }
 
   nav ul.active {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Menu items */
+  nav ul li {
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  nav ul li:last-child {
+    border-bottom: none;
   }
 
   .hero h1 {
