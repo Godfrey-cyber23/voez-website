@@ -722,66 +722,91 @@ footer {
 }
 
 
-/* Responsive Design */
+/* Responsive Design for Mobile */
 @media (max-width: 768px) {
-  .hamburger {
-    display: block;      /* Ensure it's visible on mobile */
-    z-index: 1001;      /* Keep above other elements */
-    margin-left: auto;  /* Push to the right */
+  /* Header adjustments */
+  header {
+    padding: 15px 20px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  /* Optional: Change color when menu is open */
-  .hamburger.is-active {
-    color: white;
-    position: fixed;    /* Keep in place when scrolling */
-    right: 20px;        /* Align with header padding */
+  /* Navigation container */
+  nav {
+    position: relative;
   }
 
-  .hamburger {
-    transition: transform 0.3s ease;
-  }
-  
-  .hamburger.is-active {
-    transform: rotate(90deg); /* Rotate when active */
-  }
-
+  /* Navigation list - hidden by default */
   nav ul {
     display: none;
-    flex-direction: column;
-    gap: 10px;
-    background-color: white;
     position: absolute;
-    top: 70px;
-    right: 20px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    top: 100%;
+    right: 0;
+    width: 200px; /* Fixed width for dropdown */
+    background-color: white;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
     border-radius: 5px;
   }
 
+  /* Active state for mobile menu */
   nav ul.active {
     display: flex;
   }
 
-  .hero h1 {
-    font-size: 2rem;
+  /* Menu items */
+  nav ul li {
+    width: 100%;
+    text-align: left;
+    margin: 0;
+    border-bottom: 1px solid #f0f0f0;
   }
 
-  .cta-buttons {
-    flex-direction: column;
-    gap: 10px;
+  nav ul li:last-child {
+    border-bottom: none;
   }
 
-  .footer-content {
-    flex-direction: column;
+  nav ul li a {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  nav ul li a:hover {
+    background-color: #f8f8f8;
+    color: #2c3e50;
+  }
+
+  /* Hamburger button styling */
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    font-size: 24px;
+    color: #333;
+    z-index: 1001;
+    margin-left: auto; /* Pushes it to the right */
+    padding: 5px;
+  }
+
+  /* Logo positioning */
+  .logo {
+    display: flex;
     align-items: center;
-    text-align: center;
+    z-index: 1001;
   }
 
-  .footer-section {
-    margin: 10px 0;
+  /* Active state for hamburger icon */
+  .hamburger.active i::before {
+    content: "\f00d"; /* FontAwesome times icon */
   }
 }
-
 
 /* Welcome Message Styling */
 #welcome-text {

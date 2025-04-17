@@ -8,136 +8,195 @@
   <link rel="stylesheet" href="css/join-us.css">
 </head>
 <body>
- 
   <header>
     <div class="logo">
-        <img src="images/logo.svg" alt="VOEZ Logo" class="logo-img">
+      <img src="images/logo.svg" alt="VOEZ Logo">
     </div>
     <nav>
-        <ul class="nav-links">
-            
-            <li><a href="join.html" class="active">Join Us</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li>
-              <a href="login.html">
-                <i class="fas fa-sign-in-alt login-icon"></i>Login
-              </a>
-            </li>
-        </ul>
-        <div class="hamburger">
-            <i class="fas fa-bars"></i>
-        </div>
+      <ul>
+        <li><a href="join.html" class="active">Join Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li>
+          <a href="login.html">
+            <i class="fas fa-sign-in-alt login-icon"></i>Login
+          </a>
+        </li>
+      </ul>
+      <div class="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
     </nav>
   </header>
 
-  <section class="join fade-in">
-    <h1 id="join-heading">Join Voice of Ecclesia Zambia</h1>
-    <div class="container">
-      <div class="heading">Sign Up</div>
-      <form action="" class="form" id="join-form" aria-labelledby="join-heading">
-        
-        <!-- Personal Details -->
-        <div class="form-group">
-          <label for="first-name">First Name</label>
-          <input required class="input" type="text" name="first-name" id="first-name" placeholder="First Name" aria-required="true">
-        </div>
-        <div class="form-group">
-          <label for="middle-name">Middle Name</label>
-          <input class="input" type="text" name="middle-name" id="middle-name" placeholder="Middle Name">
-        </div>
-        <div class="form-group">
-          <label for="last-name">Last Name</label>
-          <input required class="input" type="text" name="last-name" id="last-name" placeholder="Last Name" aria-required="true">
-        </div>
-        <div class="form-group">
-          <label for="location">Location</label>
-          <input required class="input" type="text" name="location" id="location" placeholder="Location" aria-required="true">
-        </div>
-        <div class="form-group">
-          <label for="occupation">Occupation</label>
-          <input required class="input" type="text" name="occupation" id="occupation" placeholder="Occupation" aria-required="true">
-        </div>
-        <div class="form-group">
-          <label for="reason">Reason for Joining</label>
-          <textarea required class="input" name="reason" id="reason" placeholder="Reason for Joining" aria-required="true"></textarea>
-        </div>
-
-        <!-- How Did You Get to Know Us -->
-        <div class="form-group">
-          <label for="how-know">How Did You Get to Know Us?</label>
-          <select required class="input" name="how-know" id="how-know" aria-required="true">
-            <option value="">Select an option</option>
-            <option value="facebook">Facebook</option>
-            <option value="youtube">YouTube</option>
-            <option value="tiktok">TikTok</option>
-            <option value="family-friends">Family and Friends</option>
-            <option value="others">Others (Specify)</option>
-          </select>
-        </div>
-        <div class="form-group hidden" id="others-specify">
-          <label for="others-specify-text">Please Specify</label>
-          <input class="input" type="text" name="others-specify-text" id="others-specify-text" placeholder="Please specify">
-        </div>
-
-        <!-- Contact Details -->
-        <div class="form-group">
-          <label for="contact-number">Contact Number</label>
-          <input required class="input" type="tel" name="contact-number" id="contact-number" placeholder="Contact Number" aria-required="true">
-        </div>
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input required class="input" type="email" name="email" id="email" placeholder="Email Address" aria-required="true">
-        </div>
-
-        <!-- Catholic-Related Questions -->
-        <div class="form-group">
-          <label>Are You a Catholic?</label>
-          <div>
-            <input type="radio" name="is-catholic" id="catholic-yes" value="yes" aria-required="true">
-            <label for="catholic-yes">Yes</label>
-            <input type="radio" name="is-catholic" id="catholic-no" value="no" aria-required="true">
-            <label for="catholic-no">No</label>
-          </div>
-        </div>
-        <div class="form-group hidden" id="catholic-details">
-          <label for="parish-name">Name of Parish</label>
-          <input class="input" type="text" name="parish-name" id="parish-name" placeholder="Name of Parish">
-          <div>
-            <label>Are You Baptised?</label>
-            <input type="radio" name="is-baptised" id="baptised-yes" value="yes">
-            <label for="baptised-yes">Yes</label>
-            <input type="radio" name="is-baptised" id="baptised-no" value="no">
-            <label for="baptised-no">No</label>
-          </div>
-          <div>
-            <label>Are You Confirmed?</label>
-            <input type="radio" name="is-confirmed" id="confirmed-yes" value="yes">
-            <label for="confirmed-yes">Yes</label>
-            <input type="radio" name="is-confirmed" id="confirmed-no" value="no">
-            <label for="confirmed-no">No</label>
-          </div>
-        </div>
-
-        <!-- Terms and Conditions -->
-        <div class="form-group">
-          <input type="checkbox" required name="terms" id="terms" aria-required="true">
-          <label for="terms">I have read and agree to the <a href="terms-and-conditions.html" target="_blank">Terms and Conditions</a></label>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="form-group">
-          <input class="login-button" type="submit" value="Submit" aria-label="Submit form">
-        </div>
-      </form>
-
-      <!-- Success Message -->
-      <div id="success-message" class="hidden">
-        <h2>Thank You for Joining VOEZ!</h2>
-        <p>Your application has been submitted successfully. Our team will contact you shortly.</p>
-        <p>In the meantime, feel free to explore more about VOEZ <a href="about.html">here</a>.</p>
+  <main class="join-form-container">
+    <h1>Join Voice of Ecclesia Zambia</h1>
+    
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="progress-step active" data-step="1">
+        <span>1</span>
+        <p>Personal Info</p>
+      </div>
+      <div class="progress-step" data-step="2">
+        <span>2</span>
+        <p>Contact Details</p>
+      </div>
+      <div class="progress-step" data-step="3">
+        <span>3</span>
+        <p>Faith Background</p>
+      </div>
+      <div class="progress-step" data-step="4">
+        <span>4</span>
+        <p>Review & Submit</p>
       </div>
     </div>
-  </section>
+
+    <!-- Form Sections -->
+    <form id="joinForm">
+      <!-- Step 1: Personal Information -->
+      <div class="form-step active" data-step="1">
+        <h2>Personal Information</h2>
+        <div class="form-group">
+          <label for="firstName">First Name*</label>
+          <input type="text" id="firstName" name="firstName" required>
+        </div>
+        <div class="form-group">
+          <label for="middleName">Middle Name</label>
+          <input type="text" id="middleName" name="middleName">
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name*</label>
+          <input type="text" id="lastName" name="lastName" required>
+        </div>
+        <div class="form-group">
+          <label for="location">Location*</label>
+          <input type="text" id="location" name="location" required>
+        </div>
+        <div class="form-group">
+          <label for="occupation">Occupation*</label>
+          <input type="text" id="occupation" name="occupation" required>
+        </div>
+        <div class="form-group">
+          <label for="reason">Reason for Joining*</label>
+          <textarea id="reason" name="reason" required></textarea>
+        </div>
+        <div class="form-navigation">
+          <button type="button" class="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 2: Contact Information -->
+      <div class="form-step" data-step="2">
+        <h2>Contact Information</h2>
+        <div class="form-group">
+          <label for="phone">Phone Number*</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address*</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="howKnow">How did you hear about us?*</label>
+          <select id="howKnow" name="howKnow" required>
+            <option value="">Select an option</option>
+            <option value="facebook">Facebook</option>
+            <option value="instagram">Instagram</option>
+            <option value="friend">Friend/Family</option>
+            <option value="event">Event</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group" id="otherSourceGroup" style="display:none;">
+          <label for="otherSource">Please specify</label>
+          <input type="text" id="otherSource" name="otherSource">
+        </div>
+        <div class="form-navigation">
+          <button type="button" class="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
+          <button type="button" class="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 3: Faith Background -->
+      <div class="form-step" data-step="3">
+        <h2>Faith Background</h2>
+        <div class="form-group">
+          <label>Are you Catholic?*</label>
+          <div class="radio-group">
+            <input type="radio" id="catholicYes" name="isCatholic" value="yes" required>
+            <label for="catholicYes">Yes</label>
+            <input type="radio" id="catholicNo" name="isCatholic" value="no">
+            <label for="catholicNo">No</label>
+          </div>
+        </div>
+        
+        <div id="catholicDetails" style="display:none;">
+          <div class="form-group">
+            <label for="parish">Enter Your Parish Name</label>
+            <input type="text" id="parish" name="parish">
+          </div>
+          <div class="form-group">
+            <label>Are you baptized?*</label>
+            <div class="radio-group">
+              <input type="radio" id="baptizedYes" name="isBaptized" value="yes">
+              <label for="baptizedYes">Yes</label>
+              <input type="radio" id="baptizedNo" name="isBaptized" value="no">
+              <label for="baptizedNo">No</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Have you received confirmation?*</label>
+            <div class="radio-group">
+              <input type="radio" id="confirmedYes" name="isConfirmed" value="yes">
+              <label for="confirmedYes">Yes</label>
+              <input type="radio" id="confirmedNo" name="isConfirmed" value="no">
+              <label for="confirmedNo">No</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-navigation">
+          <button type="button" class="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
+          <button type="button" class="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 4: Review and Submit -->
+      <div class="form-step" data-step="4">
+        <h2>Review Your Information</h2>
+        <div class="review-section">
+          <h3>Personal Information</h3>
+          <div id="reviewPersonal"></div>
+          
+          <h3>Contact Information</h3>
+          <div id="reviewContact"></div>
+          
+          <h3>Faith Background</h3>
+          <div id="reviewFaith"></div>
+        </div>
+        
+        <div class="form-group">
+          <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+          <label for="agreeTerms">I agree to the <a href="terms.html" target="_blank">Terms and Conditions</a>*</label>
+        </div>
+        
+        <div class="form-navigation">
+          <button type="button" class="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
+          <button type="submit" class="submit-btn">Submit Application</button>
+        </div>
+      </div>
+
+     
+    </form>
+     <!-- Success Message -->
+<div class="success-message" style="display:none;">
+  <div class="success-icon">
+    <i class="fas fa-check-circle"></i>
+  </div>
+  <h2>Thank You for Joining VOEZ!</h2>
+  <p>Your application has been submitted successfully. We'll contact you shortly.</p>
+  <a href="index.html" class="home-btn">Back to Home</a>
+</div>
+  </main>
 
   <footer>
     <div class="footer-content">
@@ -286,7 +345,10 @@
       othersSpecify.style.display = 'none';
     }
   });
+
+  
 </script>
+<script src="js/join-us.js"></script>
  <!-- Loading Spinner -->
  <div class="loader">
   <div class="circle"></div>

@@ -322,14 +322,26 @@ function fetchMusicData() {
 // Call the function to fetch music data
 fetchMusicData();
 
-// Hamburger menu functionality
-document.querySelector('.hamburger').addEventListener('click', function () {
-  document.querySelector('nav ul').classList.toggle('active');
-});
 
-// Close menu when clicking on a link (for mobile)
-document.querySelectorAll('nav ul li a').forEach(link => {
-  link.addEventListener('click', () => {
-    document.querySelector('nav ul').classList.remove('active');
-  });
+// Hamburger menu toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('nav ul');
+
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', function() {
+      this.classList.toggle('active');
+      navLinks.classList.toggle('active');
+      
+      // Change icon
+      const icon = this.querySelector('i');
+      if (this.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+  }
 });
