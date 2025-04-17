@@ -199,7 +199,7 @@ header {
 .form-group input[type="tel"],
 .form-group select,
 .form-group textarea {
-  width: 100%;
+  width: 90%;
   padding: 12px 15px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
@@ -690,7 +690,7 @@ header .nav-links li a.active {
 .form-group input[type="tel"],
 .form-group select,
 .form-group textarea {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -709,7 +709,7 @@ header .nav-links li a.active {
 }
 
 .form-group input[type="submit"] {
-    width: 100%;
+    width: 90%;
     padding: 20px;
     font-size: 1rem;
     font-weight: bold;
