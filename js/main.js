@@ -282,3 +282,15 @@ function fetchMusicData() {
 
 // Call the function to fetch music data
 fetchMusicData();
+
+// Hamburger menu functionality
+document.querySelector('.hamburger').addEventListener('click', function() {
+  document.querySelector('nav ul').classList.toggle('active');
+});
+
+// Close menu when clicking on a link (for mobile)
+document.querySelectorAll('nav ul li a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelector('nav ul').classList.remove('active');
+  });
+});

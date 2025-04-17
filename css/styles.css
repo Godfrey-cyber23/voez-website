@@ -4,6 +4,16 @@
  ********************
  ********************/
 
+ /* Prevent horizontal scrolling */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 /* General Styles */
 body {
   font-family: 'Poppins', sans-serif;
@@ -514,24 +524,85 @@ nav a.active {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
 }
 
-/* Responsive Iframe Styling */
-.iframe-style {
-  width: 100%;
-  height: auto;
-  min-height: 200px; /* Adjust as needed */
-  border: none;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
-}
-
 .iframe-style:hover {
   transform: scale(1.02); /* Slightly scale up iframe on hover */
+
 }
 
-/* Media Query for Small Devices */
+/* Fix for iframes */
+.iframe-style, .map-iframe {
+  max-width: 100%;
+  width: 100%;
+}
+
+/* Ensure all sections don't overflow */
+section {
+  width: 100%;
+  overflow: hidden;
+}
+
 @media (max-width: 768px) {
-  .testimonials-grid {
-    grid-template-columns: 1fr; /* 1 column for small devices */
+  .hamburger {
+    display: block;
+    z-index: 1001;
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 70%;
+    height: 100vh;
+    background-color: white;
+    padding: 80px 20px 20px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+
+  nav ul.active {
+    display: flex;
+    transform: translateX(0);
+  }
+
+  /* Add overlay when menu is open */
+  nav ul::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  nav ul.active::before {
+    opacity: 1;
+  }
+
+  /* Adjust other mobile styles */
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-section {
+    margin: 10px 0;
   }
 }
 
