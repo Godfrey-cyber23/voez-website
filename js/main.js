@@ -2,12 +2,33 @@
 document.addEventListener('DOMContentLoaded', function () {
     console.log('Website loaded!');
   
-    // Hamburger Menu Toggle
+    
+    // ===== Hamburger Menu Toggle =====
     const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-  
+    const navLinks = document.querySelector('nav ul');
+    const overlay = document.createElement('div'); // Create overlay dynamically
+    overlay.className = 'overlay';
+    document.body.appendChild(overlay);
+
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : ''; // Prevent scrolling when menu is open
+    });
+
+    // Close menu when clicking overlay or links
+    overlay.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    document.querySelectorAll('nav ul li a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
     });
   
     // Read More Functionality

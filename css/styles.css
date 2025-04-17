@@ -82,8 +82,24 @@ nav a.active {
 
 .hamburger {
   display: none;
-  font-size: 1.5rem;
+  font-size: 2rem;             /* Increase size (default: 1.5rem) */
   cursor: pointer;
+  color: #ff6f61;             /* Change color (matches your theme) */
+  background: transparent; 
+  border: none;              /* Remove border */
+  padding: 10px;            /* Add padding for better click area */
+  transition: transform 0.3s ease, color 0.3s ease; /* Smooth hover effects */
+}
+
+/* Hover state */
+.hamburger:hover {
+  color: #e65a50;          /* Darker shade on hover */
+  transform: scale(1.1);   /* Slightly enlarge */
+}
+
+/* Active state (when menu is open) */
+.hamburger.is-active {
+  color: #333;           /* Different color when active */
 }
 
 /* Hero Section */
@@ -543,8 +559,24 @@ section {
 
 @media (max-width: 768px) {
   .hamburger {
-    display: block;
-    z-index: 1001;
+    display: block;      /* Ensure it's visible on mobile */
+    z-index: 1001;      /* Keep above other elements */
+    margin-left: auto;  /* Push to the right */
+  }
+
+  /* Optional: Change color when menu is open */
+  .hamburger.is-active {
+    color: white;
+    position: fixed;    /* Keep in place when scrolling */
+    right: 20px;        /* Align with header padding */
+  }
+
+  .hamburger {
+    transition: transform 0.3s ease;
+  }
+  
+  .hamburger.is-active {
+    transform: rotate(90deg); /* Rotate when active */
   }
 
   nav ul {
@@ -566,6 +598,8 @@ section {
     display: flex;
     transform: translateX(0);
   }
+
+  
 
   /* Add overlay when menu is open */
   nav ul::before {
@@ -733,11 +767,10 @@ footer {
   font-size: 0.9rem;
 }
 
-/* Back-to-Top Button */
 #back-to-top {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  right: 20px; /* Ensure it doesn't go off-screen */
   padding: 10px 15px;
   background-color: #007BFF;
   color: white;
@@ -745,16 +778,44 @@ footer {
   border-radius: 50%;
   cursor: pointer;
   display: none;
+  z-index: 999; /* Ensure it stays above other elements */
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 30px;
 }
 
 #back-to-top.visible {
   display: block;
 }
 
+#back-to-top:hover {
+  background-color: #0056b3;
+  transform: translateY(-3px);
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .hamburger {
-    display: block;
+    display: block;      /* Ensure it's visible on mobile */
+    z-index: 1001;      /* Keep above other elements */
+    margin-left: auto;  /* Push to the right */
+  }
+
+  /* Optional: Change color when menu is open */
+  .hamburger.is-active {
+    color: white;
+    position: fixed;    /* Keep in place when scrolling */
+    right: 20px;        /* Align with header padding */
+  }
+
+  .hamburger {
+    transition: transform 0.3s ease;
+  }
+  
+  .hamburger.is-active {
+    transform: rotate(90deg); /* Rotate when active */
   }
 
   nav ul {
