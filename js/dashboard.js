@@ -1,3 +1,95 @@
+document.addEventListener('DOMContentLoaded', function() {
+  // DOM Elements
+  const paragraphContainer = document.querySelector('.paragraph-accordion');
+  const paragraphItems = Array.from(document.querySelectorAll('.paragraph-item'));
+  const showLessBtn = document.querySelector('.show-less-btn');
+  const firstParagraph = paragraphItems[0];
+  
+  // Initialize - only show first paragraph and its button
+  function initialize() {
+    paragraphItems.forEach((item, index) => {
+      if (index > 0) {
+        item.hidden = true;
+        const btn = item.querySelector('.accordion-button');
+        btn.hidden = true;
+        btn.style.display = 'none'; // Ensure no layout shift
+      }
+    });
+    // Make first button visible
+    firstParagraph.querySelector('.accordion-button').hidden = false;
+    firstParagraph.querySelector('.accordion-button').style.display = 'flex';
+  }
+  initialize();
+
+  // Handle Read More clicks
+  paragraphItems.forEach((item, index) => {
+    const button = item.querySelector('.accordion-button');
+    const nextItem = paragraphItems[index + 1];
+    
+    button.addEventListener('click', function() {
+      // Show current content with smooth transition
+      item.classList.add('expanded');
+      
+      // Hide current button smoothly
+      button.style.opacity = '0';
+      setTimeout(() => {
+        button.hidden = true;
+        button.style.display = 'none';
+        button.style.opacity = '1';
+      }, 300); // Match CSS transition duration
+      
+      // Show next paragraph if exists
+      if (nextItem) {
+        nextItem.hidden = false;
+        const nextBtn = nextItem.querySelector('.accordion-button');
+        nextBtn.hidden = false;
+        nextBtn.style.display = 'flex';
+        nextBtn.style.opacity = '0';
+        setTimeout(() => {
+          nextBtn.style.opacity = '1';
+        }, 10); // Small delay for animation
+      } 
+      // If last paragraph, show Show Less
+      else if (index === paragraphItems.length - 1) {
+        showLessBtn.hidden = false;
+        showLessBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  });
+
+  // Handle Show Less click
+  showLessBtn.addEventListener('click', function() {
+    // Hide all paragraphs except first
+    paragraphItems.forEach((item, index) => {
+      if (index > 0) {
+        item.hidden = true;
+        item.classList.remove('expanded');
+        item.querySelector('.accordion-button').hidden = true;
+      }
+    });
+    
+    // Reset first button
+    const firstBtn = firstParagraph.querySelector('.accordion-button');
+    firstBtn.hidden = false;
+    firstBtn.style.display = 'flex';
+    
+    // Hide Show Less button with fade
+    showLessBtn.style.opacity = '0';
+    setTimeout(() => {
+      showLessBtn.hidden = true;
+    }, 300);
+    
+    // Smooth scroll to top
+    setTimeout(() => {
+      firstParagraph.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 350);
+  });
+});
+
+
 // Gallery Module
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration
@@ -38,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const gallerySection = document.getElementById('gallery');
     const galleryGrid = gallerySection.querySelector('.gallery-grid');
-    const viewMoreBtn = gallerySection.querySelector('.btn-primary');
+    const viewMoreBtn = gallerySection.querySelector('.view-more');
     let loadedImages = 0;
   
     // Initialize Lightbox
@@ -311,3 +403,82 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
+
+
+  // profile info section 
+  window.onload = function () {
+    // Load saved profile data
+    const name = localStorage.getItem("profileName") || "Guest User";
+    const role = localStorage.getItem("profileRole") || "Member";
+    const pic = localStorage.getItem("profilePic") || "images/default-profile.png";
+
+    // Update the view
+    document.getElementById("profile-name").innerText = name;
+    document.getElementById("profile-role").innerText = role;
+    document.getElementById("profile-pic").src = pic;
+    document.getElementById("preview-pic").src = pic;
+  };
+
+  function toggleEdit(editing) {
+    document.getElementById("profile-view").style.display = editing ? "none" : "block";
+    document.getElementById("profile-edit").style.display = editing ? "block" : "none";
+
+    // Set current values in form when editing
+    if (editing) {
+      document.getElementById("name-input").value = document.getElementById("profile-name").innerText;
+      document.getElementById("role-input").value = document.getElementById("profile-role").innerText;
+    }
+  }
+
+  function previewImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.match('image.*')) {
+      alert('Please select an image file (jpg, png, gif)');
+      return;
+    }
+
+    // Validate file size (2MB max)
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Image must be less than 2MB');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById("preview-pic").src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function saveProfile(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name-input").value.trim();
+    const role = document.getElementById("role-input").value.trim();
+    const pic = document.getElementById("preview-pic").src;
+
+    // Basic validation
+    if (!name || !role) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    // Save to localStorage
+    localStorage.setItem("profileName", name);
+    localStorage.setItem("profileRole", role);
+    localStorage.setItem("profilePic", pic);
+
+    // Update view
+    document.getElementById("profile-name").innerText = name;
+    document.getElementById("profile-role").innerText = role;
+    document.getElementById("profile-pic").src = pic;
+
+    // Switch back to view mode
+    toggleEdit(false);
+    
+    // Show success message
+    alert('Profile updated successfully!');
+  }

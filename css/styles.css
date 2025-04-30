@@ -4,6 +4,21 @@
  ********************
  ********************/
 
+ /* Consistent Color Variables */
+:root {
+  --primary-color: #ff6f61; /* Coral/red - main accent */
+  --primary-dark: #e65a50;  /* Darker shade for hover states */
+  --text-color: #333;      /* Main text color */
+  --text-light: #555;      /* Secondary text color */
+  --bg-light: #f9f9f9;     /* Light background */
+  --bg-dark: #333;         /* Dark background for footer, etc. */
+}
+
+/* Apply the color variables throughout */
+body {
+  color: var(--text-color);
+}
+
  /* Prevent horizontal scrolling */
 html, body {
   max-width: 100%;
@@ -15,14 +30,14 @@ html, body {
 }
 
 /* General Styles */
-body {
+/* body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
   color: #333;
   line-height: 1.6;
   background-color: #f9f9f9;
-}
+} */
 
 a {
   text-decoration: none;
@@ -35,8 +50,7 @@ h1, h2, h3 {
 }
 
 p {
-  margin: 0;
-  color: #555;
+  color: var(--text-light);
 }
 
 /* Header Styles */
@@ -153,6 +167,17 @@ nav a.active {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
+  z-index: 0;
+}
+
 .cta-buttons {
   display: flex;
   gap: 20px;
@@ -179,7 +204,7 @@ nav a.active {
 .about {
   padding: 60px 20px;
   text-align: center;
-  background-color: white;
+  background-color: #f9f9f9;;
 }
 
 .about h2 {
@@ -198,7 +223,7 @@ nav a.active {
   padding: 60px 20px;
   text-align: center;
   background-color: #f9f9f9;
-  overflow: hidden; /* Hide overflow to create a seamless loop */
+  overflow: hidden;
 }
 
 .gallery h2 {
@@ -213,42 +238,105 @@ nav a.active {
 
 .gallery-track {
   display: flex;
-  animation: slide 20s linear infinite; /* Adjust speed as needed */
+  animation: slide 20s linear infinite;
+}
+
+/* Image container styles */
+.image-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin-right: 20px;
+  flex-shrink: 0;
 }
 
 .gallery-track img {
-  width: 300px; /* Adjust image width as needed */
-  height: 300px; /* Adjust image height as needed */
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  margin-right: 20px; /* Space between images */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-/* Base styles for images */
-.gallery-track img {
-  transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
-  border-radius: 10px; /* Rounded corners */
-  margin: 0 10px; /* Spacing between images */
+  transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Hover effect: Scale, shadow, and brightness */
-.gallery-track img:hover {
-  transform: scale(1.1); /* Scale up the image */
-  filter: brightness(1.2); /* Increase brightness */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Add a shadow */
-  cursor: pointer; /* Change cursor to pointer */
+/* Hover effect on container */
+.image-container:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
-/* Animation for sliding */
+.image-hover-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* Show hover card when container is hovered */
+.image-container:hover .image-hover-card {
+  opacity: 1;
+}
+
+.image-hover-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+}
+
+.image-hover-card p {
+  margin: 0 0 15px 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.social-links {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.social-links a {
+  color: white;
+  font-size: 1.2rem;
+}
+
+.read-more-btn {
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  align-self: center;
+  pointer-events: auto;
+}
+
+.read-more-btn:hover {
+  background: #ddd;
+}
+
 @keyframes slide {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%); /* Move the track by half its width */
+    transform: translateX(-100%);
   }
 }
-
 /* Music Section */
 .music {
   padding: 60px 20px;
@@ -349,9 +437,11 @@ nav a.active {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.event-card:hover {
-  transform: translateY(-10px); /* Move card up slightly */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow */
+.event-card:hover,
+.testimonial-card:hover,
+.music-card:hover,
+.blog-card:hover {
+  box-shadow: 0 8px 16px rgba(255, 111, 97, 0.2); /* Using primary color in shadow */
 }
 
 .event-card h3 {
