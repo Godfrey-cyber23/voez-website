@@ -338,18 +338,18 @@ function typeMain() {
     mainIndex++;
     if (mainIndex > mainText.length) {
       isDeleting = true; // Switch to deleting phase
-      setTimeout(typeMain, 2000); // Pause before deleting
+      setTimeout(typeMain, 1000); // Pause before deleting
     } else {
-      setTimeout(typeMain, 100); // Typing speed (100ms per character)
+      setTimeout(typeMain, 60); // Typing speed (100ms per character)
     }
   } else {
     // Deleting phase
     mainIndex--;
     if (mainIndex === 0) {
       isDeleting = false; // Switch back to typing phase
-      setTimeout(typeMain, 400); // Pause before typing again
+      setTimeout(typeMain, 50); // Pause before typing again
     } else {
-      setTimeout(typeMain, 100); // Deleting speed (50ms per character)
+      setTimeout(typeMain, 50); // Deleting speed (50ms per character)
     }
   }
 }
