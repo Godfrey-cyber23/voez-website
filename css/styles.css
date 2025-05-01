@@ -186,7 +186,7 @@ nav a.active {
 
 .cta-button {
   padding: 10px 20px;
-  background-color: #ff6f61;
+  background-color: #6e48aa;
   color: white;
   border: none;
   border-radius: 5px;
@@ -196,7 +196,7 @@ nav a.active {
 }
 
 .cta-button:hover {
-  background-color: #e65a50;
+  background-color: #9d50bb;
   transform: translateY(-5px);
 }
 
@@ -314,7 +314,7 @@ nav a.active {
 }
 
 .read-more-btn {
-  background: #fff;
+  background: #9d50bb;
   color: #000;
   border: none;
   padding: 8px 15px;
@@ -326,7 +326,7 @@ nav a.active {
 }
 
 .read-more-btn:hover {
-  background: #ddd;
+  background: #6e48aa;
 }
 
 @keyframes slide {
@@ -476,7 +476,7 @@ nav a.active {
 .cta-button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #ff6f61;
+  background-color: #9d50bb;
   color: white;
   border: none;
   border-radius: 5px;
@@ -486,7 +486,7 @@ nav a.active {
 }
 
 .cta-button:hover {
-  background-color: #e65a50;
+  background-color: #6e48aa;
   transform: translateY(-5px);
 }
 
@@ -698,7 +698,7 @@ section {
 }
 
 .cta-banner .cta-button:hover {
-  background-color: #333; /* Darken button background on hover */
+  background-color: #9d50bb; /* Darken button background on hover */
   color: white; /* Change button text color on hover */
   transform: translateY(-5px); /* Lift button on hover */
 }
