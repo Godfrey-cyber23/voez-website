@@ -97,7 +97,7 @@ nav a.active {
   display: none;
   font-size: 2rem;             /* Increase size (default: 1.5rem) */
   cursor: pointer;
-  color: #ff6f61;             /* Change color (matches your theme) */
+  color: #9061ff;             /* Change color (matches your theme) */
   background: transparent; 
   border: none;              /* Remove border */
   padding: 10px;            /* Add padding for better click area */
@@ -106,7 +106,7 @@ nav a.active {
 
 /* Hover state */
 .hamburger:hover {
-  color: #e65a50;          /* Darker shade on hover */
+  color: #4b10aa;          /* Darker shade on hover */
   transform: scale(1.1);   /* Slightly enlarge */
 }
 
@@ -144,7 +144,7 @@ nav a.active {
 
 .hero-content {
   z-index: 1;
-  width: 90%;
+  width: 100%;
   max-width: 1200px;
   padding: 0 20px;
   opacity: 0;
@@ -152,7 +152,7 @@ nav a.active {
 }
 
 .hero h1 {
-  font-size: clamp(1.5rem, 6vw, 4rem);
+  font-size: clamp(1.4rem, 5vw, 4rem);
   margin-bottom: clamp(0.5rem, 2vw, 1rem);
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
   line-height: 1.2;
@@ -211,7 +211,7 @@ nav a.active {
 }
 
 .hero-buttons {
-  display: inline-block;
+  display: flex;
   margin: 0 auto;
   gap: clamp(1rem, 2vw, 1.5rem);
   justify-content: center;
