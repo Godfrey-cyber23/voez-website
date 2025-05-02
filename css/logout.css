@@ -1,0 +1,82 @@
+/* Logout Section Styles */
+.logout {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .logout h1 {
+    color: #333333;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .logout p {
+    color: #666666;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  
+  /* CTA Button Styles */
+  .cta-button {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: #4a6fa5; /* VOEZ brand color - adjust as needed */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cta-button:hover {
+    background-color: #3a5a8f; /* Darker shade for hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .cta-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Animation for fade-in effect */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .logout {
+      margin: 1rem;
+      padding: 1.5rem;
+    }
+    
+    .logout h1 {
+      font-size: 1.5rem;
+    }
+    
+    .logout p {
+      font-size: 1rem;
+    }
+  }
+
+  
