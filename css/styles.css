@@ -116,7 +116,7 @@ nav a.active {
 .hero {
   position: relative;
   height: 100vh;
-  min-height: 600px; /* Minimum height for smaller screens */
+  min-height: 400px; /* Minimum height for smaller screens */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -142,6 +142,7 @@ nav a.active {
   z-index: 1;
   width: 100%;
   max-width: 1200px;
+  /* margin-top: -80px; */
   padding: 0 20px;
   opacity: 0;
   animation: fadeIn 1.5s ease-out 0.5s forwards;
@@ -154,8 +155,8 @@ nav a.active {
   line-height: 1.2;
   white-space: nowrap;
   text-align: center;
-  overflow: hidden; /* Changed from hidden */
-  text-overflow: clip; /* Changed from ellipsis */
+  overflow: hidden; 
+  text-overflow: clip; 
   padding: 0px;
   width: 100%;
   display: inline-block;
@@ -165,6 +166,7 @@ nav a.active {
 /* Welcome Message Styling */
 #welcome-text {
   display: inline;
+  padding-top:10px ;
   white-space: nowrap;
 }
 
