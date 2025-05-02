@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Welcome Message
-const welcomeText = "WELCOME TO VOICE OF ECCLEZIA ZAMBIA"; // Welcome message
+const welcomeText = "WELCOME TO VOICE OF ECCLEZIA"; // Welcome message
 const welcomeElement = document.getElementById("welcome-text");
 let welcomeIndex = 0;
 
