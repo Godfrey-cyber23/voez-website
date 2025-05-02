@@ -17,6 +17,7 @@
 /* Apply the color variables throughout */
 body {
   color: var(--text-color);
+  padding-top: 0px; 
 }
 
  /* Prevent horizontal scrolling */
@@ -57,11 +58,6 @@ header {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* Ensures header stays above other content */
   height: 80px; /* Set a fixed height */
-}
-
-/* Add this to prevent content from being hidden behind header */
-body {
-  padding-top: 80px; /* Should be equal to header height + padding */
 }
 
 
