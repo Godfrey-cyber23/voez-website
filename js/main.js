@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Person data with more realistic examples
   const personData = {
-    'photo1.jpg': {
+    'image1.jpg': {
       name: 'Alex Johnson',
       description: 'Award-winning portrait photographer with exhibitions in 12 countries.',
       social: [
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { platform: 'twitter', url: 'https://twitter.com/alexphoto' }
       ]
     },
-    'photo2.jpg': {
+    'image2.jpg': {
       name: 'Maria Garcia',
       description: 'Wildlife photographer and conservationist specializing in African ecosystems.',
       social: [
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { platform: 'instagram', url: 'https://instagram.com/mariawildlife' }
       ]
     },
-    'photo3.jpg': {
+    'image3.jpg': {
       name: 'James Wilson',
       description: 'Urban landscape photographer capturing city life around the world.',
       social: [
