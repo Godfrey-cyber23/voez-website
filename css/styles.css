@@ -53,16 +53,17 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 0px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* Ensures header stays above other content */
-  height: 80px; /* Set a fixed height */
+  height: 3.1rem; /* Set a fixed height */
 }
 
 
 .logo img {
   height: 50px;
+  width: auto;
   transition: transform 0.3s ease;
 }
 
@@ -116,7 +117,9 @@ nav a.active {
 .hero {
   position: relative;
   height: 100vh;
-  min-height: 400px; /* Minimum height for smaller screens */
+  margin: 0 auto;
+  max-width: 1400px;
+  min-height: 300px; /* Minimum height for smaller screens */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -134,15 +137,21 @@ nav a.active {
   height: 100%;
   object-fit: cover;
   z-index: -1;
-  filter: blur(4px);
-  transform: scale(1.1); /* Prevents blur from showing edges */
+  
+  /* Visual Enhancements */
+  filter: blur(4px) brightness(0.7);
+  transform: scale(1.02); /* Prevents blur from showing edges */
+  
+  /* Performance Optimizations */
+  will-change: transform; /* Helps with animation performance */
+  backface-visibility: hidden; /* Prevents flickering in some browsers */
 }
-
 .hero-content {
   z-index: 1;
   width: 100%;
+  padding: 2rem;
+  margin: 0 auto;
   max-width: 1200px;
-  /* margin-top: -80px; */
   padding: 0 20px;
   opacity: 0;
   animation: fadeIn 1.5s ease-out 0.5s forwards;
@@ -265,9 +274,15 @@ nav a.active {
     font-size: clamp(0.9rem, 3.5vw, 1.3rem);
   }
   
+  .hero {
+    width: 95%;
+    min-height: 300px; /* Reduced from 600px */
+  }
+
   .hero-content {
     transform: scale(0.95); /* Slightly scale down entire content */
     transform-origin: center;
+    padding: 1rem;
   }
   
   .hero-buttons {
@@ -336,6 +351,7 @@ nav a.active {
   max-width: 1500px;
   margin: 0 auto;
   overflow: hidden;
+  position: relative; /* Added for navigation buttons */
 }
 
 .gallery h2 {
@@ -346,11 +362,26 @@ nav a.active {
 .gallery-container {
   width: 100%;
   overflow: hidden;
+  position: relative; /* Added for navigation buttons */
 }
 
 .gallery-track {
   display: flex;
-  animation: slide 20s linear infinite;
+  cursor: grab; /* Added for manual sliding */
+  -webkit-user-select: none; /* Prevent text selection while dragging on Safari */
+  user-select: none; /* Prevent text selection while dragging */
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); /* Smooth sliding */
+}
+
+
+.gallery-track.clone {
+  position: absolute;
+  top: 0;
+  left: 100%;
+}
+
+.gallery-track:active {
+  cursor: grabbing;
 }
 
 /* Image container styles */
@@ -441,14 +472,33 @@ nav a.active {
   background: #6e48aa;
 }
 
-@keyframes slide {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+/* Navigation buttons */
+.gallery-nav {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 10px;
 }
+
+.nav-btn {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 
 /* Music Section */
 .music {

@@ -10,9 +10,10 @@
   <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
+  <header>
   <div class="logo">
     <a href="index.html">
-      <img src="images/logo.svg" alt="VOEZ Logo">
+      <img src="https://i.postimg.cc/Ss5YL5pt/logo.png" alt="VOEZ Logo">
     </a>
   </div>
     <nav>
@@ -196,60 +197,7 @@
   <!-- Back-to-Top Button -->
   <button id="back-to-top" title="Go to top"><i class="fas fa-arrow-up"></i></button>
 
-  <script>
-    (function () {
-      emailjs.init('cnKD54PGPawEgij0g'); // Replace with your public ID
-    })();
-
-    document.querySelector('.contact form').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const message = document.getElementById('message').value.trim();
-
-      if (!name || !email || !message) {
-        alert('Please fill out all fields.');
-        return;
-      }
-
-      if (!email.includes('@')) {
-        alert('Please enter a valid email address.');
-        return;
-      }
-
-      // Show loading spinner
-      document.getElementById('loading-spinner').classList.add('visible');
-
-      // Send email using EmailJS
-      emailjs
-        .send('service_jz5gxtt', 'template_q5pmvio', {
-          from_name: name,
-          from_email: email,
-          message: message,
-        })
-        .then(
-          () => {
-            // Hide loading spinner
-            document.getElementById('loading-spinner').classList.remove('visible');
-
-            // Show success message
-            document.getElementById('success-message').classList.add('visible');
-            document.querySelector('.contact form').reset();
-
-            // Hide success message after 3 seconds
-            setTimeout(() => {
-              document.getElementById('success-message').classList.remove('visible');
-            }, 3000);
-          },
-          (error) => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
-            document.getElementById('loading-spinner').classList.remove('visible');
-          }
-        );
-    });
-  </script>
+  <script src="js/contact.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </body>

@@ -163,6 +163,14 @@ document.getElementById('back-to-top').addEventListener('click', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
   const galleryTrack = document.querySelector('.gallery-track');
+  const galleryContainer = document.querySelector('.gallery-container');
+  let currentPosition = 0;
+  let isDragging = false;
+  let startX;
+  let scrollLeft;
+  let trackWidth;
+  let itemWidth;
+  let clone;
 
   // Person data with more realistic examples
   const personData = {
@@ -274,30 +282,179 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-  // Initialize gallery with performance optimizations
-  const initGallery = async () => {
-    const images = await fetchImages();
+// Initialize gallery with manual controls
+const initGallery = async () => {
+  const images = await fetchImages();
+  
+  if (!images.length) {
+    galleryTrack.innerHTML = '<p>No images available at this time.</p>';
+    return;
+  }
+
+  // Clear existing content
+  galleryTrack.innerHTML = '';
+  if (clone) clone.remove();
+
+  // Create image elements
+  const fragment = document.createDocumentFragment();
+  images.forEach(image => {
+    fragment.appendChild(createImageElement(image));
+  });
+  galleryTrack.appendChild(fragment);
+
+  // Create clone for seamless looping
+  clone = galleryTrack.cloneNode(true);
+  clone.classList.add('clone');
+  galleryContainer.appendChild(clone);
+
+  // Calculate dimensions
+  itemWidth = galleryTrack.children[0].offsetWidth + 20; // width + margin-right
+  trackWidth = itemWidth * images.length;
+  
+  // Position clone
+  clone.style.left = `${trackWidth}px`;
+  
+  // Add navigation buttons
+  addNavigationControls();
+  setupDragToScroll();
+  setupLoopLogic();
+};
+
+function setupLoopLogic() {
+  galleryTrack.addEventListener('transitionend', checkPosition);
+  clone.addEventListener('transitionend', checkPosition);
+}
+
+function checkPosition() {
+  // If we've scrolled completely to the clone, reset to original
+  if (currentPosition <= -trackWidth) {
+    currentPosition = 0;
+    setTransformWithoutTransition();
+  }
+  // If we've scrolled back to original from left
+  else if (currentPosition > 0) {
+    currentPosition = -trackWidth;
+    setTransformWithoutTransition();
+  }
+}
+
+function setTransformWithoutTransition() {
+  galleryTrack.style.transition = 'none';
+  clone.style.transition = 'none';
+  galleryTrack.style.transform = `translateX(${-currentPosition}px)`;
+  clone.style.transform = `translateX(${-currentPosition}px)`;
+  // Force reflow
+  void galleryTrack.offsetWidth;
+  galleryTrack.style.transition = '';
+  clone.style.transition = '';
+}
+
+function addNavigationControls() {
+  // Remove existing nav if it exists
+  const existingNav = document.querySelector('.gallery-nav');
+  if (existingNav) existingNav.remove();
+
+  const navContainer = document.createElement('div');
+  navContainer.className = 'gallery-nav';
+  
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'nav-btn prev';
+  prevBtn.innerHTML = '&lt;';
+  prevBtn.addEventListener('click', () => scrollGallery(-itemWidth));
+  
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'nav-btn next';
+  nextBtn.innerHTML = '&gt;';
+  nextBtn.addEventListener('click', () => scrollGallery(itemWidth));
+  
+  navContainer.append(prevBtn, nextBtn);
+  galleryContainer.appendChild(navContainer);
+}
+
+function scrollGallery(amount) {
+  currentPosition += amount;
+  requestAnimationFrame(() => {
+    galleryTrack.style.transform = `translateX(${-currentPosition}px)`;
+    clone.style.transform = `translateX(${-currentPosition}px)`;
+  });
+}
+
+function setupDragToScroll() {
+  // Mouse events
+  galleryTrack.addEventListener('mousedown', startDrag);
+  galleryTrack.addEventListener('mouseleave', endDrag);
+  galleryTrack.addEventListener('mouseup', endDrag);
+  galleryTrack.addEventListener('mousemove', dragMove);
+
+  // Touch events
+  galleryTrack.addEventListener('touchstart', touchStart, { passive: false });
+  galleryTrack.addEventListener('touchend', endDrag);
+  galleryTrack.addEventListener('touchmove', touchMove, { passive: false });
+
+  function startDrag(e) {
+    isDragging = true;
+    startX = getClientX(e);
+    scrollLeft = currentPosition;
+    galleryTrack.style.cursor = 'grabbing';
+    galleryTrack.style.transition = 'none';
+    clone.style.transition = 'none';
+  }
+
+  function endDrag() {
+    if (!isDragging) return;
+    isDragging = false;
+    galleryTrack.style.cursor = 'grab';
+    galleryTrack.style.transition = '';
+    clone.style.transition = '';
     
-    if (!images.length) {
-      galleryTrack.innerHTML = '<p>No images available at this time.</p>';
-      return;
-    }
+    // Snap to nearest item
+    const snappedPosition = Math.round(currentPosition / itemWidth) * itemWidth;
+    currentPosition = snappedPosition;
+    galleryTrack.style.transform = `translateX(${-currentPosition}px)`;
+    clone.style.transform = `translateX(${-currentPosition}px)`;
+  }
 
-    // Create image elements in batches for better performance
-    const fragment = document.createDocumentFragment();
-    [...images, ...images].forEach(image => {
-      fragment.appendChild(createImageElement(image));
-    });
-    galleryTrack.appendChild(fragment);
+  function dragMove(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    updatePosition(getClientX(e));
+  }
 
-    // Calculate animation duration
-    const itemWidth = 300 + 20; // width + margin-right
-    const totalWidth = images.length * 2 * itemWidth;
-    galleryTrack.style.animationDuration = `${totalWidth / 1000}s`;
-  };
+  function touchStart(e) {
+    startDrag(e.touches[0]);
+  }
 
-  initGallery();
+  function touchMove(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    updatePosition(e.touches[0].clientX);
+  }
+
+  function updatePosition(clientX) {
+    const x = clientX - galleryTrack.getBoundingClientRect().left;
+    const walk = (x - startX) * 2; // Adjust multiplier for sensitivity
+    currentPosition = scrollLeft - walk;
+    galleryTrack.style.transform = `translateX(${-currentPosition}px)`;
+    clone.style.transform = `translateX(${-currentPosition}px)`;
+  }
+
+  function getClientX(event) {
+    return event.pageX || event.clientX;
+  }
+}
+
+// Handle window resize
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    initGallery();
+  }, 200);
 });
+
+initGallery();
+});
+
 
 // Welcome Message
 const welcomeText = "WELCOME TO VOICE OF ECCLEZIA"; // Welcome message
