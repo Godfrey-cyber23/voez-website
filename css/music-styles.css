@@ -1,0 +1,205 @@
+/* Additional styles for music page */
+
+:root {
+  --primary-color: #ff6f61; /* Coral/red - main accent */
+  --primary-dark: #e65a50;  /* Darker shade for hover states */
+  --text-color: #333;      /* Main text color */
+  --text-light: #555;      /* Secondary text color */
+  --bg-light: #f9f9f9;     /* Light background */
+  --bg-dark: #333;         /* Dark background for footer, etc. */
+  --bg: #f3f7f8;
+}
+.music-container {
+    max-width: 1200px;
+    margin: 100px auto 50px;
+    padding: 20px;
+}
+
+.music-container h1 {
+    color: var(--text-color);
+    text-align: center;
+}
+
+.music-section {
+    margin-bottom: 40px;
+}
+
+.music-cover {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+}
+
+.music-info {
+    padding: 15px;
+}
+
+.music-title {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.music-artist {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.music-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price-tag {
+    background: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.free-tag {
+    background: #2196F3;
+}
+
+.album-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.btn-play {
+    background: #2196F3;
+    color: white;
+}
+
+.btn-buy {
+    background: #FF9800;
+    color: white;
+}
+
+.btn-buy-album {
+    background: #9C27B0;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.payment-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.close-modal {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.payment-options {
+    margin-top: 20px;
+}
+
+.payment-option {
+    display: block;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.payment-option:hover {
+    background: #f5f5f5;
+}
+
+.locked-content {
+    position: relative;
+    align-self: center;
+}
+
+.locked-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(117, 92, 92, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 10px;
+}
+
+.locked-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* Responsive Styles */
+    @media (max-width: 768px) {      
+      .music-container {
+        margin-top: 150px;
+      }
+    }
+
+/* Mobile Money Fields */
+#mobileMoneyFields {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f0f0f0;
+  border-radius: 8px;
+}
+
+#mobileMoneyFields label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+#mobileMoneyFields select,
+#mobileMoneyFields input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+#mobileMoneyFields select:focus,
+#mobileMoneyFields input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(255, 111, 97, 0.2);
+}

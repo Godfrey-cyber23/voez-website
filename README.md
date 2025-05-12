@@ -1,0 +1,1 @@
+The payment gateway used is Flutterwave.

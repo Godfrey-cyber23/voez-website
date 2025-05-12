@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Music - VOEZ</title>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/music-styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="css/animations.css">
 </head>
@@ -22,8 +23,6 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="music.html">Music</a></li>
-        <!-- <li><a href="events.html">Events</a></li>
-        <li><a href="gallery.html">Gallery</a></li> -->
         <li><a href="join.html">Join Us</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="login.html">Login</a></li>
@@ -31,17 +30,209 @@
     </nav>
   </header>
 
-  <section class="music">
-    <h1>Our Music</h1>
-    <div class="album">
-      <img src="images/album1.jpg" alt="Album 1">
-      <h2>Album 1</h2>
-      <audio controls>
-        <source src="audio/song1.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-      </audio>
+  <div class="music-container">
+    <h1>Our Music Collection</h1>
+
+    <!-- Free Music Section -->
+    <section class="music-section">
+      <h2><i class="fas fa-music"></i> Free Music</h2>
+      <p>Enjoy these songs at no cost</p>
+      <div class="music-grid">
+        <!-- Free Song 1 -->
+        <div class="music-card">
+          <img
+            src="https://i.fbcd.co/products/resized/resized-750-500/mpfoto71-a-colorful-music-background-1-1b33636aeb8eb0a5c3d22bd73b58803cd8858ff9339338233f936b8172a65ca0.jpg"
+            alt="Free Song 1" class="music-cover">
+          <div class="music-info">
+            <h3 class="music-title">Amazing Grace</h3>
+            <p class="music-artist">VOEZ Worship Team</p>
+            <div class="music-controls">
+              <span class="price-tag free-tag">FREE</span>
+              <button class="btn btn-play"><i class="fas fa-play"></i> Play</button>
+            </div>
+            <audio src="music/mwasimu_ya_gethsemani_mp3_76745.mp3" controls
+              style="width: 100%; margin-top: 10px;"></audio>
+          </div>
+        </div>
+
+        <!-- Free Song 2 -->
+        <div class="music-card">
+          <img src="https://th.bing.com/th/id/OIP.h-bTRWcIKs9ZN7MHaCREWwHaE7?cb=iwc2&w=740&h=493&rs=1&pid=ImgDetMain"
+            alt="Free Song 2" class="music-cover">
+          <div class="music-info">
+            <h3 class="music-title">His Love Endures</h3>
+            <p class="music-artist">VOEZ Choir</p>
+            <div class="music-controls">
+              <span class="price-tag free-tag">FREE</span>
+              <button class="btn btn-play"><i class="fas fa-play"></i> Play</button>
+            </div>
+            <audio src="music/Natu Sefye Christu Kalubula.mp3" controls style="width: 100%; margin-top: 10px;"></audio>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Premium Music Section -->
+    <section class="music-section">
+      <h2><i class="fas fa-crown"></i> Premium Music</h2>
+      <p>Unlock these songs with a small donation to support our ministry</p>
+      <div class="music-grid">
+        <!-- Premium Song 1 -->
+        <div class="music-card">
+          <div class="locked-content">
+            <img src="https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+              alt="Premium Song 1" class="music-cover">
+            <div class="locked-overlay">
+              <i class="fas fa-lock locked-icon"></i>
+              <p>Purchase to unlock</p>
+              <button class="btn btn-buy" onclick="openPaymentModal('song', 'Heavenly Sounds', 2.99, 'premium-song1')">
+                Buy for $2.99
+              </button>
+            </div>
+          </div>
+          <div class="music-info">
+            <h3 class="music-title">Heavenly Sounds</h3>
+            <p class="music-artist">VOEZ Band</p>
+            <div class="music-controls">
+              <span class="price-tag">$2.99</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Premium Song 2 -->
+        <div class="music-card">
+          <div class="locked-content">
+            <img src="https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+              alt="Premium Song 2" class="music-cover">
+            <div class="locked-overlay">
+              <i class="fas fa-lock locked-icon"></i>
+              <p>Purchase to unlock</p>
+              <button class="btn btn-buy" onclick="openPaymentModal('song', 'Glory to God', 2.99, 'premium-song2')">
+                Buy for $2.99
+              </button>
+            </div>
+          </div>
+          <div class="music-info">
+            <h3 class="music-title">Glory to God</h3>
+            <p class="music-artist">VOEZ Worship Team</p>
+            <div class="music-controls">
+              <span class="price-tag">$2.99</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Albums Section -->
+    <section class="music-section">
+      <h2><i class="fas fa-compact-disc"></i> Albums</h2>
+      <p>Complete collections of our worship music</p>
+      <div class="music-grid">
+        <!-- Album 1 -->
+        <div class="music-card">
+          <div class="locked-content">
+            <img src="https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+              alt="Worship Collection" class="music-cover">
+            <div class="locked-overlay">
+              <i class="fas fa-lock locked-icon"></i>
+              <p>Purchase to unlock</p>
+              <button class="btn btn-buy"
+                onclick="openPaymentModal('album', ' Ndithandizeni Chauta (Help me, Lord)', 9.99, 'album1')">
+                Buy Album for $9.99
+              </button>
+            </div>
+          </div>
+          <div class="music-info">
+            <h3 class="music-title">Album 1 - Ndithandizeni Chauta (Help me, Lord)</h3>
+            <p class="music-artist">VOEZ Choir</p>
+            <p class="album-price">$9.99 (Save 30%)</p>
+            <p>Our Album one, includes 10 tracks in 7 Zambian languages ♡</p>
+            <button class="btn btn-buy-album"
+              onclick="openPaymentModal('album', ' Ndithandizeni Chauta (Help me, Lord)', 9.99, 'album1')">
+              Buy Full Album
+            </button>
+          </div>
+        </div>
+
+        <!-- Album 2 -->
+        <div class="music-card">
+          <div class="locked-content">
+            <img src="https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+              alt="Praise Anthems" class="music-cover">
+            <div class="locked-overlay">
+              <i class="fas fa-lock locked-icon"></i>
+              <p>Purchase to unlock</p>
+              <button class="btn btn-buy"
+                onclick="openPaymentModal('album', 'Mulimu Yasishemo Lwakulumbeka', 12.99, 'album2')">
+                Buy Album for $12.99
+              </button>
+            </div>
+          </div>
+          <div class="music-info">
+            <h3 class="music-title">Album 2 - Mulimu Yasishemo Lwakulumbeka (God of Mercy we thank you)</h3>
+            <p class="music-artist">VOEZ Choir</p>
+            <p class="album-price">$12.99 (Save 35%)</p>
+            <p>Our Second Album, contains 10 tracks in 7 Zambian languages ♡</p>
+            <button class="btn btn-buy-album"
+              onclick="openPaymentModal('album', 'Mulimu Yasishemo Lwakulumbeka', 12.99, 'album2')">
+              Buy Full Album
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Payment Modal -->
+  <div id="paymentModal" class="payment-modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+      <h2 id="modalTitle">Purchase Song</h2>
+      <p id="modalDescription">You're about to purchase: <span id="itemName"></span></p>
+      <p>Price: $<span id="itemPrice">0.00</span></p>
+
+      <div class="payment-options">
+        <h3>Select Payment Method</h3>
+        <label class="payment-option">
+          <input type="radio" name="payment" value="mobile_money" checked onchange="togglePaymentFields()">
+          Mobile Money (Zambia)
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment" value="card" onchange="togglePaymentFields()">
+          Credit/Debit Card
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment" value="paypal" onchange="togglePaymentFields()">
+          PayPal
+        </label>
+      </div>
+
+
+
+      <!-- Mobile Money Fields -->
+      <div id="mobileMoneyFields" style="display: block;">
+        <label for="network">Select Mobile Network:</label>
+        <select id="network">
+          <option value="">-- Choose Network --</option>
+          <option value="mtn">MTN Money</option>
+          <option value="airtel">Airtel Money</option>
+          <option value="zamtel">Zamtel Money</option>
+        </select>
+
+        <label for="mobileNumber">Mobile Number:</label>
+        <input type="tel" id="mobileNumber" placeholder="e.g. 0966123456">
+      </div>
+
+
+      <label for="mobileNumber">Mobile Number:</label>
+      <input type="tel" id="mobileNumber" placeholder="e.g. 0966123456" required>
     </div>
-  </section>
+
+    <button class="btn btn-buy" style="width: 100%; margin-top: 20px;" onclick="processPayment()">
+      Complete Purchase
+    </button>
+  </div>
+  </div>
 
   <footer>
     <div class="footer-content">
@@ -114,8 +305,8 @@
           </li> -->
 
           <li class="icon-content">
-            <a data-social="youtube" aria-label="YouTube" href="https://www.youtube.com/@Voice_of_Eklesia_Zambia" target="_blank"
-              rel="noopener noreferrer">
+            <a data-social="youtube" aria-label="YouTube" href="https://www.youtube.com/@Voice_of_Eklesia_Zambia"
+              target="_blank" rel="noopener noreferrer">
               <div class="filled"></div>
               <svg xml:space="preserve" viewBox="0 0 24 24" class="bi bi-youtube" fill="currentColor" height="16"
                 width="16" xmlns="http://www.w3.org/2000/svg">
@@ -128,8 +319,8 @@
           </li>
 
           <li class="icon-content">
-            <a data-social="tiktok" aria-label="TikTok" href="https://www.tiktok.com/@anadalitsika_james" target="_blank"
-              rel="noopener noreferrer">
+            <a data-social="tiktok" aria-label="TikTok" href="https://www.tiktok.com/@anadalitsika_james"
+              target="_blank" rel="noopener noreferrer">
               <div class="filled"></div>
               <svg xml:space="preserve" viewBox="0 0 24 24" class="bi bi-tiktok" fill="currentColor" height="16"
                 width="16" xmlns="http://www.w3.org/2000/svg">
@@ -168,6 +359,7 @@
       <p>&copy; 2023 Voice of Ecclesia Zambia. All rights reserved.</p>
     </div>
   </footer>
+  <script src="js/music.js"></script>
 </body>
 
 </html>

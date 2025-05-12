@@ -12,6 +12,7 @@
   --text-light: #555;      /* Secondary text color */
   --bg-light: #f9f9f9;     /* Light background */
   --bg-dark: #333;         /* Dark background for footer, etc. */
+  --header-bg-color: #f3f7f8;
 }
 
 /* Apply the color variables throughout */
@@ -45,23 +46,23 @@ p {
 }
 
 /* Header Styles */
-/* Header Styles */
 header {
   position: fixed; /* Makes header stay in place */
   top: 0;
   left: 0;
   right: 0;
   display: flex;
+  margin: 10px 20px 0 20px; /* Consolidated margins */
   justify-content: space-between;
   align-items: center;
   padding: 0 20px; /* Added horizontal padding */
-  background-color: #fff;
+  background-color: var(--header-bg-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* Ensures header stays above other content */
   height: 4.1rem; /* Set a fixed height */
-  width: 100%; /* Ensure full width */
+  width: calc(100% - 40px); /* Fixed missing 'px' unit */
+  border-radius: 12px; /* Added border radius */
 }
-
 .logo {
   padding-left: 10px; /* Space before the icon */
 }
@@ -380,6 +381,8 @@ nav a.active {
   50% { opacity: 0; }
 }
 
+
+
 /* About Section */
 .about {
   padding: 60px 20px;
@@ -615,7 +618,7 @@ nav a.active {
 
 .music-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: clamp(1rem, 2vw, 1.5rem);
   width: 100%;
   padding: 0;
@@ -1178,7 +1181,7 @@ nav a.active {
 /* Testimonials Grid Layout */
 .testimonials-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
   gap: clamp(1rem, 2vw, 1.5rem);
   max-width: 1500px;
   margin: 0 auto;
@@ -1191,6 +1194,7 @@ nav a.active {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: left;
+  height: 35rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
