@@ -1,4 +1,25 @@
-document.addEventListener('DOMContentLoaded', function() {
+
+
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js';
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyBpPeaZRJvlOR-UDDrREE0Y-1osmyPP6yo",
+        authDomain: "voice-of-ecclezia-zambia.firebaseapp.com",
+        projectId: "voice-of-ecclezia-zambia",
+        storageBucket: "voice-of-ecclezia-zambia.appspot.com",
+        messagingSenderId: "865692602825",
+        appId: "1:865692602825:web:96dddc980456517dd39818",
+        measurementId: "G-2EJ2NDH2V4"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     // Form elements
     const form = document.getElementById('joinForm');
     const steps = document.querySelectorAll('.form-step');
@@ -12,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const catholicDetails = document.getElementById('catholicDetails');
     const successMessage = document.querySelector('.success-message');
     const loader = document.querySelector('.loader');
-    
+
     let currentStep = 0;
 
     // Initialize form
@@ -21,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Conditional field handling
     if (howKnowSelect && otherSourceGroup) {
-        howKnowSelect.addEventListener('change', function() {
+        howKnowSelect.addEventListener('change', function () {
             otherSourceGroup.style.display = howKnowSelect.value === 'other' ? 'block' : 'none';
             if (howKnowSelect.value !== 'other') {
                 document.getElementById('otherSource').value = '';
@@ -30,10 +51,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (isCatholicYes && isCatholicNo && catholicDetails) {
-        isCatholicYes.addEventListener('change', function() {
+        isCatholicYes.addEventListener('change', function () {
             catholicDetails.style.display = 'block';
         });
-        isCatholicNo.addEventListener('change', function() {
+        isCatholicNo.addEventListener('change', function () {
             catholicDetails.style.display = 'none';
             // Clear Catholic-specific fields when No is selected
             document.getElementById('parish').value = '';
@@ -60,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let isValid = true;
         const currentStepElement = steps[step];
         const requiredFields = currentStepElement.querySelectorAll('[required]');
-        
+
         // Validate regular fields
         requiredFields.forEach(field => {
             if (field.type !== 'radio' && !field.value.trim()) {
@@ -72,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Validate radio groups
         const requiredRadios = currentStepElement.querySelectorAll('input[type="radio"][required]');
         const radioGroups = new Set(Array.from(requiredRadios).map(r => r.name));
-        
+
         radioGroups.forEach(groupName => {
             const isChecked = document.querySelector(`input[name="${groupName}"]:checked`);
             if (!isChecked) {
@@ -87,17 +108,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (step === 1) {
             const phone = document.getElementById('phone').value.trim();
             const email = document.getElementById('email').value.trim();
-            
+
             if (phone && !/^[\d\s\-+()]{10,}$/.test(phone)) {
                 isValid = false;
                 showError(document.getElementById('phone'), 'Please enter a valid phone number');
             }
-            
+
             if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 isValid = false;
                 showError(document.getElementById('email'), 'Please enter a valid email');
             }
-            
+
             if (howKnowSelect.value === 'other' && !document.getElementById('otherSource').value.trim()) {
                 isValid = false;
                 showError(document.getElementById('otherSource'), 'Please specify how you heard about us');
@@ -109,20 +130,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const parish = document.getElementById('parish').value.trim();
             const isBaptized = document.querySelector('input[name="isBaptized"]:checked');
             const isConfirmed = document.querySelector('input[name="isConfirmed"]:checked');
-            
+
             if (!parish) {
                 isValid = false;
                 showError(document.getElementById('parish'), 'Parish name is required');
             }
             if (!isBaptized) {
                 isValid = false;
-                showError(document.querySelector('input[name="isBaptized"]').closest('.form-group'), 
-                          'Please select baptism status');
+                showError(document.querySelector('input[name="isBaptized"]').closest('.form-group'),
+                    'Please select baptism status');
             }
             if (!isConfirmed) {
                 isValid = false;
-                showError(document.querySelector('input[name="isConfirmed"]').closest('.form-group'), 
-                          'Please select confirmation status');
+                showError(document.querySelector('input[name="isConfirmed"]').closest('.form-group'),
+                    'Please select confirmation status');
             }
         }
 
@@ -154,11 +175,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentStep = Math.min(currentStep + 1, steps.length - 1);
                 showStep(currentStep);
                 updateProgressBar();
-                
+
                 if (currentStep === steps.length - 1) {
                     updateReviewSections();
                 }
-                
+
                 // Scroll to top of form
                 form.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
@@ -195,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Faith Background
         const isCatholic = document.querySelector('input[name="isCatholic"]:checked');
         let faithData = `<p><strong>Catholic:</strong> ${isCatholic ? isCatholic.value === 'yes' ? 'Yes' : 'No' : 'Not specified'}</p>`;
-        
+
         if (isCatholic && isCatholic.value === 'yes') {
             faithData += `
                 <p><strong>Parish:</strong> ${document.getElementById('parish').value || 'Not specified'}</p>
@@ -208,45 +229,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Form submission with success popup
     if (form) {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function (e) {
             e.preventDefault();
-            
+
             if (validateStep(currentStep)) {
                 if (loader) loader.style.display = 'flex';
-                
-                // Simulate form submission
-                setTimeout(() => {
+
+                try {
+                    const formData = {
+                        firstName: document.getElementById('firstName').value,
+                        middleName: document.getElementById('middleName').value,
+                        lastName: document.getElementById('lastName').value,
+                        location: document.getElementById('location').value,
+                        occupation: document.getElementById('occupation').value,
+                        reason: document.getElementById('reason').value,
+                        phone: document.getElementById('phone').value,
+                        email: document.getElementById('email').value,
+                        howKnow: howKnowSelect.value,
+                        otherSource: howKnowSelect.value === 'other' ?
+                            document.getElementById('otherSource').value : null,
+                        isCatholic: document.querySelector('input[name="isCatholic"]:checked')?.value === 'yes',
+                        parish: document.getElementById('parish').value || null,
+                        isBaptized: document.querySelector('input[name="isBaptized"]:checked')?.value === 'yes',
+                        isConfirmed: document.querySelector('input[name="isConfirmed"]:checked')?.value === 'yes',
+                        createdAt: serverTimestamp(),
+                        status: 'pending'
+                    };
+
+                    
+                     await addDoc(collection(db, "joinApplications"), formData)
+
+                    // Hide loader and show success
                     if (loader) loader.style.display = 'none';
                     if (successMessage) {
-                        // Hide the form
                         form.style.display = 'none';
-                        
-                        // Show the success popup
                         successMessage.style.display = 'block';
-                        
-                        // Scroll to the success message
                         successMessage.scrollIntoView({ behavior: 'smooth' });
-                        
-                        // Add click handler for the home button
-                        const homeBtn = document.querySelector('.home-btn');
-                        if (homeBtn) {
-                            homeBtn.addEventListener('click', function() {
-                                window.location.href = 'index.html';
-                            });
-                        }
                     }
-                }, 2000);
-            } else {
-                // If on review page but validation fails, go to first invalid step
-                if (currentStep === steps.length - 1) {
-                    for (let i = 0; i < steps.length - 1; i++) {
-                        if (!validateStep(i)) {
-                            currentStep = i;
-                            showStep(currentStep);
-                            updateProgressBar();
-                            break;
-                        }
-                    }
+                } catch (error) {
+                    console.error("Error saving application:", error);
+                    if (loader) loader.style.display = 'none';
+                    alert("Error submitting application. Please try again.");
                 }
             }
         });
@@ -270,7 +293,7 @@ function toggleMenu() {
     navLinks.classList.toggle('active');
     overlay.classList.toggle('active');
     document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
-    
+
     // Toggle icon
     const icon = hamburger.querySelector('i');
     if (hamburger.classList.contains('active')) {
@@ -285,28 +308,28 @@ function closeMenu() {
     navLinks.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
-    
+
     // Reset icon
     const icon = hamburger.querySelector('i');
     icon.classList.replace('fa-times', 'fa-bars');
 }
 
 if (hamburger && navLinks) {
-    hamburger.addEventListener('click', function(e) {
+    hamburger.addEventListener('click', function (e) {
         e.stopPropagation();
         toggleMenu();
     });
 
-    document.addEventListener('click', function(e) {
-        if (navLinks.classList.contains('active') && 
-            !navLinks.contains(e.target) && 
+    document.addEventListener('click', function (e) {
+        if (navLinks.classList.contains('active') &&
+            !navLinks.contains(e.target) &&
             e.target !== hamburger) {
             closeMenu();
         }
     });
 
     document.querySelectorAll('nav ul li a').forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             if (!link.getAttribute('href').startsWith('#')) {
                 closeMenu();
             }

@@ -482,3 +482,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show success message
     alert('Profile updated successfully!');
   }
+
+//   // STAY UPDATED SECTION
+
+// document.getElementById('newsletter-email').setAttribute('placeholder', ' ');
+
+// // Form submission handling
+// document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+//   e.preventDefault();
+//   const form = this;
+  
+//   // Simulate successful submission (replace with actual submission code)
+//   form.classList.add('success');
+//   setTimeout(() => form.classList.remove('success'), 500);
+  
+//   // Clear form
+//   form.reset();
+  
+//   // Show success message
+//   alert('Thank you for subscribing!');
+// });

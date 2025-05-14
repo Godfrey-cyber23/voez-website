@@ -712,3 +712,42 @@ footer {
   }
 }
 
+/* Admin login*/
+.login-type-toggle {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .login-type-btn {
+      padding: 10px 20px;
+      border: none;
+      background: #f0f0f0;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .login-type-btn:first-child {
+      border-radius: 8px 0 0 8px;
+    }
+    
+    .login-type-btn:last-child {
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .login-type-btn.active {
+      background: #5e72e4;
+      color: white;
+    }
+    
+    .admin-login-note {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .hidden {
+      display: none;
+    }

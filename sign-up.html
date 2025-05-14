@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - VOEZ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        :root {
+            --primary: #4a90e2;
+            --primary-dark: #3a7bc8;
+            --error: #e74c3c;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --text: #333;
+            --text-light: #666;
+            --border: #ddd;
+            --bg: #f5f5f5;
+            --white: #ffffff;
+            --google-blue: #4285F4;
+            --facebook-blue: #3b5998;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .register-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 500px;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo img {
+            max-width: 180px;
+            height: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            color: var(--text);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .password-strength {
+            height: 4px;
+            background-color: #eee;
+            margin-top: 8px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .strength-meter {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s, background-color 0.3s;
+        }
+
+        .strength-weak {
+            background-color: var(--error);
+            width: 33%;
+        }
+
+        .strength-medium {
+            background-color: var(--warning);
+            width: 66%;
+        }
+
+        .strength-strong {
+            background-color: var(--success);
+            width: 100%;
+        }
+
+        .strength-text {
+            font-size: 0.8rem;
+            margin-top: 4px;
+            color: var(--text-light);
+        }
+
+        .submit-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .submit-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .success-message {
+            color: var(--success);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .social-login {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .social-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: var(--text-light);
+        }
+
+        .social-divider::before,
+        .social-divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .social-divider::before {
+            margin-right: 1rem;
+        }
+
+        .social-divider::after {
+            margin-left: 1rem;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .social-btn i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        .google-btn {
+            background-color: var(--google-blue);
+        }
+
+        .google-btn:hover {
+            background-color: #357ae8;
+        }
+
+        .facebook-btn {
+            background-color: var(--facebook-blue);
+        }
+
+        .facebook-btn:hover {
+            background-color: #344e86;
+        }
+
+        /* Phone verification */
+        .phone-verify-container {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .verify-btn {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .verify-btn:hover {
+            background-color: #27ae60;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .register-container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            input,
+            .submit-btn {
+                padding: 0.7rem;
+            }
+
+            .social-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://i.postimg.cc/Ss5YL5pt/logo.png" alt="VOEZ Logo">
+            </a>
+        </div>
+
+        <h1>Create Your Account</h1>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div id="username-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div id="email-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <div class="input-wrapper">
+                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number with country code"
+                        required>
+                </div>
+                <button type="button" id="sendVerification" class="verify-btn">Send Verification Code</button>
+                <div id="phone-verify-container" class="phone-verify-container">
+                    <div class="form-group">
+                        <label for="verificationCode">Verification Code</label>
+                        <input type="text" id="verificationCode" placeholder="Enter 6-digit code">
+                    </div>
+                    <button type="button" id="verifyCodeBtn" class="verify-btn">Verify Phone</button>
+                    <div id="phone-status"></div>
+                </div>
+                <div id="phone-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" placeholder="Create a password" required>
+                    <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                </div>
+                <div class="password-strength">
+                    <div class="strength-meter" id="strengthMeter"></div>
+                </div>
+                <div class="strength-text" id="strengthText">Password strength</div>
+                <div id="password-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="confirmPassword" name="confirmPassword"
+                        placeholder="Confirm your password" required>
+                    <i class="fas fa-eye password-toggle" id="toggleConfirmPassword"></i>
+                </div>
+                <div id="confirmPassword-error" class="error-message"></div>
+            </div>
+
+            <!-- reCAPTCHA -->
+            <div class="g-recaptcha" data-sitekey="6LcI4TgrAAAAAFwL3esI4rTnglbZrvJWeiuKlubm"></div>
+            <div id="recaptcha-error" class="error-message"></div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span id="btnText">Register</span>
+            </button>
+
+            <div id="success-message" class="success-message"></div>
+        </form>
+
+        <div class="social-divider">
+            <span>OR</span>
+        </div>
+
+        <div class="social-login">
+            <div class="social-buttons">
+                <button class="social-btn google-btn" id="googleSignIn">
+                    <i class="fab fa-google"></i> Google
+                </button>
+                <button class="social-btn facebook-btn" id="facebookSignIn">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </button>
+            </div>
+        </div>
+
+        <div class="login-link">
+            Already have an account? <a href="login.html">Login here</a>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBpPeaZRJvlOR-UDDrREE0Y-1osmyPP6yo",
+            authDomain: "voice-of-ecclezia-zambia.firebaseapp.com",
+            projectId: "voice-of-ecclezia-zambia",
+            storageBucket: "voice-of-ecclezia-zambia.appspot.com",
+            messagingSenderId: "865692602825",
+            appId: "1:865692602825:web:96dddc980456517dd39818",
+            measurementId: "G-2EJ2NDH2V4"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Initialize Firebase Recaptcha for phone auth
+        let recaptchaVerifier;
+        let confirmationResult;
+
+        // DOM elements
+        const registerForm = document.getElementById('registerForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const successMessage = document.getElementById('success-message');
+        const togglePassword = document.getElementById('togglePassword');
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const password = document.getElementById('password');
+        const strengthMeter = document.getElementById('strengthMeter');
+        const strengthText = document.getElementById('strengthText');
+        const sendVerificationBtn = document.getElementById('sendVerification');
+        const phoneVerifyContainer = document.getElementById('phone-verify-container');
+        const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+        const phoneStatus = document.getElementById('phone-status');
+        const googleSignInBtn = document.getElementById('googleSignIn');
+        const facebookSignInBtn = document.getElementById('facebookSignIn');
+
+        // Password visibility toggle
+        togglePassword.addEventListener('click', () => {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+
+        toggleConfirmPassword.addEventListener('click', () => {
+            const confirmPassword = document.getElementById('confirmPassword');
+            const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPassword.setAttribute('type', type);
+            toggleConfirmPassword.classList.toggle('fa-eye-slash');
+        });
+
+        // Password strength meter
+        password.addEventListener('input', () => {
+            const strength = checkPasswordStrength(password.value);
+            updateStrengthMeter(strength);
+        });
+
+        function checkPasswordStrength(password) {
+            // Check password strength
+            let strength = 0;
+
+            // Length >= 8
+            if (password.length >= 8) strength++;
+
+            // Contains lowercase
+            if (/[a-z]/.test(password)) strength++;
+
+            // Contains uppercase
+            if (/[A-Z]/.test(password)) strength++;
+
+            // Contains number
+            if (/[0-9]/.test(password)) strength++;
+
+            // Contains special char
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+            return strength;
+        }
+
+        function updateStrengthMeter(strength) {
+            strengthMeter.className = 'strength-meter';
+
+            if (strength <= 2) {
+                strengthMeter.classList.add('strength-weak');
+                strengthText.textContent = 'Weak password';
+                strengthText.style.color = 'var(--error)';
+            } else if (strength <= 4) {
+                strengthMeter.classList.add('strength-medium');
+                strengthText.textContent = 'Medium strength';
+                strengthText.style.color = 'var(--warning)';
+            } else {
+                strengthMeter.classList.add('strength-strong');
+                strengthText.textContent = 'Strong password';
+                strengthText.style.color = 'var(--success)';
+            }
+        }
+
+
+        // Initialize it only once
+        function initRecaptcha() {
+            if (!recaptchaVerifier) {
+                recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sendVerification', {
+                    size: 'invisible',
+                    callback: (response) => {
+                        // This will be called automatically when reCAPTCHA is solved
+                    }
+                });
+            }
+            return recaptchaVerifier;
+        }
+
+        // Phone verification
+        sendVerificationBtn.addEventListener('click', () => {
+            initRecaptcha();
+            const phoneNumber = document.getElementById('phone').value.trim();
+
+            if (!phoneNumber) {
+                showError('phone-error', 'Please enter a phone number');
+                return;
+            }
+
+            // Format phone number with country code if not already
+            const formattedPhone = phoneNumber.startsWith('+') ? phoneNumber : `+${phoneNumber}`;
+
+            // Send verification code
+            sendVerificationCode(formattedPhone);
+        });
+
+        async function sendVerificationCode(phoneNumber) {
+            try {
+                sendVerificationBtn.disabled = true;
+                sendVerificationBtn.textContent = 'Sending...';
+
+                const appVerifier = initRecaptcha();
+                confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, appVerifier);
+
+                phoneVerifyContainer.style.display = 'block';
+                phoneStatus.textContent = 'Verification code sent to your phone';
+                phoneStatus.style.color = 'var(--success)';
+                sendVerificationBtn.textContent = 'Resend Code';
+            } catch (error) {
+                console.error('Error sending verification code:', error);
+                phoneStatus.textContent = getFirebaseErrorMessage(error);
+                phoneStatus.style.color = 'var(--error)';
+
+                // Reset reCAPTCHA on failure
+                recaptchaVerifier = null;
+            } finally {
+                sendVerificationBtn.disabled = false;
+            }
+        }
+
+        verifyCodeBtn.addEventListener('click', async () => {
+            const code = document.getElementById('verificationCode').value.trim();
+
+            if (!code || code.length !== 6) {
+                phoneStatus.textContent = 'Please enter a valid 6-digit code';
+                phoneStatus.style.color = 'var(--error)';
+                return;
+            }
+
+            try {
+                verifyCodeBtn.disabled = true;
+                verifyCodeBtn.textContent = 'Verifying...';
+
+                await confirmationResult.confirm(code);
+
+                phoneStatus.textContent = 'Phone number verified successfully!';
+                phoneStatus.style.color = 'var(--success)';
+                verifyCodeBtn.textContent = 'Verified';
+                verifyCodeBtn.disabled = true;
+                sendVerificationBtn.disabled = true;
+            } catch (error) {
+                console.error('Error verifying code:', error);
+                phoneStatus.textContent = getFirebaseErrorMessage(error);
+                phoneStatus.style.color = 'var(--error)';
+                verifyCodeBtn.textContent = 'Verify Phone';
+            } finally {
+                verifyCodeBtn.disabled = false;
+            }
+        });
+
+        // Social login
+        googleSignInBtn.addEventListener('click', () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            socialSignIn(provider);
+        });
+
+        facebookSignInBtn.addEventListener('click', () => {
+            const provider = new firebase.auth.FacebookAuthProvider();
+            socialSignIn(provider);
+        });
+
+        async function socialSignIn(provider) {
+            try {
+                googleSignInBtn.disabled = true;
+                facebookSignInBtn.disabled = true;
+
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
+
+                // Check if user exists in Firestore
+                const userDoc = await db.collection('users').doc(user.uid).get();
+
+                if (!userDoc.exists) {
+                    // Save new user data
+                    await db.collection('users').doc(user.uid).set({
+                        username: user.displayName || user.email.split('@')[0],
+                        email: user.email,
+                        phone: user.phoneNumber || '',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        isAdmin: false
+                    });
+                }
+
+                // Redirect to dashboard or home page
+                window.location.href = 'user-dashboard.html';
+            } catch (error) {
+                console.error('Social login error:', error);
+                showError('recaptcha-error', getFirebaseErrorMessage(error));
+            } finally {
+                googleSignInBtn.disabled = false;
+                facebookSignInBtn.disabled = false;
+            }
+        }
+
+        // Form submission
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Get form values
+            const username = registerForm.username.value.trim();
+            const email = registerForm.email.value.trim();
+            const phone = registerForm.phone.value.trim();
+            const password = registerForm.password.value;
+            const confirmPassword = registerForm.confirmPassword.value;
+            const recaptchaResponse = grecaptcha.getResponse();
+
+            // Validate form
+            if (!validateForm(username, email, phone, password, confirmPassword, recaptchaResponse)) {
+                return;
+            }
+
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.innerHTML = '<span class="spinner"></span> Creating account...';
+
+            try {
+                // Create user with email/password
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+
+                // Save additional user data to Firestore
+                await db.collection('users').doc(userCredential.user.uid).set({
+                    username,
+                    email,
+                    phone,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    isAdmin: false,
+                    phoneVerified: false // Will be true after verification
+                });
+
+                // Send email verification
+                await userCredential.user.sendEmailVerification();
+
+                // Show success message
+                showSuccess('Account created successfully! Please check your email for verification.');
+                registerForm.reset();
+
+            } catch (error) {
+                handleFirebaseError(error);
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                btnText.textContent = 'Register';
+            }
+        });
+
+        // Form validation
+        function validateForm(username, email, phone, password, confirmPassword, recaptchaResponse) {
+            let isValid = true;
+
+            // Clear previous errors
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+
+            // Username validation
+            if (username.length < 3) {
+                showError('username-error', 'Username must be at least 3 characters');
+                isValid = false;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('email-error', 'Please enter a valid email address');
+                isValid = false;
+            }
+
+            // Phone validation
+            const phoneRegex = /^\+?[0-9]{10,15}$/;
+            if (!phoneRegex.test(phone)) {
+                showError('phone-error', 'Please enter a valid phone number with country code');
+                isValid = false;
+            }
+
+            // Password validation
+            if (password.length < 8) {
+                showError('password-error', 'Password must be at least 8 characters');
+                isValid = false;
+            }
+
+            // Confirm password validation
+            if (password !== confirmPassword) {
+                showError('confirmPassword-error', 'Passwords do not match');
+                isValid = false;
+            }
+
+            // reCAPTCHA validation
+            if (!recaptchaResponse) {
+                showError('recaptcha-error', 'Please complete the reCAPTCHA');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        // Handle Firebase errors
+        function handleFirebaseError(error) {
+            console.error('Registration error:', error);
+
+            let errorMessage = 'Registration failed. Please try again.';
+            let errorElement = 'recaptcha-error';
+
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    errorMessage = 'This email is already registered.';
+                    errorElement = 'email-error';
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage = 'Please enter a valid email address.';
+                    errorElement = 'email-error';
+                    break;
+                case 'auth/weak-password':
+                    errorMessage = 'Password should be at least 6 characters.';
+                    errorElement = 'password-error';
+                    break;
+                case 'auth/operation-not-allowed':
+                    errorMessage = 'Email/password accounts are not enabled.';
+                    break;
+                case 'auth/too-many-requests':
+                    errorMessage = 'Too many requests. Please try again later.';
+                    break;
+            }
+
+            showError(errorElement, errorMessage);
+        }
+
+        function getFirebaseErrorMessage(error) {
+            switch (error.code) {
+                case 'auth/invalid-phone-number':
+                    return 'Invalid phone number format. Please include country code (e.g., +1)';
+                case 'auth/missing-phone-number':
+                    return 'Please enter a phone number';
+                case 'auth/quota-exceeded':
+                    return 'Too many attempts. Please try again later';
+                case 'auth/captcha-check-failed':
+                    return 'reCAPTCHA verification failed. Please try again';
+                case 'auth/too-many-requests':
+                    return 'Too many requests from this device. Please try again later';
+                default:
+                    return 'Failed to send verification code. Please try again';
+            }
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+
+            // Hide after 5 seconds
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+
+</html>
