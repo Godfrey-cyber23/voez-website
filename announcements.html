@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcements - Voice of Ecclesia Zambia</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Announcements page specific styles */
+    .announcements-page {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .page-title {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #2c3e50;
+      font-size: 2.5rem;
+      position: relative;
+    }
+    
+    .page-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: #8e44ad;
+      margin: 15px auto;
+      border-radius: 2px;
+    }
+    
+    .page-intro {
+      text-align: center;
+      margin-bottom: 50px;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #555;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .announcements-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+    
+    .announcement-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    
+    .announcement-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .announcement-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .announcement-content {
+      padding: 25px;
+    }
+    
+    .announcement-date {
+      color: #8e44ad;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .announcement-date i {
+      margin-right: 8px;
+    }
+    
+    .announcement-title {
+      margin: 0 0 15px;
+      font-size: 1.5rem;
+      color: #2c3e50;
+    }
+    
+    .announcement-excerpt {
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .read-more {
+      display: inline-block;
+      color: #8e44ad;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .read-more:hover {
+      color: #6c3483;
+    }
+    
+    .read-more i {
+      margin-left: 5px;
+      transition: transform 0.3s ease;
+    }
+    
+    .read-more:hover i {
+      transform: translateX(3px);
+    }
+    
+    .categories-filter {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+    
+    .category-btn {
+      padding: 8px 20px;
+      background: #f5f5f5;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    
+    .category-btn:hover, .category-btn.active {
+      background: #8e44ad;
+      color: white;
+    }
+    
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 40px;
+    }
+    
+    .page-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid #ddd;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .page-btn:hover, .page-btn.active {
+      background: #8e44ad;
+      color: white;
+      border-color: #8e44ad;
+    }
+    
+    .subscribe-section {
+      text-align: center;
+      padding: 40px;
+      background: linear-gradient(135deg, #8e44ad, #9b59b6);
+      color: white;
+      border-radius: 10px;
+      margin: 60px auto;
+      max-width: 800px;
+    }
+    
+    .subscribe-section h2 {
+      margin-top: 0;
+      font-size: 2rem;
+    }
+    
+    .subscribe-form {
+      display: flex;
+      max-width: 500px;
+      margin: 20px auto 0;
+    }
+    
+    .subscribe-input {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 50px 0 0 50px;
+      font-size: 1rem;
+    }
+    
+    .subscribe-btn {
+      padding: 0 25px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 0 50px 50px 0;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .subscribe-btn:hover {
+      background: #1a252f;
+    }
+    
+    @media (max-width: 768px) {
+      .page-title {
+        font-size: 2rem;
+      }
+      
+      .announcements-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .subscribe-form {
+        flex-direction: column;
+      }
+      
+      .subscribe-input {
+        border-radius: 50px;
+        margin-bottom: 10px;
+      }
+      
+      .subscribe-btn {
+        border-radius: 50px;
+        padding: 12px;
+      }
+    }
+    
+    /* Dropdown styles */
+    nav ul li {
+      position: relative;
+    }
+    
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      min-width: 200px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      z-index: 1000;
+      padding: 10px 0;
+    }
+    
+    .dropdown-menu li {
+      padding: 0;
+    }
+    
+    .dropdown-menu a {
+      color: #333;
+      padding: 10px 20px;
+      display: block;
+      white-space: nowrap;
+    }
+    
+    .dropdown-menu a:hover {
+      background: #f5f5f5;
+      color: #8e44ad;
+    }
+    
+    .has-dropdown:hover .dropdown-menu {
+      display: block;
+    }
+    
+    .has-dropdown::after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-left: 5px;
+      font-size: 0.8em;
+    }
+    
+    @media (max-width: 768px) {
+      /* Mobile dropdown styles */
+      .has-dropdown::after {
+        display: none;
+      }
+      
+      .dropdown-menu {
+        position: static;
+        display: none;
+        box-shadow: none;
+        padding-left: 20px;
+      }
+      
+      .dropdown-menu.show {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <a href="index.html">
+        <img src="https://i.postimg.cc/Ss5YL5pt/logo.png" alt="VOEZ Logo">
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <!-- <li><a href="index.html">Home</a></li> -->
+        <li><a href="choir-composition.html">Choir composition</a></li>
+        <li><a href="music.html">Music</a></li>
+        <li><a href="activities.html">Activities</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="blog.html" class="active">Announcements</a></li>
+        <li class="has-dropdown">
+          <a href="#">Important Links</a>
+          <ul class="dropdown-menu">
+            <li><a href="https://www.vatican.va/content/vatican/en.html" target="_blank" rel="noopener">Vatican Website</a></li>
+            <li><a href="https://www.zambia-mission.org/" target="_blank" rel="noopener">Zambia Episcopal Conference</a></li>
+            <li><a href="https://www.ccrl.ca/" target="_blank" rel="noopener">Catholic Resources</a></li>
+            <li><a href="liturgical-calendar.html">Liturgical Calendar</a></li>
+            <li><a href="choir-resources.html">Choir Resources</a></li>
+            <li><a href="music-notation.html">Music Notation Guides</a></li>
+          </ul>
+        </li>
+        <li><a href="login.html"><i class="fas fa-sign-in-alt login-icon"></i> Login</a></li>
+      </ul>
+      <div class="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Announcements Content -->
+  <main class="announcements-page">
+    <h1 class="page-title">Latest Announcements</h1>
+    
+    <div class="page-intro">
+      <p>Stay updated with the latest news, events, and important information from Voice of Ecclesia Zambia. Here you'll find announcements about upcoming performances, choir practices, special events, and other important updates.</p>
+    </div>
+    
+    <div class="categories-filter">
+      <button class="category-btn active">All</button>
+      <button class="category-btn">Events</button>
+      <button class="category-btn">Practices</button>
+      <button class="category-btn">Performances</button>
+      <button class="category-btn">Important</button>
+    </div>
+    
+    <div class="announcements-container">
+      <!-- Announcement 1 -->
+      <div class="announcement-card">
+        <img src="https://i.postimg.cc/8z7vZ9Tz/choir-practice.jpg" alt="Choir Practice" class="announcement-image">
+        <div class="announcement-content">
+          <div class="announcement-date">
+            <i class="far fa-calendar-alt"></i> June 15, 2023
+          </div>
+          <h3 class="announcement-title">Special Choir Practice This Sunday</h3>
+          <p class="announcement-excerpt">We're preparing for our upcoming performance at the Cathedral. All members are required to attend this special practice session from 2-5pm.</p>
+          <a href="announcement-detail.html" class="read-more">
+            Read more <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Announcement 2 -->
+      <div class="announcement-card">
+        <img src="https://i.postimg.cc/3xQz5w2K/charity-event.jpg" alt="Charity Event" class="announcement-image">
+        <div class="announcement-content">
+          <div class="announcement-date">
+            <i class="far fa-calendar-alt"></i> June 20, 2023
+          </div>
+          <h3 class="announcement-title">Annual Charity Concert</h3>
+          <p class="announcement-excerpt">Join us for our annual charity concert to raise funds for the Kabwata Orphanage. The event will feature special guests and performances.</p>
+          <a href="announcement-detail.html" class="read-more">
+            Read more <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Announcement 3 -->
+      <div class="announcement-card">
+        <img src="https://i.postimg.cc/8z7vZ9Tz/choir-practice.jpg" alt="New Members" class="announcement-image">
+        <div class="announcement-content">
+          <div class="announcement-date">
+            <i class="far fa-calendar-alt"></i> June 25, 2023
+          </div>
+          <h3 class="announcement-title">Welcome Our New Choir Members</h3>
+          <p class="announcement-excerpt">We're excited to welcome 5 new members to our choir family. Let's make them feel at home in our next practice session.</p>
+          <a href="announcement-detail.html" class="read-more">
+            Read more <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Announcement 4 -->
+      <div class="announcement-card">
+        <img src="https://i.postimg.cc/3xQz5w2K/charity-event.jpg" alt="Liturgical Workshop" class="announcement-image">
+        <div class="announcement-content">
+          <div class="announcement-date">
+            <i class="far fa-calendar-alt"></i> July 1, 2023
+          </div>
+          <h3 class="announcement-title">Liturgical Music Workshop</h3>
+          <p class="announcement-excerpt">Fr. Marko Phiri will be conducting a special workshop on liturgical music traditions. Open to all choir members and interested parishioners.</p>
+          <a href="announcement-detail.html" class="read-more">
+            Read more <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Announcement 5 -->
+      <div class="announcement-card">
+        <img src="https://i.postimg.cc/8z7vZ9Tz/choir-practice.jpg" alt="Album Recording" class="announcement-image">
+        <div class="announcement-content">
+          <div class="announcement-date">
+            <i class="far fa-calendar-alt"></i> July 5, 2023
+          </div>
+          <h3 class="announcement-title">New Album Recording Schedule</h3>
+          <p class="announcement-excerpt">We're beginning recording sessions for our third album. Check the schedule for your section's recording times.</p>
+          <a href="announcement-detail.html" class="read-more">
+            Read more <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Announcement 6 -->
+      <div class="announcement-card">
+        <img src="https://i.postimg.cc/3xQz5w2K/charity-event.jpg" alt="Retreat" class="announcement-image">
+        <div class="announcement-content">
+          <div class="announcement-date">
+            <i class="far fa-calendar-alt"></i> July 10, 2023
+          </div>
+          <h3 class="announcement-title">Annual Choir Retreat</h3>
+          <p class="announcement-excerpt">Save the date for our spiritual retreat at Fringilla Farm. This will be a time for prayer, reflection, and team building.</p>
+          <a href="announcement-detail.html" class="read-more">
+            Read more <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="pagination">
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">4</button>
+      <button class="page-btn">5</button>
+    </div>
+    
+    <div class="subscribe-section">
+      <h2>Never Miss an Announcement</h2>
+      <p>Subscribe to our newsletter to receive important updates directly to your email</p>
+      <form class="subscribe-form">
+        <input type="email" placeholder="Enter your email" class="subscribe-input" required>
+        <button type="submit" class="subscribe-btn">Subscribe</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <!-- Quick Links -->
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="music.html">Music</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="join.html">Join Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      
+      <!-- Social Media Links -->
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <ul class="example-2">
+          <li class="icon-content">
+            <a data-social="whatsapp" aria-label="Whatsapp"
+              href="https://api.whatsapp.com/send?phone=+260963408518&amp;text=Hello%20VOEZ!">
+              <div class="filled"></div>
+              <svg xml:space="preserve" viewBox="0 0 24 24" class="bi bi-whatsapp" fill="currentColor" height="24"
+                width="24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor"
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z">
+                </path>
+              </svg>
+            </a>
+            <div class="tooltip">WhatsApp</div>
+          </li>
+          <li class="icon-content">
+            <a data-social="facebook" aria-label="Facebook" href="https://web.facebook.com/VoE.Zambia">
+              <div class="filled"></div>
+              <svg xml:space="preserve" viewBox="0 0 24 24" class="bi bi-facbook" fill="currentColor" height="24"
+                width="24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor"
+                  d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z">
+                </path>
+              </svg>
+            </a>
+            <div class="tooltip">Facebook</div>
+          </li>
+          <!-- <li class="icon-content">
+            <a
+              data-social="instagram"
+              aria-label="Instagram"
+              href="https://www.instagram.com/"
+            >
+              <div class="filled"></div>
+              <svg
+                xml:space="preserve"
+                viewBox="0 0 16 16"
+                class="bi bi-instagram"
+                fill="currentColor"
+                height="16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill="currentColor"
+                  d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"
+                ></path>
+              </svg>
+            </a>
+            <div class="tooltip">Instagram</div>
+          </li> -->
+
+          <li class="icon-content">
+            <a data-social="youtube" aria-label="YouTube" href="https://www.youtube.com/@Voice_of_Eklesia_Zambia"
+              target="_blank" rel="noopener noreferrer">
+              <div class="filled"></div>
+              <svg xml:space="preserve" viewBox="0 0 24 24" class="bi bi-youtube" fill="currentColor" height="16"
+                width="16" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor"
+                  d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z">
+                </path>
+              </svg>
+            </a>
+            <div class="tooltip">YouTube</div>
+          </li>
+          <li class="icon-content">
+            <a data-social="tiktok" aria-label="TikTok" href="https://www.tiktok.com/@anadalitsika_james"
+              target="_blank" rel="noopener noreferrer">
+              <div class="filled"></div>
+              <svg xml:space="preserve" viewBox="0 0 24 24" class="bi bi-tiktok" fill="currentColor" height="16"
+                width="16" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor"
+                  d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z">
+                </path>
+              </svg>
+            </a>
+            <div class="tooltip">TikTok</div>
+          </li>
+
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <ul>
+          <li><i class="fas fa-envelope"></i> Voe.Zambia@gmail.com</li>
+          <li><i class="fas fa-phone"></i> +260 963408518</li>
+          <li><i class="fas fa-map-marker-alt"></i> Lusaka, Zambia</li>
+        </ul>
+      </div>
+
+      <!-- Legal Links -->
+      <div class="footer-section">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+      <p>&copy; 2023 Voice of Ecclesia Zambia. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Back-to-Top Button -->
+  <button id="back-to-top" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+  <script src="js/main.js"></script>
+  <script src="css/announcement.js"></script></
+</body>
+
+</html>

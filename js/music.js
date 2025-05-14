@@ -16,7 +16,7 @@ function openPaymentModal(type, name, price, id) {
   document.getElementById('mobileNumber').value = "";
   togglePaymentFields();
 
-  document.getElementById('paymentModal').style.display = 'flex';
+  document.getElementById("paymentModal").style.display = "flex";
 }
 
 // Close modal

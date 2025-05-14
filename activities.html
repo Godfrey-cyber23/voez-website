@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activities - Voice of Ecclesia Zambia</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Activities Page Specific Styles */
+        .activities-hero {
+            position: relative;
+            height: 60vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: auto;
+            color: rgb(248, 252, 252);
+            text-transform: uppercase;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .activities-hero img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(3px);
+            z-index: -1;
+        }
+
+        .activities-hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+        }
+
+        .activities-hero-content p {
+            color: #e4c5c5;
+            font-size: 1.2rem;
+            border-radius: 10px;
+        }
+
+        .activities-container {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .activity-section {
+            margin-bottom: 3rem;
+        }
+
+        .activity-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            color: #6e48aa;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .activity-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #6e48aa;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .activity-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .activity-card-content {
+            padding: 1.5rem;
+        }
+
+        .activity-card h3 {
+            margin-top: 0;
+            color: #0d0d0e;
+        }
+
+        .activity-card p {
+            color: #1f2727;
+            margin-bottom: 1.5rem;
+        }
+
+        .activity-meta {
+            display: flex;
+            justify-content: space-between;
+            color:  #6e48aa;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .activity-button {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .activity-button:hover {
+            background-color: #c0392b;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            background-color:  #c0c7dd;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1.5px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 3px solid #c0c7dd;
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 50%;
+        }
+
+        .left::after {
+            right: -10px;
+        }
+
+        .right::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: #c0c7dd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-content h3 {
+            text-transform: uppercase;
+            text-decoration: wavy;
+            font-size: medium;
+            margin-top: 0;
+            color: #080808;
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #2e1714;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            color: white;
+        }
+
+        .footer-bottom p {
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            position: relative;
+        }
+
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .activities-hero {
+                height: 50vh;
+            }
+
+            .activities-hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item::after {
+                left: 21px;
+            }
+
+            .left::after,
+            .right::after {
+                left: 21px;
+            }
+
+            .right {
+                left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .activities-hero {
+                height: 40vh;
+            }
+
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .activities-hero-content h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://i.postimg.cc/Ss5YL5pt/logo.png" alt="VOEZ Logo">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="choir-composition.html">Choir composition</a></li>
+                <li><a href="music.html">Music</a></li>
+                <li><a href="activities.html">Activities</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="announcements.html" class="active">Announcements</a></li>
+                <li class="has-dropdown">
+                    <a href="#">Important Links</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://www.vatican.va/content/vatican/en.html" target="_blank"
+                                rel="noopener">Vatican Website</a></li>
+                        <li><a href="https://www.zambia-mission.org/" target="_blank" rel="noopener">Zambia Episcopal
+                                Conference</a></li>
+                        <li><a href="https://www.ccrl.ca/" target="_blank" rel="noopener">Catholic Resources</a></li>
+                        <li><a href="liturgical-calendar.html">Liturgical Calendar</a></li>
+                        <li><a href="choir-resources.html">Choir Resources</a></li>
+                        <li><a href="music-notation.html">Music Notation Guides</a></li>
+                    </ul>
+                </li>
+                <li><a href="login.html"><i class="fas fa-sign-in-alt login-icon"></i> Login</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Activities Hero Section -->
+    <section class="activities-hero">
+        <img src="images/bg-img-1.jpg" alt="VOEZ Activities">
+        <div class="activities-hero-content">
+            <h1 class="fade-in">Our Activities</h1>
+            <p class="fade-in">Discover the various activities and programs that keep our choir vibrant and engaged
+                throughout the year.</p>
+        </div>
+    </section>
+
+    <!-- Main Activities Content -->
+    <div class="activities-container">
+        <!-- Regular Activities Section -->
+        <section class="activity-section">
+            <h2>Regular Activities</h2>
+            <div class="activity-grid">
+                <!-- Activity 1 -->
+                <div class="activity-card">
+                    <img src="https://th.bing.com/th/id/OIP.j2hHhem0QKQ6r6Rjuzm_OwHaEo?cb=iwc2&rs=1&pid=ImgDetMain" alt="Weekly Rehearsals">
+                    <div class="activity-card-content">
+                        <h3>Weekly Rehearsals</h3>
+                        <div class="activity-meta">
+                            <span><i class="fas fa-calendar-alt"></i> Every Thursday & Sunday</span>
+                            <span><i class="fas fa-clock"></i> 18:00 - 20:00</span>
+                        </div>
+                        <p>Our dedicated choir members gather twice a week to practice hymns, learn new songs, and
+                            perfect our harmonies under the guidance of our choir director.</p>
+                        <a href="#" class="activity-button">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- Activity 2 -->
+                <div class="activity-card">
+                    <img src="https://th.bing.com/th/id/OIP.R_Z0iqs2jvvjhBrPSaqQYQHaHa?w=178&h=180&c=7&r=0&o=5&cb=iwc2&pid=1.7" alt="Spiritual Formation">
+                    <div class="activity-card-content">
+                        <h3>Spiritual Formation</h3>
+                        <div class="activity-meta">
+                            <span><i class="fas fa-calendar-alt"></i> Every 2nd Saturday</span>
+                            <span><i class="fas fa-clock"></i> 10:00 - 12:00</span>
+                        </div>
+                        <p>Monthly sessions focused on deepening our faith through scripture study, prayer, and
+                            discussions about the spiritual dimension of our musical ministry.</p>
+                        <a href="#" class="activity-button">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- Activity 3 -->
+                <div class="activity-card">
+                    <img src="https://th.bing.com/th/id/OIP.SFRPToVSUKNCSJSmEo_54gHaEK?cb=iwc2&rs=1&pid=ImgDetMain" alt="Voice Training">
+                    <div class="activity-card-content">
+                        <h3>Voice Training Workshops</h3>
+                        <div class="activity-meta">
+                            <span><i class="fas fa-calendar-alt"></i> Monthly</span>
+                            <span><i class="fas fa-clock"></i> 09:00 - 13:00</span>
+                        </div>
+                        <p>Professional voice coaches conduct workshops to help members improve their vocal techniques,
+                            breathing exercises, and overall musical performance.</p>
+                        <a href="#" class="activity-button">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Special Programs Section -->
+        <section class="activity-section">
+            <h2>Special Programs</h2>
+            <div class="activity-grid">
+                <!-- Program 1 -->
+                <div class="activity-card">
+                    <img src="https://th.bing.com/th/id/OIP.MGnsTtoIpZRrAPkJM6INMQHaDk?cb=iwc2&rs=1&pid=ImgDetMain" alt="Community Outreach">
+                    <div class="activity-card-content">
+                        <h3>Community Outreach</h3>
+                        <div class="activity-meta">
+                            <span><i class="fas fa-calendar-alt"></i> Quarterly</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Various Locations</span>
+                        </div>
+                        <p>We visit orphanages, hospitals, and prisons to share our music and bring hope to those in
+                            need through our ministry of song and fellowship.</p>
+                        <a href="#" class="activity-button">View Gallery</a>
+                    </div>
+                </div>
+
+                <!-- Program 2 -->
+                <div class="activity-card">
+                    <img src="https://th.bing.com/th/id/OIP.dUlRurHCl6lOFyDR1GXLtQHaF5?cb=iwc2&pid=ImgDet&w=182&h=144&c=7" alt="Annual Retreat">
+                    <div class="activity-card-content">
+                        <h3>Annual Retreat</h3>
+                        <div class="activity-meta">
+                            <span><i class="fas fa-calendar-alt"></i> August</span>
+                            <span><i class="fas fa-clock"></i> Weekend Event</span>
+                        </div>
+                        <p>A spiritual getaway combining prayer, reflection, team-building activities, and intensive
+                            music preparation for the coming liturgical year.</p>
+                        <a href="#" class="activity-button">See Details</a>
+                    </div>
+                </div>
+
+                <!-- Program 3 -->
+                <div class="activity-card">
+                    <img src="https://th.bing.com/th/id/OIP.6m04XEe3qTXaS7zNNBoHogHaFj?cb=iwc2&rs=1&pid=ImgDetMain" alt="Recording Sessions">
+                    <div class="activity-card-content">
+                        <h3>Recording Sessions</h3>
+                        <div class="activity-meta">
+                            <span><i class="fas fa-calendar-alt"></i> Biannually</span>
+                            <span><i class="fas fa-microphone"></i> Studio</span>
+                        </div>
+                        <p>Professional recording of our music to share with the wider community through albums, online
+                            platforms, and radio broadcasts.</p>
+                        <a href="music.html" class="activity-button">Listen Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Annual Timeline Section -->
+        <section class="activity-section">
+            <h2>Annual Timeline</h2>
+            <div class="timeline">
+                <!-- January -->
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">January</div>
+                        <h3>New Year Concert</h3>
+                        <p>Kickoff the year with our annual concert featuring special guests and new musical
+                            arrangements.</p>
+                    </div>
+                </div>
+
+                <!-- March -->
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">March</div>
+                        <h3>Lenten Program</h3>
+                        <p>Special performances and reflections during the Lenten season leading up to Easter.</p>
+                    </div>
+                </div>
+
+                <!-- May -->
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">May</div>
+                        <h3>Marian Month Celebrations</h3>
+                        <p>Special devotionals and performances honoring the Blessed Virgin Mary throughout May.</p>
+                    </div>
+                </div>
+
+                <!-- August -->
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">August</div>
+                        <h3>Annual Retreat</h3>
+                        <p>Spiritual and musical renewal weekend for all choir members.</p>
+                    </div>
+                </div>
+
+                <!-- October -->
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">October</div>
+                        <h3>Mission Month Outreach</h3>
+                        <p>Special performances and visits to mission stations and rural communities.</p>
+                    </div>
+                </div>
+
+                <!-- December -->
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">December</div>
+                        <h3>Christmas Concerts</h3>
+                        <p>Series of performances celebrating the birth of Christ throughout Lusaka.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Get Involved Section -->
+        <section class="activity-section">
+            <h2>Get Involved</h2>
+            <div class="activity-grid">
+                <!-- Join Choir -->
+                <div class="activity-card">
+                    <img src="https://th.bing.com/th/id/OIP.eMJWzIbDkNZZiegu0gLR0wHaEo?cb=iwc2&rs=1&pid=ImgDetMain" alt="Join the Choir">
+                    <div class="activity-card-content">
+                        <h3>Join the Choir</h3>
+                        <p>We welcome new members who share our passion for music and faith. No prior experience
+                            necessary - just a willing heart!</p>
+                        <a href="join.html" class="activity-button">Apply Now</a>
+                    </div>
+                </div>
+
+                <!-- Volunteer -->
+                <div class="activity-card">
+                    <img src="https://th.bing.com/th/id/OIP.OaEq6kNOYHBR2xvG0yzwtQHaFT?cb=iwc2&rs=1&pid=ImgDetMain" alt="Volunteer Opportunities">
+                    <div class="activity-card-content">
+                        <h3>Volunteer Opportunities</h3>
+                        <p>Support our mission through various volunteer roles - from event coordination to technical
+                            support.</p>
+                        <a href="contact.html" class="activity-button">Contact Us</a>
+                    </div>
+                </div>
+
+                <!-- Support -->
+                <div class="activity-card">
+                    <img src="https://th.bing.com/th/id/OIP.lD41XMwi7f2N5BLwgeZJ_QHaHa?w=163&h=180&c=7&r=0&o=5&cb=iwc2&pid=1.7" alt="Support Our Work">
+                    <div class="activity-card-content">
+                        <h3>Support Our Work</h3>
+                        <p>Your donations help us continue our musical ministry and outreach programs in the community.
+                        </p>
+                        <a href="donate.html" class="activity-button">Donate Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="music.html">Music</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="join.html">Join Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <!-- Social Media Links -->
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <ul class="example-2">
+                    <li class="icon-content">
+                        <a data-social="whatsapp" aria-label="Whatsapp"
+                            href="https://api.whatsapp.com/send?phone=+260963408518&amp;text=Hello%20VOEZ!">
+                            <div class="filled"></div>
+                            <svg xml:space="preserve" viewBox="0 0 24 24" class="bi bi-whatsapp" fill="currentColor"
+                                height="24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="currentColor"
+                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z">
+                                </path>
+                            </svg>
+                        </a>
+                        <div class="tooltip">WhatsApp</div>
+                    </li>
+                    <li class="icon-content">
+                        <a data-social="facebook" aria-label="Facebook" href="https://web.facebook.com/VoE.Zambia">
+                            <div class="filled"></div>
+                            <svg xml:space="preserve" viewBox="0 0 24 24" class="bi bi-facbook" fill="currentColor"
+                                height="24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="currentColor"
+                                    d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z">
+                                </path>
+                            </svg>
+                        </a>
+                        <div class="tooltip">Facebook</div>
+                    </li>
+                    <!-- <li class="icon-content">
+            <a
+              data-social="instagram"
+              aria-label="Instagram"
+              href="https://www.instagram.com/"
+            >
+              <div class="filled"></div>
+              <svg
+                xml:space="preserve"
+                viewBox="0 0 16 16"
+                class="bi bi-instagram"
+                fill="currentColor"
+                height="16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill="currentColor"
+                  d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"
+                ></path>
+              </svg>
+            </a>
+            <div class="tooltip">Instagram</div>
+          </li> -->
+
+                    <li class="icon-content">
+                        <a data-social="youtube" aria-label="YouTube"
+                            href="https://www.youtube.com/@Voice_of_Eklesia_Zambia" target="_blank"
+                            rel="noopener noreferrer">
+                            <div class="filled"></div>
+                            <svg xml:space="preserve" viewBox="0 0 24 24" class="bi bi-youtube" fill="currentColor"
+                                height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="currentColor"
+                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z">
+                                </path>
+                            </svg>
+                        </a>
+                        <div class="tooltip">YouTube</div>
+                    </li>
+                    <li class="icon-content">
+                        <a data-social="tiktok" aria-label="TikTok" href="https://www.tiktok.com/@anadalitsika_james"
+                            target="_blank" rel="noopener noreferrer">
+                            <div class="filled"></div>
+                            <svg xml:space="preserve" viewBox="0 0 24 24" class="bi bi-tiktok" fill="currentColor"
+                                height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="currentColor"
+                                    d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z">
+                                </path>
+                            </svg>
+                        </a>
+                        <div class="tooltip">TikTok</div>
+                    </li>
+
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> Voe.Zambia@gmail.com</li>
+                    <li><i class="fas fa-phone"></i> +260 963408518</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Lusaka, Zambia</li>
+                </ul>
+            </div>
+
+            <!-- Legal Links -->
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="footer-bottom">
+            <p>&copy; 2023 Voice of Ecclesia Zambia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Back-to-Top Button -->
+    <button id="back-to-top" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -270,6 +270,97 @@
   pointer-events: auto;
 }
 
+/* Hamburger Menu */
+/* Hamburger button - base styles */
+.hamburger {
+  display: none; /* Hidden by default on desktop */
+  font-size: 2rem;
+  cursor: pointer;
+  color: #9061ff;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  margin-left: 15px; /* Added space between last nav item and hamburger */
+  transition: transform 0.3s ease, color 0.3s ease;
+  z-index: 1001; /* Ensure it stays above other elements */
+}
+
+/* Hover state */
+.hamburger:hover {
+  color: #4b10aa;
+  transform: scale(1.1);
+}
+
+/* Icon toggle states */
+.hamburger .fa-times { display: none; }
+.hamburger.is-active .fa-bars { display: none; }
+.hamburger.is-active .fa-times { display: block; }
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  /* Show hamburger on mobile */
+  .hamburger {
+    display: block;
+    font-size: 24px;
+    padding: 5px 10px;
+  }
+
+  /* Navigation list - hidden by default */
+  nav ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 200px; /* Fixed width for dropdown */
+    background-color: white;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+    border-radius: 5px;
+    margin-top: 5px; /* Small gap below header */
+  }
+
+  /* Active state for mobile menu */
+  nav ul.active {
+    display: flex;
+  }
+
+  /* Menu items */
+  nav ul li {
+    width: 100%;
+    text-align: left;
+    margin: 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  nav ul li:last-child {
+    border-bottom: none;
+  }
+
+  nav ul li a {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  nav ul li a:hover {
+    background-color: #f8f8f8;
+    color: #2c3e50;
+  }
+
+  /* Active state for hamburger icon */
+  .hamburger.active .fa-bars {
+    display: none;
+  }
+  
+  .hamburger.active .fa-times {
+    display: block;
+  }
+}
 
 /* Back to Top Button */
 #back-to-top {
@@ -401,6 +492,7 @@
     right: 30px;
   }
 }
+
 
 /* About Section - Background & Spacing */
 

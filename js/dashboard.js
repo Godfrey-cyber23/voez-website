@@ -404,6 +404,68 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  document.addEventListener('DOMContentLoaded', function() {
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('nav ul');
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay';
+  document.body.appendChild(overlay);
+
+  // Toggle menu function
+  function toggleMenu() {
+    navLinks.classList.toggle('active');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+    
+    // Change hamburger icon
+    const icon = hamburger.querySelector('i');
+    if (navLinks.classList.contains('active')) {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-times');
+    } else {
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    }
+  }
+
+  // Close menu function
+  function closeMenu() {
+    navLinks.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    // Reset hamburger icon
+    const icon = hamburger.querySelector('i');
+    icon.classList.remove('fa-times');
+    icon.classList.add('fa-bars');
+  }
+
+  // Hamburger click event
+  hamburger.addEventListener('click', function(e) {
+    e.stopPropagation(); // Prevent event from bubbling to document
+    toggleMenu();
+  });
+
+  // Close when clicking anywhere outside the menu
+  document.addEventListener('click', function(e) {
+    if (navLinks.classList.contains('active') && 
+        !navLinks.contains(e.target) && 
+        e.target !== hamburger) {
+      closeMenu();
+    }
+  });
+
+  // Close when clicking on nav links
+  document.querySelectorAll('nav ul li a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      // Only close if it's not an anchor link
+      if (!link.getAttribute('href').startsWith('#')) {
+        closeMenu();
+      }
+    });
+  });
+});
+
 
   // profile info section 
   window.onload = function () {
@@ -483,22 +545,22 @@ document.addEventListener('DOMContentLoaded', function() {
     alert('Profile updated successfully!');
   }
 
-//   // STAY UPDATED SECTION
+  // STAY UPDATED SECTION
 
-// document.getElementById('newsletter-email').setAttribute('placeholder', ' ');
+document.getElementById('newsletter-email').setAttribute('placeholder', ' ');
 
-// // Form submission handling
-// document.getElementById('newsletter-form').addEventListener('submit', function(e) {
-//   e.preventDefault();
-//   const form = this;
+// Form submission handling
+document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = this;
   
-//   // Simulate successful submission (replace with actual submission code)
-//   form.classList.add('success');
-//   setTimeout(() => form.classList.remove('success'), 500);
+  // Simulate successful submission (replace with actual submission code)
+  form.classList.add('success');
+  setTimeout(() => form.classList.remove('success'), 500);
   
-//   // Clear form
-//   form.reset();
+  // Clear form
+  form.reset();
   
-//   // Show success message
-//   alert('Thank you for subscribing!');
-// });
+  // Show success message
+  alert('Thank you for subscribing!');
+});

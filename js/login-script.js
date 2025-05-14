@@ -231,7 +231,7 @@ function storeUserSession(user, userData, isAdmin = false) {
 }
 
 function redirectUser(isAdmin) {
-  window.location.href = isAdmin ? 'admin-dashboard.html' : 'user-dashboard.html';
+  window.location.href = isAdmin ? 'admins-dashboard.html' : 'user-dashboard.html';
 }
 
 function showUserError(message) {
