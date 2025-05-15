@@ -7,31 +7,44 @@
   <title>Join Us - VOEZ</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="css/join-us.css">
+  <link rel="stylesheet" href="css/universal-style.css">
+  <link rel="stylesheet" href="css/choir-composition.css">
 <script type="module" src="js/join-us.js"></script>
 </head>
 
 <body>
   <header>
-    <div class="logo">
-      <a href="index.html">
-        <img src="https://i.postimg.cc/Ss5YL5pt/logo.png" alt="VOEZ Logo">
-      </a>
+  <div class="logo">
+    <a href="index.html">
+      <img src="https://i.postimg.cc/Ss5YL5pt/logo.png" alt="VOEZ Logo">
+    </a>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="choir-composition.html"><i class="fas fa-users"></i> Choir Composition</a></li>
+      <li><a href="music.html"><i class="fas fa-music"></i> Music</a></li>
+      <li><a href="activities.html"><i class="fas fa-running"></i> Activities</a></li>
+      <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+      <li><a href="announcements.html" class="active"><i class="fas fa-bullhorn"></i> Announcements</a></li>
+      <li class="has-dropdown">
+        <a href="#"><i class="fas fa-link"></i> Important Links</a>
+        <ul class="dropdown-menu">
+          <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+          <li><a href="https://www.vatican.va/content/vatican/en.html" target="_blank" rel="noopener"><i class="fas fa-globe"></i> Vatican Website</a></li>
+          <li><a href="https://www.zambia-mission.org/" target="_blank" rel="noopener"><i class="fas fa-globe-africa"></i> Zambia Episcopal Conference</a></li>
+          <li><a href="liturgical-calendar.html"><i class="fas fa-calendar-day"></i> Liturgical Calendar</a></li>
+          <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+          <li><a href="join.html" target="_blank" rel="noopener"><i class="fas fa-user-plus"></i> Join Us</a></li>
+          <li><a href="login.html" class="admin-link"><i class="fas fa-lock"></i> Admin</a></li>
+        </ul>
+      </li>
+      <li><a href="login.html"><i class="fas fa-sign-in-alt login-icon"></i> Login</a></li>
+    </ul>
+    <div class="hamburger">
+      <i class="fas fa-bars"></i>
     </div>
-    <nav>
-      <ul>
-        <li><a href="join.html" class="active">Join Us</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li>
-          <a href="login.html">
-            <i class="fas fa-sign-in-alt login-icon"></i>Login
-          </a>
-        </li>
-      </ul>
-      <div class="hamburger">
-        <i class="fas fa-bars"></i>
-      </div>
-    </nav>
-  </header>
+  </nav>
+</header>
 
   <main class="join-form-container">
     <h1>Join Voice of Ecclesia Zambia</h1>
