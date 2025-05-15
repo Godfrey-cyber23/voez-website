@@ -109,127 +109,6 @@
             color: #555;
         }
 
-        .voice-sections {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .voice-section {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            width: 100%;
-            max-width: 350px;
-            transition: transform 0.3s ease;
-        }
-
-        .voice-section:hover {
-            transform: translateY(-10px);
-        }
-
-        .voice-header {
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
-
-        .soprano {
-            background: #e74c3c;
-        }
-
-        .alto {
-            background: #3498db;
-        }
-
-        .tenor {
-            background: #2ecc71;
-        }
-
-        .bass {
-            background: #f39c12;
-        }
-
-        .voice-title {
-            margin: 0;
-            font-size: 1.8rem;
-        }
-
-        .voice-description {
-            padding: 20px;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .voice-members {
-            padding: 0 20px 20px;
-        }
-
-        .member-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .member-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .member-list li:last-child {
-            border-bottom: none;
-        }
-
-        .member-role {
-            font-weight: 600;
-            color: #555;
-        }
-
-        .choir-structure {
-            background: #f9f9f9;
-            width: 100%;
-            max-width: 100vw;
-            padding: 30px 20px;
-            border-radius: 10px;
-            box-sizing: border-box;
-            margin-bottom: 60px;
-        }
-
-        .structure-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .structure-card {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-        }
-
-        .structure-card h3 {
-            color: #8e44ad;
-            text-align: center;
-            margin-top: 0;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .structure-card ul {
-            padding-left: 20px;
-        }
-
-        .structure-card li {
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-
         .join-section {
             text-align: center;
             padding: 40px 20px;
@@ -281,16 +160,6 @@
                 position: relative;
             }
 
-
-            .voice-sections {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .structure-grid {
-                grid-template-columns: 1fr;
-            }
-
             /* Mobile dropdown styles */
             .has-dropdown::after {
                 display: none;
@@ -307,47 +176,121 @@
                 display: block;
             }
         }
+
+        /* Roles & Responsibilities Section */
+#roles {
+  padding: 60px 20px;
+  background: var(--light-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: 60px;
+}
+
+#roles .choir-section-title {
+  font-size: 2rem;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+#roles .roles-list {
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+  color: var(--light-text);
+}
+
+#roles .roles-list h3 {
+  font-size: 1.4rem;
+  color: var(--secondary-color);
+  margin-top: 30px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+#roles .roles-list p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+#roles .roles-list ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+#roles .roles-list ul li {
+  position: relative;
+  padding-left: 1.6em;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+#roles .roles-list ul li::before {
+  content: '∞';
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  #roles {
+    padding: 40px 15px;
+  }
+  #roles .choir-section-title {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+  #roles .roles-list h3 {
+    font-size: 1.2rem;
+    margin-top: 20px;
+  }
+  #roles .roles-list p,
+  #roles .roles-list ul li {
+    font-size: 0.95rem;
+  }
+}
+
     </style>
 </head>
 
 <body>
     <!-- Header -->
     <header>
-        <div class="logo">
-            <a href="index.html">
-                <img src="https://i.postimg.cc/Ss5YL5pt/logo.png" alt="VOEZ Logo">
-            </a>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="choir-composition.html" class="active">Choir composition</a></li>
-                <li><a href="music.html">Music</a></li>
-                <li><a href="activities.html">Activities</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="announcements.html">Announcements</a></li>
-                <li class="has-dropdown">
-                    <a href="#">Important Links</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="https://www.vatican.va/content/vatican/en.html" target="_blank"
-                                rel="noopener">Vatican Website</a>
-                        </li>
-                        <li><a href="https://www.zambia-mission.org/" target="_blank" rel="noopener">Zambia Episcopal
-                                Conference</a>
-                        </li>
-                        <li><a href="https://www.ccrl.ca/" target="_blank" rel="noopener">Catholic Resources</a></li>
-                        <li><a href="liturgical-calendar.html">Liturgical Calendar</a></li>
-                        <li><a href="choir-resources.html">Choir Resources</a></li>
-                        <li><a href="music-notation.html">Music Notation Guides</a></li>
-                    </ul>
-                </li>
-                <li><a href="login.html"><i class="fas fa-sign-in-alt login-icon"></i> Login</a></li>
-            </ul>
-            <div class="hamburger">
-                <i class="fas fa-bars"></i>
-            </div>
-        </nav>
-    </header>
+    <div class="logo">
+      <a href="index.html">
+        <img src="https://i.postimg.cc/Ss5YL5pt/logo.png" alt="VOEZ Logo">
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="choir-composition.html">Choir composition</a></li>
+        <li><a href="music.html">Music</a></li>
+        <li><a href="activities.html">Activities</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="announcements.html" class="active">Announcements</a></li>
+        <li class="has-dropdown">
+          <a href="#">Important Links</a>
+          <ul class="dropdown-menu">
+            <li><a href="https://www.vatican.va/content/vatican/en.html" target="_blank" rel="noopener">Vatican Website</a></li>
+            <li><a href="https://www.zambia-mission.org/" target="_blank" rel="noopener">Zambia Episcopal Conference</a></li>
+            <li><a href="https://www.ccrl.ca/" target="_blank" rel="noopener">Catholic Resources</a></li>
+            <li><a href="liturgical-calendar.html">Liturgical Calendar</a></li>
+            <li><a href="choir-resources.html">Choir Resources</a></li>
+            <li><a href="music-notation.html">Music Notation Guides</a></li>
+          </ul>
+        </li>
+        <li><a href="login.html"><i class="fas fa-sign-in-alt login-icon"></i> Login</a></li>
+      </ul>
+      <div class="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+  </header>
+
 
     <!-- Choir Composition Content -->
     <main class="choir-composition">
@@ -360,150 +303,53 @@
             <p>Below you'll find information about our voice sections, their members, and the organizational structure
                 that keeps our choir running smoothly.</p>
         </div>
+        <section id="roles" class="choir-section">
+            <h2 class="choir-section-title">Roles & Responsibilities</h2>
+            <div class="roles-list">
+                <h3>Sponsoring Bodies</h3>
+                <p>ZCCB | ADL | NMCS</p>
 
-        <h2 class="choir-section-title">Voice Sections</h2>
+                <h3>Chief Administrator</h3>
+                <p><strong>James Nkhoswe</strong><br>
+                    Preside over any matter not resolved by other parties, committees or directors.</p>
 
-        <div class="voice-sections">
-            <!-- Soprano Section -->
-            <div class="voice-section">
-                <div class="voice-header soprano">
-                    <h3 class="voice-title">Soprano</h3>
-                </div>
-                <div class="voice-description">
-                    <p>The soprano section carries the melody with their higher vocal range. Our sopranos bring
-                        brightness and clarity to our musical pieces.</p>
-                </div>
-                <div class="voice-members">
-                    <h4>Section Members</h4>
-                    <ul class="member-list">
-                        <li><span class="member-name">Mary Chisanga</span> <span class="member-role">Section
-                                Leader</span></li>
-                        <li><span class="member-name">Grace Mwila</span></li>
-                        <li><span class="member-name">Agness Banda</span></li>
-                        <li><span class="member-name">Beatrice Phiri</span></li>
-                        <li><span class="member-name">Ruth Mwale</span></li>
-                    </ul>
-                </div>
+                <h3>Directors</h3>
+                <ul>
+                    <li><strong>Music Director:</strong> Veronica Chilopa<br>
+                        Appoint conductors ▪ approve lyrics & composed tunes ▪ perform liturgical duties</li>
+                    <li><strong>Programs Director:</strong> Tamara Tembo<br>
+                        Approve programs ▪ sign all letters drafted by administrators/committees</li>
+                </ul>
+
+                <h3>Instrumentalists</h3>
+                <p>Sydney Chisanga, Lameck Nkhoma, Felix Bwalya, Joseph Banda, Benedict Bwalya, Daniel Chirwa</p>
+
+                <h3>Sub-Group Administrators</h3>
+                <ul>
+                    <li>Michael Soko &amp; Mary Zimba</li>
+                    <li>Benedict Bwalya &amp; Sharon Banda</li>
+                    <li>Hilda Mwaba &amp; Ronald Mwiinga</li>
+                    <li>Dominic Chansa &amp; Chipo Chama</li>
+                    <li>Mary Thandose &amp; Martin Lungu</li>
+                    <li>Pius Mpundu &amp; Castoms Katongo</li>
+                    <li>Chisanga Lyoba &amp; Alfred Mwale</li>
+                </ul>
+
+                <h3>Committees</h3>
+                <ul>
+                    <li><strong>Visitation Committee</strong>: Organize visitations to parishes, sick members, weddings
+                        & funerals.</li>
+                    <li><strong>Bible Study Committee</strong>: Prepare readings in advance & summarize afterwards.</li>
+                    <li><strong>Uniforms Committee</strong>: Propose, approve & procure choir attire; ensure correct
+                        dress for every activity.</li>
+                    <li><strong>Media &amp; Radio/TV Shows Committee</strong>:
+                        Schedule choir appearances (min. once every 3 months), approve scripts, guide newcomers, and
+                        produce high-quality social-media content.
+                    </li>
+                </ul>
             </div>
+        </section>
 
-            <!-- Alto Section -->
-            <div class="voice-section">
-                <div class="voice-header alto">
-                    <h3 class="voice-title">Alto</h3>
-                </div>
-                <div class="voice-description">
-                    <p>The alto section provides rich harmonies with their lower female voices. They add depth and
-                        warmth to our choral sound.</p>
-                </div>
-                <div class="voice-members">
-                    <h4>Section Members</h4>
-                    <ul class="member-list">
-                        <li><span class="member-name">Esther Lungu</span> <span class="member-role">Section
-                                Leader</span></li>
-                        <li><span class="member-name">Miriam Kabwe</span></li>
-                        <li><span class="member-name">Sarah Mwansa</span></li>
-                        <li><span class="member-name">Deborah Ngoma</span></li>
-                        <li><span class="member-name">Hannah Mwanza</span></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Tenor Section -->
-            <div class="voice-section">
-                <div class="voice-header tenor">
-                    <h3 class="voice-title">Tenor</h3>
-                </div>
-                <div class="voice-description">
-                    <p>Our tenors bring the higher male voices that often carry the melody in harmony with the sopranos,
-                        creating beautiful musical blends.</p>
-                </div>
-                <div class="voice-members">
-                    <h4>Section Members</h4>
-                    <ul class="member-list">
-                        <li><span class="member-name">John Mwamba</span> <span class="member-role">Section Leader</span>
-                        </li>
-                        <li><span class="member-name">Peter Chanda</span></li>
-                        <li><span class="member-name">David Sichone</span></li>
-                        <li><span class="member-name">Joseph Mwape</span></li>
-                        <li><span class="member-name">Andrew Mulenga</span></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Bass Section -->
-            <div class="voice-section">
-                <div class="voice-header bass">
-                    <h3 class="voice-title">Bass</h3>
-                </div>
-                <div class="voice-description">
-                    <p>The bass section provides the foundation of our choral sound with their deep, resonant tones that
-                        support all other voices.</p>
-                </div>
-                <div class="voice-members">
-                    <h4>Section Members</h4>
-                    <ul class="member-list">
-                        <li><span class="member-name">James Zulu</span> <span class="member-role">Section Leader</span>
-                        </li>
-                        <li><span class="member-name">Michael Bwalya</span></li>
-                        <li><span class="member-name">Daniel Mwila</span></li>
-                        <li><span class="member-name">Simon Kapata</span></li>
-                        <li><span class="member-name">Patrick Mwenda</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="choir-structure">
-            <h2 class="choir-section-title">Choir Leadership & Structure</h2>
-            <p style="text-align: center; margin-bottom: 30px;">Our choir operates under a structured leadership system
-                that ensures smooth operations and musical excellence.</p>
-
-            <div class="structure-grid">
-                <div class="structure-card">
-                    <h3>Executive Committee</h3>
-                    <ul>
-                        <li><strong>Choir Director:</strong> Fr. Charles Chilufya</li>
-                        <li><strong>Assistant Director:</strong> Sr. Mary Mwale</li>
-                        <li><strong>Choir President:</strong> Emmanuel Banda</li>
-                        <li><strong>Vice President:</strong> Theresa Mwape</li>
-                        <li><strong>Secretary:</strong> Agnes Ngoma</li>
-                        <li><strong>Treasurer:</strong> Paul Sichone</li>
-                    </ul>
-                </div>
-
-                <div class="structure-card">
-                    <h3>Music Team</h3>
-                    <ul>
-                        <li><strong>Music Director:</strong> David Mwila</li>
-                        <li><strong>Assistant Music Director:</strong> Ruth Chisenga</li>
-                        <li><strong>Choir Trainer:</strong> Dr. Sarah Mwanza</li>
-                        <li><strong>Accompanist:</strong> Mark Tembo</li>
-                        <li><strong>Repertoire Coordinator:</strong> Judith Kabwe</li>
-                    </ul>
-                </div>
-
-                <div class="structure-card">
-                    <h3>Section Leaders</h3>
-                    <ul>
-                        <li><strong>Soprano Leader:</strong> Mary Chisanga</li>
-                        <li><strong>Alto Leader:</strong> Esther Lungu</li>
-                        <li><strong>Tenor Leader:</strong> John Mwamba</li>
-                        <li><strong>Bass Leader:</strong> James Zulu</li>
-                    </ul>
-                </div>
-
-                <div class="structure-card">
-                    <h3>Support Teams</h3>
-                    <ul>
-                        <li><strong>Liturgy Team:</strong> Leads worship integration</li>
-                        <li><strong>Events Team:</strong> Organizes performances</li>
-                        <li><strong>Media Team:</strong> Handles recordings</li>
-                        <li><strong>Hospitality Team:</strong> Welcomes new members</li>
-                        <li><strong>Prayer Team:</strong> Spiritual support</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
 
         <div class="join-section">
             <h2>Interested in Joining Our Choir?</h2>

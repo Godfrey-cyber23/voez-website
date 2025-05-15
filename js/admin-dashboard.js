@@ -1,12 +1,38 @@
+
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc,deleteDoc,getDoc, setDoc, getDocs, query, where, orderBy, updateDoc, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import Chart from 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/+esm';
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+
+// Initialize Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyBpPeaZRJvlOR-UDDrREE0Y-1osmyPP6yo",
+    authDomain: "voice-of-ecclezia-zambia.firebaseapp.com",
+    projectId: "voice-of-ecclezia-zambia",
+    storageBucket: "voice-of-ecclezia-zambia.appspot.com",
+    messagingSenderId: "865692602825",
+    appId: "1:865692602825:web:96dddc980456517dd39818",
+    measurementId: "G-2EJ2NDH2V4"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const auth = getAuth(app);
+
 // Global variables
 let currentUser = null;
 let currentSection = 'dashboard';
-let songs = [];
-let categories = [];
-let payments = [];
-let users = [];
 let currentPage = 1;
 const itemsPerPage = 10;
+
+let currentEditingSongId = null;
+let currentEditingCategoryId = null;
 
 // DOM Elements
 const sidebar = document.getElementById('sidebar');
@@ -16,608 +42,807 @@ const sectionContents = document.querySelectorAll('.section-content');
 const sidebarLinks = document.querySelectorAll('.sidebar-menu li a');
 const logoutBtn = document.getElementById('logout');
 
+
 // Initialize the dashboard
 document.addEventListener('DOMContentLoaded', function () {
-    // Check if user is logged in
-    checkAuth();
-
-    // Load initial data
-    loadDashboardData();
-    loadSongs();
-    loadCategories();
-    loadPayments();
-    loadUsers();
-
-    // Set up event listeners
-    setupEventListeners();
+    // Check authentication
+    onAuthStateChanged(auth, (user) => {
+        if (!user) window.location.href = 'login.html';
+        else {
+            currentUser = user;
+            loadDashboardData();
+            loadSongs();
+            loadCategories(); // Add this to load categories on startup
+            setupEventListeners(); // Call this after DOM is loaded
+        }
+    });
 });
 
-// Check authentication
-function checkAuth() {
-    // In a real app, you would check with your backend
-    const token = localStorage.getItem('admin_token');
-    if (!token) {
-        window.location.href = 'login.html';
-    } else {
-        // Simulate getting user data
-        currentUser = {
-            id: 1,
-            name: 'Admin User',
-            email: 'admin@voez.com',
-            role: 'admin'
-        };
+
+
+loadCategories();
+// Load dashboard data
+async function loadDashboardData() {
+    try {
+        // Total songs count
+        const songsSnapshot = await getDocs(collection(db, 'songs'));
+        document.getElementById('total-songs').textContent = songsSnapshot.size;
+
+        // Premium songs count
+        const premiumQuery = query(collection(db, 'songs'), where('price', '>', 0));
+        const premiumSnapshot = await getDocs(premiumQuery);
+        document.getElementById('premium-songs').textContent = premiumSnapshot.size;
+
+        // Total revenue (placeholder)
+        document.getElementById('total-revenue').textContent = '$0.00';
+
+        // Recent songs
+        const recentQuery = query(collection(db, 'songs'), orderBy('createdAt', 'desc'), limit(3));
+        const recentSnapshot = await getDocs(recentQuery);
+
+        let html = '';
+        recentSnapshot.forEach(doc => {
+            const song = doc.data();
+            html += `
+              <tr>
+                  <td>${song.title}</td>
+                  <td>${song.category || 'Uncategorized'}</td>
+                  <td><span class="status-badge ${song.published ? 'status-published' : 'status-draft'}">${song.published ? 'Published' : 'Draft'}</span></td>
+              </tr>
+          `;
+        });
+        document.getElementById('recent-songs').innerHTML = html;
+
+        // Recent payments (placeholder)
+        document.getElementById('recent-payments').innerHTML = `
+            <tr>
+                <td colspan="3" class="text-center">Payment tracking not implemented</td>
+            </tr>
+        `;
+
+        initCharts();
+    } catch (error) {
+        console.error("Error loading dashboard data:", error);
     }
 }
 
-// Load dashboard data
-function loadDashboardData() {
-    // Simulate API calls
-    setTimeout(() => {
-        document.getElementById('total-songs').textContent = '142';
-        document.getElementById('premium-songs').textContent = '89';
-        document.getElementById('total-revenue').textContent = '$1,245.50';
 
-        // Recent songs
-        const recentSongsHtml = `
-                    <tr>
-                        <td>Amazing Grace</td>
-                        <td>General Worship</td>
-                        <td><span class="status-badge status-published">Published</span></td>
-                    </tr>
-                    <tr>
-                        <td>O Holy Night</td>
-                        <td>Christmas</td>
-                        <td><span class="status-badge status-published">Published</span></td>
-                    </tr>
-                    <tr>
-                        <td>Kyrie Eleison</td>
-                        <td>Kyrie & Gloria</td>
-                        <td><span class="status-badge status-draft">Draft</span></td>
-                    </tr>
-                `;
-        document.getElementById('recent-songs').innerHTML = recentSongsHtml;
+// Load songs from Firebase
+async function loadSongs() {
+    const songsTableBody = document.getElementById('songs-table-body');
+    songsTableBody.innerHTML = '<tr><td colspan="7">Loading...</td></tr>';
 
-        // Recent payments
-        const recentPaymentsHtml = `
-                    <tr>
-                        <td>How Great Thou Art</td>
-                        <td>$2.99</td>
-                        <td>Today, 10:45 AM</td>
-                    </tr>
-                    <tr>
-                        <td>One Bread One Body</td>
-                        <td>$2.99</td>
-                        <td>Yesterday, 3:22 PM</td>
-                    </tr>
-                    <tr>
-                        <td>Gloria in Excelsis Deo</td>
-                        <td>$2.99</td>
-                        <td>Yesterday, 9:15 AM</td>
-                    </tr>
-                `;
-        document.getElementById('recent-payments').innerHTML = recentPaymentsHtml;
-    }, 500);
+    try {
+        const q = query(collection(db, "songs"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        songsTableBody.innerHTML = '';
+        querySnapshot.forEach((doc) => {
+            const song = doc.data();
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><img src="${song.coverUrl || 'https://via.placeholder.com/50'}" width="50" height="50"></td>
+                <td>${song.title}</td>
+                <td>${song.artist}</td>
+                <td>${song.category || '-'}</td>
+                <td>${song.price > 0 ? `$${song.price.toFixed(2)}` : 'Free'}</td>
+                <td>${song.published ? 'Published' : 'Draft'}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary edit-song" data-id="${doc.id}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger delete-song" data-id="${doc.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            songsTableBody.appendChild(row);
+        });
+
+        // Add event listeners to the new buttons
+        document.querySelectorAll('.edit-song').forEach(btn => {
+            btn.addEventListener('click', () => editSong(btn.dataset.id));
+        });
+
+        document.querySelectorAll('.delete-song').forEach(btn => {
+            btn.addEventListener('click', () => showDeleteConfirmation(btn.dataset.id));
+        });
+    } catch (error) {
+        songsTableBody.innerHTML = '<tr><td colspan="7">Error loading songs</td></tr>';
+        console.error("Firestore error:", error);
+    }
 }
 
-// Load songs
-function loadSongs(page = 1) {
-    // Simulate API call to get songs
-    setTimeout(() => {
-        // Sample data - in a real app this would come from your backend
-        songs = [
-            {
-                id: 1,
-                title: 'Amazing Grace',
-                artist: 'VOEZ Worship Team',
-                category: 'General Worship',
-                price: 0,
-                cover: 'https://i.postimg.cc/8PvQ1kzT/advent1.jpg',
-                audio: 'music/amazing_grace.mp3',
-                status: 'published',
-                description: 'Classic hymn of grace and redemption'
-            },
-            {
-                id: 2,
-                title: 'O Holy Night',
-                artist: 'VOEZ Choir',
-                category: 'Christmas',
-                price: 2.99,
-                cover: 'https://i.postimg.cc/8PvQ1kzT/advent1.jpg',
-                audio: 'music/o_holy_night.mp3',
-                status: 'published',
-                description: 'Beautiful Christmas carol'
-            },
-            {
-                id: 3,
-                title: 'Kyrie Eleison',
-                artist: 'VOEZ Band',
-                category: 'Kyrie & Gloria',
-                price: 2.99,
-                cover: 'https://i.postimg.cc/8PvQ1kzT/advent1.jpg',
-                audio: 'music/kyrie_eleison.mp3',
-                status: 'draft',
-                description: 'Traditional liturgical piece'
-            },
-            {
-                id: 4,
-                title: 'One Bread One Body',
-                artist: 'VOEZ Worship Team',
-                category: 'Eucharist',
-                price: 2.99,
-                cover: 'https://i.postimg.cc/8PvQ1kzT/advent1.jpg',
-                audio: 'music/one_bread_one_body.mp3',
-                status: 'published',
-                description: 'Eucharistic hymn'
-            },
-            {
-                id: 5,
-                title: 'We Give You Thanks',
-                artist: 'VOEZ Choir',
-                category: 'Offertory',
-                price: 0,
-                cover: 'https://i.postimg.cc/8PvQ1kzT/advent1.jpg',
-                audio: 'music/we_give_thanks.mp3',
-                status: 'published',
-                description: 'Offertory song of thanksgiving'
+
+// Initialize charts
+function initCharts() {
+    try {
+        // Enhanced Chart.js availability check
+        if (!window.Chart || typeof window.Chart.prototype === 'undefined') {
+            console.error('Chart.js is not properly initialized. Please check:');
+            console.error('1. Is Chart.js script loaded before this file?');
+            console.error('2. Is there a network issue loading Chart.js?');
+            console.error('3. Are you using the correct Chart.js version?');
+            return null;
+        }
+
+        // Initialize charts only if their containers exist
+        const initChartIfExists = (chartId, config) => {
+            const canvas = document.getElementById(chartId);
+            if (!canvas) {
+                console.warn(`Chart container #${chartId} not found`);
+                return null;
             }
-        ];
 
-        renderSongsTable(page);
-    }, 800);
+            try {
+                const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                    console.error(`Could not get 2D context for #${chartId}`);
+                    return null;
+                }
+                return new Chart(ctx, config);
+            } catch (error) {
+                console.error(`Failed to initialize chart ${chartId}:`, error);
+                return null;
+            }
+        };
+
+        // Songs Chart Configuration
+        const songsChart = initChartIfExists('songsChart', {
+            type: 'doughnut',
+            data: {
+                labels: ['Worship', 'Gospel', 'Hymns', 'Instrumental'],
+                datasets: [{
+                    data: [45, 30, 15, 10],
+                    backgroundColor: [
+                        'rgba(94, 114, 228, 0.8)',
+                        'rgba(17, 205, 239, 0.8)',
+                        'rgba(45, 206, 137, 0.8)',
+                        'rgba(251, 99, 64, 0.8)'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10 // Added hover effect
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.9)',
+                        bodyFont: {
+                            size: 14,
+                            family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                        },
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                },
+                cutout: '70%',
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+
+        // Revenue Chart Configuration
+        const revenueChart = initChartIfExists('revenueChart', {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Revenue',
+                    data: [1200, 1900, 1500, 2000, 2500, 2200],
+                    backgroundColor: 'rgba(94, 114, 228, 0.1)',
+                    borderColor: 'rgba(94, 114, 228, 1)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true,
+                    pointBackgroundColor: 'rgba(94, 114, 228, 1)',
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBorderWidth: 2,
+                    pointBorderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.9)',
+                        displayColors: false,
+                        callbacks: {
+                            label: function (context) {
+                                return `Revenue: $${context.raw.toLocaleString()}`;
+                            },
+                            title: function (context) {
+                                return `Month: ${context[0].label}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            drawBorder: false,
+                            color: 'rgba(0,0,0,0.05)'
+                        },
+                        ticks: {
+                            callback: function (value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: 'rgba(0,0,0,0.7)'
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+
+        // Return chart instances for potential future reference
+        return { songsChart, revenueChart };
+
+    } catch (error) {
+        console.error('Global chart initialization error:', error);
+        return null;
+    }
 }
 
-// Render songs table
-function renderSongsTable(page) {
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedSongs = songs.slice(startIndex, endIndex);
+// Load categories from Firebase
+async function loadCategories() {
+    const categoriesTableBody = document.getElementById('categories-table-body');
+    if (!categoriesTableBody) return;
 
-    let songsHtml = '';
+    categoriesTableBody.innerHTML = '<tr><td colspan="4" class="text-center">Loading categories...</td></tr>';
 
-    paginatedSongs.forEach(song => {
-        songsHtml += `
-                    <tr>
-                        <td><img src="${song.cover}" alt="${song.title}" class="preview-image"></td>
-                        <td>${song.title}</td>
-                        <td>${song.artist}</td>
-                        <td>${song.category}</td>
-                        <td>${song.price > 0 ? '$' + song.price.toFixed(2) : 'Free'}</td>
-                        <td><span class="status-badge ${song.status === 'published' ? 'status-published' : 'status-draft'}">${song.status === 'published' ? 'Published' : 'Draft'}</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-primary edit-song" data-id="${song.id}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-sm btn-danger delete-song" data-id="${song.id}">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-    });
+    try {
+        const querySnapshot = await getDocs(collection(db, 'categories'));
 
-    document.getElementById('songs-table-body').innerHTML = songsHtml;
-    renderPagination('songs-pagination', songs.length, page);
+        // Clear table if there are categories
+        categoriesTableBody.innerHTML = '';
 
-    // Add event listeners to edit/delete buttons
-    document.querySelectorAll('.edit-song').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const songId = parseInt(this.getAttribute('data-id'));
-            editSong(songId);
+        if (querySnapshot.empty) {
+            categoriesTableBody.innerHTML = '<tr><td colspan="4" class="text-center">No categories found</td></tr>';
+            return;
+        }
+
+        querySnapshot.forEach(doc => {
+            const category = doc.data();
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${category.name}</td>
+                <td><i class="${category.icon}"></i> ${category.icon}</td>
+                <td>${category.songCount || 0}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary edit-category" data-id="${doc.id}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger delete-category" data-id="${doc.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            categoriesTableBody.appendChild(row);
         });
-    });
-
-    document.querySelectorAll('.delete-song').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const songId = parseInt(this.getAttribute('data-id'));
-            showConfirmModal(
-                'Delete Song',
-                `Are you sure you want to delete "${songs.find(s => s.id === songId).title}"?`,
-                () => deleteSong(songId)
-            );
-        });
-    });
-}
-
-// Load categories
-function loadCategories() {
-    // Simulate API call to get categories
-    setTimeout(() => {
-        // Sample data - in a real app this would come from your backend
-        categories = [
-            { id: 1, name: 'Advent', icon: 'fas fa-calendar-alt', songCount: 12 },
-            { id: 2, name: 'Christmas', icon: 'fas fa-snowflake', songCount: 18 },
-            { id: 3, name: 'Eucharist', icon: 'fas fa-wine-glass-alt', songCount: 15 },
-            { id: 4, name: 'Offertory', icon: 'fas fa-hand-holding-usd', songCount: 8 },
-            { id: 5, name: 'Kyrie & Gloria', icon: 'fas fa-pray', songCount: 10 },
-            { id: 6, name: 'General Worship', icon: 'fas fa-hands-praying', songCount: 32 }
-        ];
-
-        renderCategoriesTable();
 
         // Populate category dropdown in song modal
         const categoryDropdown = document.getElementById('song-category');
-        categoryDropdown.innerHTML = '<option value="">Select Category</option>';
-
-        categories.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category.id;
-            option.textContent = category.name;
-            categoryDropdown.appendChild(option);
-        });
-    }, 800);
-}
-
-// Render categories table
-function renderCategoriesTable() {
-    let categoriesHtml = '';
-
-    categories.forEach(category => {
-        categoriesHtml += `
-                    <tr>
-                        <td>${category.name}</td>
-                        <td><i class="${category.icon}"></i> ${category.icon}</td>
-                        <td>${category.songCount}</td>
-                        <td>
-                            <button class="btn btn-sm btn-primary edit-category" data-id="${category.id}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-sm btn-danger delete-category" data-id="${category.id}">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-    });
-
-    document.getElementById('categories-table-body').innerHTML = categoriesHtml;
-
-    // Add event listeners to edit/delete buttons
-    document.querySelectorAll('.edit-category').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const categoryId = parseInt(this.getAttribute('data-id'));
-            editCategory(categoryId);
-        });
-    });
-
-    document.querySelectorAll('.delete-category').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const categoryId = parseInt(this.getAttribute('data-id'));
-            showConfirmModal(
-                'Delete Category',
-                `Are you sure you want to delete "${categories.find(c => c.id === categoryId).name}" category?`,
-                () => deleteCategory(categoryId)
-            );
-        });
-    });
-}
-
-// Load payments
-function loadPayments(page = 1) {
-    // Simulate API call to get payments
-    setTimeout(() => {
-        // Sample data - in a real app this would come from your backend
-        payments = [
-            {
-                id: 1,
-                transactionId: 'TXN-2023-001',
-                song: 'How Great Thou Art',
-                user: 'John Doe (john@example.com)',
-                amount: 2.99,
-                method: 'mobile_money',
-                date: '2023-06-15 10:45 AM',
-                status: 'completed'
-            },
-            {
-                id: 2,
-                transactionId: 'TXN-2023-002',
-                song: 'One Bread One Body',
-                user: 'Mary Smith (mary@example.com)',
-                amount: 2.99,
-                method: 'card',
-                date: '2023-06-14 3:22 PM',
-                status: 'completed'
-            },
-            {
-                id: 3,
-                transactionId: 'TXN-2023-003',
-                song: 'Gloria in Excelsis Deo',
-                user: 'James Brown (james@example.com)',
-                amount: 2.99,
-                method: 'paypal',
-                date: '2023-06-14 9:15 AM',
-                status: 'completed'
-            },
-            {
-                id: 4,
-                transactionId: 'TXN-2023-004',
-                song: 'Come Thou Long Expected Jesus',
-                user: 'Sarah Johnson (sarah@example.com)',
-                amount: 2.99,
-                method: 'mobile_money',
-                date: '2023-06-13 5:30 PM',
-                status: 'pending'
-            }
-        ];
-
-        renderPaymentsTable(page);
-    }, 800);
-}
-
-// Render payments table
-function renderPaymentsTable(page) {
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedPayments = payments.slice(startIndex, endIndex);
-
-    let paymentsHtml = '';
-
-    paginatedPayments.forEach(payment => {
-        paymentsHtml += `
-                    <tr>
-                        <td>${payment.transactionId}</td>
-                        <td>${payment.song}</td>
-                        <td>${payment.user}</td>
-                        <td>$${payment.amount.toFixed(2)}</td>
-                        <td>${payment.method === 'mobile_money' ? 'Mobile Money' :
-                payment.method === 'card' ? 'Card' : 'PayPal'}</td>
-                        <td>${payment.date}</td>
-                        <td><span class="status-badge ${payment.status === 'completed' ? 'status-published' : 'status-draft'}">${payment.status === 'completed' ? 'Completed' : 'Pending'}</span></td>
-                    </tr>
-                `;
-    });
-
-    document.getElementById('payments-table-body').innerHTML = paymentsHtml;
-    renderPagination('payments-pagination', payments.length, page);
-}
-
-// Load users
-function loadUsers(page = 1) {
-    // Simulate API call to get users
-    setTimeout(() => {
-        // Sample data - in a real app this would come from your backend
-        users = [
-            {
-                id: 1,
-                name: 'John Doe',
-                email: 'john@example.com',
-                phone: '0966123456',
-                purchases: 5,
-                joined: '2023-05-10',
-                status: 'active'
-            },
-            {
-                id: 2,
-                name: 'Mary Smith',
-                email: 'mary@example.com',
-                phone: '0977123456',
-                purchases: 3,
-                joined: '2023-05-15',
-                status: 'active'
-            },
-            {
-                id: 3,
-                name: 'James Brown',
-                email: 'james@example.com',
-                phone: '0955123456',
-                purchases: 7,
-                joined: '2023-04-22',
-                status: 'active'
-            },
-            {
-                id: 4,
-                name: 'Sarah Johnson',
-                email: 'sarah@example.com',
-                phone: '0966123457',
-                purchases: 2,
-                joined: '2023-06-01',
-                status: 'inactive'
-            }
-        ];
-
-        renderUsersTable(page);
-    }, 800);
-}
-
-// Render users table
-function renderUsersTable(page) {
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedUsers = users.slice(startIndex, endIndex);
-
-    let usersHtml = '';
-
-    paginatedUsers.forEach(user => {
-        usersHtml += `
-                    <tr>
-                        <td>${user.name}</td>
-                        <td>${user.email}</td>
-                        <td>${user.phone}</td>
-                        <td>${user.purchases}</td>
-                        <td>${user.joined}</td>
-                        <td><span class="status-badge ${user.status === 'active' ? 'status-published' : 'status-draft'}">${user.status === 'active' ? 'Active' : 'Inactive'}</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-primary edit-user" data-id="${user.id}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-sm btn-danger delete-user" data-id="${user.id}">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-    });
-
-    document.getElementById('users-table-body').innerHTML = usersHtml;
-    renderPagination('users-pagination', users.length, page);
-}
-
-// Render pagination
-function renderPagination(elementId, totalItems, currentPage) {
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    const paginationElement = document.getElementById(elementId);
-
-    let paginationHtml = '';
-
-    if (totalPages > 1) {
-        paginationHtml += `
-                    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                        <a class="page-link" href="#" data-page="${currentPage - 1}">Previous</a>
-                    </li>
-                `;
-
-        for (let i = 1; i <= totalPages; i++) {
-            paginationHtml += `
-                        <li class="page-item ${i === currentPage ? 'active' : ''}">
-                            <a class="page-link" href="#" data-page="${i}">${i}</a>
-                        </li>
-                    `;
+        if (categoryDropdown) {
+            categoryDropdown.innerHTML = '<option value="">Select Category</option>';
+            querySnapshot.forEach(doc => {
+                const category = doc.data();
+                const option = document.createElement('option');
+                option.value = doc.id;
+                option.textContent = category.name;
+                categoryDropdown.appendChild(option);
+            });
         }
 
-        paginationHtml += `
-                    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                        <a class="page-link" href="#" data-page="${currentPage + 1}">Next</a>
-                    </li>
-                `;
-    }
-
-    paginationElement.innerHTML = paginationHtml;
-
-    // Add event listeners to pagination links
-    paginationElement.querySelectorAll('.page-link').forEach(link => {
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-            const page = parseInt(this.getAttribute('data-page'));
-
-            if (elementId === 'songs-pagination') {
-                loadSongs(page);
-            } else if (elementId === 'payments-pagination') {
-                loadPayments(page);
-            } else if (elementId === 'users-pagination') {
-                loadUsers(page);
-            }
-
-            // Scroll to top
-            window.scrollTo(0, 0);
+        // Add event listeners to edit/delete buttons
+        document.querySelectorAll('.edit-category').forEach(btn => {
+            btn.addEventListener('click', () => editCategory(btn.dataset.id));
         });
-    });
+
+        document.querySelectorAll('.delete-category').forEach(btn => {
+            btn.addEventListener('click', () => showDeleteCategoryConfirmation(btn.dataset.id));
+        });
+
+    } catch (error) {
+        console.error("Error loading categories:", error);
+        categoriesTableBody.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Error loading categories</td></tr>';
+    }
+}
+
+// Load payments (placeholder)
+async function loadPayments() {
+    const paymentsTableBody = document.getElementById('payments-table-body');
+    if (!paymentsTableBody) return;
+
+    paymentsTableBody.innerHTML = '<tr><td colspan="7" class="text-center">Loading payments...</td></tr>';
+
+    try {
+        const paymentsQuery = query(collection(db, "payments"), orderBy("date", "desc"));
+        const querySnapshot = await getDocs(paymentsQuery);
+
+        paymentsTableBody.innerHTML = '';
+
+        if (querySnapshot.empty) {
+            paymentsTableBody.innerHTML = '<tr><td colspan="7" class="text-center">No payments found</td></tr>';
+            return;
+        }
+
+        querySnapshot.forEach((doc) => {
+            const payment = doc.data();
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${payment.transactionId || 'N/A'}</td>
+                <td>${payment.songId || 'N/A'}</td>
+                <td>${payment.userId || 'N/A'}</td>
+                <td>$${payment.amount?.toFixed(2) || '0.00'}</td>
+                <td>${payment.method || 'Unknown'}</td>
+                <td>${payment.date?.toDate().toLocaleDateString() || 'N/A'}</td>
+                <td>
+                    <span class="badge ${payment.status === 'completed' ? 'bg-success' : 'bg-warning'}">
+                        ${payment.status || 'pending'}
+                    </span>
+                </td>
+            `;
+            paymentsTableBody.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error("Error loading payments:", error);
+        paymentsTableBody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center text-danger">
+                    Error loading payments: ${error.message}
+                </td>
+            </tr>
+        `;
+    }
+}
+
+// Load users (placeholder)
+async function loadUsers() {
+    const usersTableBody = document.getElementById('users-table-body');
+    if (!usersTableBody) return;
+
+    usersTableBody.innerHTML = '<tr><td colspan="7" class="text-center">Loading users...</td></tr>';
+
+    try {
+        const usersQuery = query(collection(db, "users"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(usersQuery);
+
+        usersTableBody.innerHTML = '';
+
+        if (querySnapshot.empty) {
+            usersTableBody.innerHTML = '<tr><td colspan="7" class="text-center">No users found</td></tr>';
+            return;
+        }
+
+        querySnapshot.forEach((doc) => {
+            const user = doc.data();
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${user.username || user.email || 'N/A'}</td>
+                <td>${user.email || 'N/A'}</td>
+                <td>${user.phone || 'N/A'}</td>
+                <td>${user.createdAt?.toDate().toLocaleDateString() || 'N/A'}</td>
+                <td>
+                    <span class="badge ${user.isAdmin ? 'bg-primary' : 'bg-secondary'}">
+                        ${user.isAdmin ? 'Admin' : 'User'}
+                    </span>
+                </td>
+                <td>
+                    <span class="badge ${user.phoneVerified ? 'bg-success' : 'bg-warning'}">
+                        ${user.phoneVerified ? 'Verified' : 'Unverified'}
+                    </span>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-primary edit-user" data-id="${doc.id}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    ${!user.isAdmin ? `
+                    <button class="btn btn-sm btn-danger delete-user" data-id="${doc.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    ` : ''}
+                </td>
+            `;
+            usersTableBody.appendChild(row);
+        });
+
+        // Add event listeners to action buttons
+        document.querySelectorAll('.edit-user').forEach(btn => {
+            btn.addEventListener('click', () => editUser(btn.dataset.id));
+        });
+
+        document.querySelectorAll('.delete-user').forEach(btn => {
+            btn.addEventListener('click', () => showDeleteUserConfirmation(btn.dataset.id));
+        });
+
+    } catch (error) {
+        console.error("Error loading users:", error);
+        usersTableBody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center text-danger">
+                    Error loading users: ${error.message}
+                </td>
+            </tr>
+        `;
+    }
+}
+
+async function deleteUser(userId) {
+    try {
+        await deleteDoc(doc(db, "users", userId));
+        showAlert('success', 'User deleted successfully!');
+        loadUsers();
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        showAlert('danger', 'Error deleting user: ' + error.message);
+    } finally {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('confirm-modal'));
+        modal.hide();
+    }
 }
 
 // Add new song
 function addNewSong() {
-    const modal = new bootstrap.Modal(document.getElementById('song-modal'));
+    currentEditingSongId = null;
     document.getElementById('song-modal-title').textContent = 'Add New Song';
     document.getElementById('song-form').reset();
     document.getElementById('song-id').value = '';
+
+    const modal = new bootstrap.Modal(document.getElementById('song-modal'));
     modal.show();
 }
 
 // Edit song
-function editSong(songId) {
-    const song = songs.find(s => s.id === songId);
-    if (!song) return;
+async function editSong(songId) {
+    currentEditingSongId = songId;
 
-    const modal = new bootstrap.Modal(document.getElementById('song-modal'));
-    document.getElementById('song-modal-title').textContent = 'Edit Song';
+    try {
+        const songDoc = await getDoc(doc(db, "songs", songId));
+        if (!songDoc.exists()) {
+            throw new Error("Song not found");
+        }
 
-    // Fill form with song data
-    document.getElementById('song-id').value = song.id;
-    document.getElementById('song-title').value = song.title;
-    document.getElementById('song-artist').value = song.artist;
-    document.getElementById('song-category').value = categories.find(c => c.name === song.category)?.id || '';
-    document.getElementById('song-price').value = song.price;
-    document.getElementById('song-description').value = song.description;
-    document.getElementById('song-status').checked = song.status === 'published';
+        const song = songDoc.data();
+        document.getElementById('song-modal-title').textContent = 'Edit Song';
+        document.getElementById('song-id').value = songId;
+        document.getElementById('song-title').value = song.title;
+        document.getElementById('song-artist').value = song.artist;
+        document.getElementById('song-category').value = song.categoryId || '';
+        document.getElementById('song-price').value = song.price || 0;
+        document.getElementById('song-description').value = song.description || '';
+        document.getElementById('song-status').checked = song.published !== false;
 
-    modal.show();
+        const modal = new bootstrap.Modal(document.getElementById('song-modal'));
+        modal.show();
+    } catch (error) {
+        console.error("Error loading song:", error);
+        showAlert('danger', 'Error loading song: ' + error.message);
+    }
+}
+
+// Show delete user confirmation
+function showDeleteUserConfirmation(userId) {
+    getDoc(doc(db, "users", userId))
+        .then(doc => {
+            if (!doc.exists()) {
+                throw new Error("User not found");
+            }
+
+            const user = doc.data();
+            document.getElementById('confirm-modal-title').textContent = 'Delete User';
+            document.getElementById('confirm-modal-body').textContent =
+                `Are you sure you want to delete user "${user.username || user.email}"?`;
+
+            const confirmBtn = document.getElementById('confirm-action-btn');
+            confirmBtn.onclick = () => deleteUser(userId);
+
+            const modal = new bootstrap.Modal(document.getElementById('confirm-modal'));
+            modal.show();
+        })
+        .catch(error => {
+            console.error("Error loading user for deletion:", error);
+            showAlert('danger', 'Error: ' + error.message);
+        });
+}
+
+// Save song (both add and update)
+document.getElementById('song-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const songId = document.getElementById('song-id').value;
+    const title = document.getElementById('song-title').value;
+    const coverFile = document.getElementById('song-cover').files[0];
+
+    try {
+        // Upload cover image if exists
+        let coverUrl;
+        if (coverFile) {
+            const coverRef = storageRef(storage, `covers/${Date.now()}_${coverFile.name}`);
+            await uploadBytes(coverRef, coverFile);
+            coverUrl = await getDownloadURL(coverRef);
+        }
+
+        // Prepare Firestore data
+        const songData = {
+            title,
+            artist: document.getElementById('song-artist').value,
+            price: parseFloat(document.getElementById('song-price').value) || 0,
+            published: document.getElementById('song-status').checked,
+            updatedAt: new Date()
+        };
+
+        if (coverUrl) songData.coverUrl = coverUrl;
+
+        // Add/update document
+        if (songId) {
+            await updateDoc(doc(db, "songs", songId), songData);
+        } else {
+            songData.createdAt = new Date();
+            await setDoc(doc(collection(db, "songs")), songData);
+        }
+
+        loadSongs(); // Refresh list
+        bootstrap.Modal.getInstance(document.getElementById('song-modal')).hide();
+    } catch (error) {
+        console.error("Upload error:", error);
+        alert("Error saving song");
+    }
+});
+
+
+// Show delete confirmation
+function showDeleteConfirmation(songId) {
+    collection(db, 'songs').doc(songId).get()
+        .then(doc => {
+            if (!doc.exists) {
+                throw new Error("Song not found");
+            }
+
+            const song = doc.data();
+            document.getElementById('confirm-modal-title').textContent = 'Delete Song';
+            document.getElementById('confirm-modal-body').textContent = `Are you sure you want to delete "${song.title}" by ${song.artist}?`;
+
+            const confirmBtn = document.getElementById('confirm-action-btn');
+            confirmBtn.onclick = () => deleteSong(songId);
+
+            const modal = new bootstrap.Modal(document.getElementById('confirm-modal'));
+            modal.show();
+        })
+        .catch(error => {
+            console.error("Error loading song for deletion:", error);
+            showAlert('danger', 'Error: ' + error.message);
+        });
 }
 
 // Delete song
-function deleteSong(songId) {
-    // In a real app, you would make an API call to delete the song
-    songs = songs.filter(s => s.id !== songId);
-
-    // Show success message
-    showAlert('success', 'Song deleted successfully');
-
-    // Reload songs
-    loadSongs(currentPage);
-
-    // Close confirmation modal
-    const modal = bootstrap.Modal.getInstance(document.getElementById('confirm-modal'));
-    modal.hide();
+async function deleteSong(songId) {
+    try {
+        await collection(db, 'songs').doc(songId).delete();
+        showAlert('success', 'Song deleted successfully!');
+        loadSongs();
+    } catch (error) {
+        console.error("Error deleting song:", error);
+        showAlert('danger', 'Error deleting song: ' + error.message);
+    } finally {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('confirm-modal'));
+        modal.hide();
+    }
 }
 
 // Add new category
 function addNewCategory() {
-    const modal = new bootstrap.Modal(document.getElementById('category-modal'));
+    currentEditingCategoryId = null;
     document.getElementById('category-modal-title').textContent = 'Add New Category';
     document.getElementById('category-form').reset();
     document.getElementById('category-id').value = '';
+
+    const modal = new bootstrap.Modal(document.getElementById('category-modal'));
     modal.show();
 }
 
 // Edit category
-function editCategory(categoryId) {
-    const category = categories.find(c => c.id === categoryId);
-    if (!category) return;
+async function editCategory(categoryId) {
+    try {
+        currentEditingCategoryId = categoryId;
 
-    const modal = new bootstrap.Modal(document.getElementById('category-modal'));
-    document.getElementById('category-modal-title').textContent = 'Edit Category';
+        const categoryRef = doc(db, 'categories', categoryId);
+        const docSnap = await getDoc(categoryRef);
 
-    // Fill form with category data
-    document.getElementById('category-id').value = category.id;
-    document.getElementById('category-name').value = category.name;
-    document.getElementById('category-icon').value = category.icon;
-    document.getElementById('icon-preview').className = category.icon;
+        if (!docSnap.exists()) {
+            throw new Error("Category not found");
+        }
 
-    modal.show();
+        const category = docSnap.data();
+
+        document.getElementById('category-modal-title').textContent = 'Edit Category';
+        document.getElementById('category-id').value = categoryId;
+        document.getElementById('category-name').value = category.name;
+        document.getElementById('category-icon').value = category.icon;
+        document.getElementById('icon-preview').className = category.icon;
+
+        const modal = new bootstrap.Modal(document.getElementById('category-modal'));
+        modal.show();
+    } catch (error) {
+        console.error("Error loading category:", error);
+        showAlert('danger', 'Error loading category: ' + error.message);
+    }
 }
+
+// Save category (both add and update)
+document.getElementById('category-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const categoryId = document.getElementById('category-id').value;
+    const name = document.getElementById('category-name').value;
+    const icon = document.getElementById('category-icon').value;
+
+    const saveBtn = document.getElementById('save-category-btn');
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
+
+    try {
+        // Category object to save
+        const categoryData = {
+            name: name || 'Unnamed Category',
+            icon: icon || 'fas fa-question',
+            updatedAt: serverTimestamp()
+        };
+
+        if (categoryId) {
+            // Update existing category
+            const categoryRef = doc(db, "categories", categoryId);
+            await updateDoc(categoryRef, categoryData);
+        } else {
+            // Add new category
+            categoryData.createdAt = serverTimestamp();
+            await addDoc(collection(db, "categories"), categoryData);
+        }
+
+        showAlert('success', `Category ${categoryId ? 'updated' : 'added'} successfully!`);
+        loadCategories();
+
+        const modal = bootstrap.Modal.getInstance(document.getElementById('category-modal'));
+        modal.hide();
+    } catch (error) {
+        console.error("Error saving category:", error);
+        showAlert('danger', 'Error saving category: ' + error.message);
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Category';
+    }
+});
+
+
+// Show delete category confirmation
+function showDeleteCategoryConfirmation(categoryId) {
+    const categoryRef = doc(db, 'categories', categoryId);
+
+    getDoc(categoryRef)
+        .then((docSnap) => {
+            if (!docSnap.exists()) {
+                throw new Error("Category not found");
+            }
+
+            const category = docSnap.data();
+            document.getElementById('confirm-modal-title').textContent = 'Delete Category';
+            document.getElementById('confirm-modal-body').textContent = `Are you sure you want to delete the "${category.name}" category?`;
+
+            const confirmBtn = document.getElementById('confirm-action-btn');
+            confirmBtn.onclick = () => deleteCategory(categoryId);
+
+            const modal = new bootstrap.Modal(document.getElementById('confirm-modal'));
+            modal.show();
+        })
+        .catch(error => {
+            console.error("Error loading category for deletion:", error);
+            showAlert('danger', 'Error: ' + error.message);
+        });
+}
+
 
 // Delete category
-function deleteCategory(categoryId) {
-    // In a real app, you would make an API call to delete the category
-    categories = categories.filter(c => c.id !== categoryId);
+async function deleteCategory(categoryId) {
+    try {
+        console.log("Attempting to delete category with ID:", categoryId);
 
-    // Show success message
-    showAlert('success', 'Category deleted successfully');
+        // Check if any songs use this category
+        const songsRef = collection(db, 'songs');
+        const q = query(songsRef, where('categoryId', '==', categoryId));
+        const songsSnapshot = await getDocs(q);
 
-    // Reload categories
-    loadCategories();
+        if (!songsSnapshot.empty) {
+            throw new Error("Cannot delete category - it is being used by songs");
+        }
 
-    // Close confirmation modal
-    const modal = bootstrap.Modal.getInstance(document.getElementById('confirm-modal'));
-    modal.hide();
-}
+        const categoryRef = doc(db, 'categories', categoryId);
+        await deleteDoc(categoryRef);
 
-// Show confirmation modal
-function showConfirmModal(title, message, confirmCallback) {
-    document.getElementById('confirm-modal-title').textContent = title;
-    document.getElementById('confirm-modal-body').textContent = message;
+        console.log("Category deleted successfully from Firestore");
 
-    const confirmBtn = document.getElementById('confirm-action-btn');
-
-    // Remove previous event listeners
-    confirmBtn.replaceWith(confirmBtn.cloneNode(true));
-
-    // Add new event listener
-    document.getElementById('confirm-action-btn').addEventListener('click', confirmCallback);
-
-    const modal = new bootstrap.Modal(document.getElementById('confirm-modal'));
-    modal.show();
+        showAlert('success', 'Category deleted successfully!');
+        loadCategories();
+    } catch (error) {
+        console.error("Error deleting category:", error);
+        showAlert('danger', 'Error deleting category: ' + error.message);
+    } finally {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('confirm-modal'));
+        modal.hide();
+    }
 }
 
 // Show alert message
 function showAlert(type, message) {
     // In a real app, you might use a more sophisticated alert system
-    alert(`${type.toUpperCase()}: ${message}`);
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.role = 'alert';
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+
+    const container = document.querySelector('.main-content');
+    container.prepend(alertDiv);
+
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+        const bsAlert = new bootstrap.Alert(alertDiv);
+        bsAlert.close();
+    }, 5000);
 }
 
 // Set up event listeners
 function setupEventListeners() {
     // Sidebar toggle for mobile
-    sidebarToggle.addEventListener('click', function () {
-        sidebar.classList.toggle('active');
-        mainContent.classList.toggle('active');
+    const sidebarOverlay = document.createElement('div');
+    sidebarOverlay.className = 'sidebar-overlay';
+    document.body.appendChild(sidebarOverlay);
+
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+    }
+
+    // Close sidebar when clicking overlay
+    sidebarOverlay.addEventListener('click', function () {
+        sidebar.classList.remove('active');
+        this.classList.remove('active');
+        if (sidebarToggle) sidebarToggle.classList.remove('active');
     });
 
     // Sidebar navigation
@@ -632,115 +857,54 @@ function setupEventListeners() {
             // Show corresponding section
             const section = this.getAttribute('data-section');
             showSection(section);
+
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+                if (sidebarToggle) sidebarToggle.classList.remove('active');
+            }
         });
     });
 
     // Logout
-    logoutBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        // In a real app, you would make an API call to logout
-        localStorage.removeItem('admin_token');
-        window.location.href = 'login.html';
-    });
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await signOut(auth);
+            window.location.href = 'login.html';
+        });
+    }
 
     // Add song button
-    document.getElementById('add-song-btn').addEventListener('click', addNewSong);
-
-    // Save song form
-    document.getElementById('song-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const songId = document.getElementById('song-id').value;
-        const isEdit = !!songId;
-
-        // In a real app, you would make an API call to save the song
-        const newSong = {
-            id: isEdit ? parseInt(songId) : songs.length + 1,
-            title: document.getElementById('song-title').value,
-            artist: document.getElementById('song-artist').value,
-            category: categories.find(c => c.id === parseInt(document.getElementById('song-category').value))?.name || '',
-            price: parseFloat(document.getElementById('song-price').value) || 0,
-            description: document.getElementById('song-description').value,
-            status: document.getElementById('song-status').checked ? 'published' : 'draft',
-            cover: 'https://i.postimg.cc/8PvQ1kzT/advent1.jpg', // In a real app, you would upload the image
-            audio: 'music/sample.mp3' // In a real app, you would upload the audio file
-        };
-
-        if (isEdit) {
-            // Update existing song
-            const index = songs.findIndex(s => s.id === parseInt(songId));
-            if (index !== -1) {
-                songs[index] = newSong;
-            }
-        } else {
-            // Add new song
-            songs.unshift(newSong);
-        }
-
-        // Show success message
-        showAlert('success', `Song ${isEdit ? 'updated' : 'added'} successfully`);
-
-        // Reload songs
-        loadSongs(isEdit ? currentPage : 1);
-
-        // Close modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('song-modal'));
-        modal.hide();
-    });
+    const addSongBtn = document.getElementById('add-song-btn');
+    if (addSongBtn) {
+        addSongBtn.addEventListener('click', addNewSong);
+    }
 
     // Add category button
-    document.getElementById('add-category-btn').addEventListener('click', addNewCategory);
-
-    // Save category form
-    document.getElementById('category-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const categoryId = document.getElementById('category-id').value;
-        const isEdit = !!categoryId;
-
-        // In a real app, you would make an API call to save the category
-        const newCategory = {
-            id: isEdit ? parseInt(categoryId) : categories.length + 1,
-            name: document.getElementById('category-name').value,
-            icon: document.getElementById('category-icon').value,
-            songCount: 0
-        };
-
-        if (isEdit) {
-            // Update existing category
-            const index = categories.findIndex(c => c.id === parseInt(categoryId));
-            if (index !== -1) {
-                categories[index] = newCategory;
-            }
-        } else {
-            // Add new category
-            categories.unshift(newCategory);
-        }
-
-        // Show success message
-        showAlert('success', `Category ${isEdit ? 'updated' : 'added'} successfully`);
-
-        // Reload categories
-        loadCategories();
-
-        // Close modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('category-modal'));
-        modal.hide();
-    });
+    const addCategoryBtn = document.getElementById('add-category-btn');
+    if (addCategoryBtn) {
+        addCategoryBtn.addEventListener('click', addNewCategory);
+    }
 
     // Category icon preview
-    document.getElementById('category-icon').addEventListener('input', function () {
-        document.getElementById('icon-preview').className = this.value;
-    });
+    const categoryIconInput = document.getElementById('category-icon');
+    if (categoryIconInput) {
+        categoryIconInput.addEventListener('input', function () {
+            const iconPreview = document.getElementById('icon-preview');
+            if (iconPreview) iconPreview.className = this.value;
+        });
+    }
 
     // Settings form
-    document.getElementById('settings-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        // In a real app, you would make an API call to save settings
-        showAlert('success', 'Settings saved successfully');
-    });
+    const settingsForm = document.getElementById('settings-form');
+    if (settingsForm) {
+        settingsForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            showAlert('success', 'Settings saved successfully');
+        });
+    }
 }
 
 // Show section
@@ -749,60 +913,31 @@ function showSection(section) {
     sectionContents.forEach(sc => sc.classList.add('d-none'));
 
     // Show selected section
-    document.getElementById(`${section}-section`).classList.remove('d-none');
-    currentSection = section;
+    const sectionEl = document.getElementById(`${section}-section`);
+    if (sectionEl) {
+        sectionEl.classList.remove('d-none');
+        currentSection = section;
+
+        // Load appropriate data when section changes
+        switch (section) {
+            case 'dashboard':
+                loadDashboardData();
+                break;
+            case 'songs':
+                loadSongs();
+                break;
+            case 'categories':
+                loadCategories();
+                break;
+            case 'payments':
+                loadPayments();
+                break;
+            case 'users':
+                loadUsers();
+                break;
+        }
+    }
 
     // Scroll to top
     window.scrollTo(0, 0);
-}
-
-// Song functions
-async function getSongs(category = null) {
-  try {
-    let q;
-    if (category) {
-      q = firebaseServices.query(
-        firebaseServices.collection(firebaseServices.db, "songs"),
-        firebaseServices.where("category", "==", category)
-      );
-    } else {
-      q = firebaseServices.collection(firebaseServices.db, "songs");
-    }
-    
-    const querySnapshot = await firebaseServices.getDocs(q);
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  } catch (error) {
-    console.error("Error getting songs:", error);
-    throw error;
-  }
-}
-
-async function addSong(songData, coverFile, audioFile) {
-  try {
-    // Upload cover image
-    const coverRef = firebaseServices.ref(firebaseServices.storage, `covers/${Date.now()}-${coverFile.name}`);
-    await firebaseServices.uploadBytes(coverRef, coverFile);
-    const coverUrl = await firebaseServices.getDownloadURL(coverRef);
-    
-    // Upload audio file
-    const audioRef = firebaseServices.ref(firebaseServices.storage, `audio/${Date.now()}-${audioFile.name}`);
-    await firebaseServices.uploadBytes(audioRef, audioFile);
-    const audioUrl = await firebaseServices.getDownloadURL(audioRef);
-    
-    // Add song to Firestore
-    const docRef = await firebaseServices.addDoc(
-      firebaseServices.collection(firebaseServices.db, "songs"),
-      {
-        ...songData,
-        coverUrl,
-        audioUrl,
-        createdAt: new Date()
-      }
-    );
-    
-    return { id: docRef.id, ...songData, coverUrl, audioUrl };
-  } catch (error) {
-    console.error("Error adding song:", error);
-    throw error;
-  }
 }

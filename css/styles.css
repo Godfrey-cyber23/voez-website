@@ -1165,7 +1165,7 @@ nav a.active {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: clamp(1rem, 2vw, 1.5rem);
-  max-width: 1500px;
+  max-width: fit-content;
   margin: 0 auto;
   gap: 20px;
 }
@@ -1390,14 +1390,217 @@ section {
   max-width: 90%;
 }
 
+/* ==============================================
+   MUSIC SECTION STYLES
+   ============================================== */
+
+/**
+ * Music Grid Layout
+ * Responsive grid with enhanced accessibility and performance
+ */
+.music-section {
+  padding: 2rem 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.music-section h2 {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.music-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6f61, #7c67b6);
+}
+
+.music-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 2rem;
+  padding: 0;
+}
+
+/**
+ * Music Card Component
+ * With modern hover effects and accessibility improvements
+ */
+.music-card {
+  --card-bg: #fff;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --hover-shadow: 0 8px 24px rgba(124, 103, 182, 0.2);
+  --transition-speed: 0.25s;
+  
+  background: var(--card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: 
+    transform var(--transition-speed) ease,
+    box-shadow var(--transition-speed) ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.music-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--hover-shadow);
+}
+
+.music-card:focus-within {
+  outline: 2px solid #7c67b6;
+  outline-offset: 2px;
+}
+
+.music-card__image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+  transition: transform 0.3s ease;
+}
+
+.music-card:hover .music-card__image {
+  transform: scale(1.02);
+}
+
+.music-card__content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.music-card__title {
+  font-size: clamp(1.2rem, 1.5vw, 1.4rem);
+  margin: 0 0 0.75rem 0;
+  color: #2c3e50;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.music-card__description {
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+  flex-grow: 1;
+}
+
+.music-card__button {
+  --button-bg: linear-gradient(135deg, #ff6f61, #ff8e7d);
+  --button-hover: linear-gradient(135deg, #e65a4d, #ff6f61);
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background: var(--button-bg);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  transition: 
+    background 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+  margin-top: auto;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(255, 111, 97, 0.3);
+}
+
+.music-card__button:hover,
+.music-card__button:focus {
+  background: var(--button-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 111, 97, 0.4);
+  color: white;
+}
+
+.music-card__button:active {
+  transform: translateY(0);
+}
+
+/**
+ * Responsive Adjustments
+ * Fine-tuned breakpoints for optimal viewing
+ */
+@media (max-width: 768px) {
+  .music-grid {
+    gap: 1.5rem;
+  }
+  
+  .music-card__content {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .music-section {
+    padding: 1.5rem 0.75rem;
+  }
+  
+  .music-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  .music-card__image {
+    height: 160px;
+  }
+}
+
+/**
+ * Animation for fade-in effect
+ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Accessibility improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+/* End of our music section */
+
 /* Music Grid - Fully Responsive */
 .music-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
   gap: 1.5rem;
   width: 100%;
   padding: 0;
 }
+
 
 /* Music Card - Fluid Sizing */
 .music-card {
@@ -1408,8 +1611,7 @@ section {
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  /* Ensure equal height */
+  height: 75%;
 }
 
 .music-card:hover {
@@ -1419,17 +1621,14 @@ section {
 
 .music-card img {
   width: 100%;
-  height: 100%;
+  height:74%;
   aspect-ratio: 2/1;
-  /* Square ratio for images */
   object-fit: cover;
-  /* Ensure images fill space nicely */
 }
 
 .music-card-content {
   padding: 1.2rem;
   flex-grow: 1;
-  /* Makes content area fill space */
   display: flex;
   flex-direction: column;
 }
@@ -1446,7 +1645,6 @@ section {
   line-height: 1.5;
   margin: 0 0 1.2rem 0;
   flex-grow: 1;
-  /* Pushes button to bottom */
 }
 
 /* Button stays at bottom of card */
@@ -1492,7 +1690,7 @@ section {
 }
 
 /* Large Screens - Limit max width */
-@media (min-width: 1400px) {
+@media (min-width: 1200px) {
   .featured-music {
     max-width: 1400px;
     flex: 1;

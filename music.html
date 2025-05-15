@@ -6,9 +6,414 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Music - VOEZ</title>
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/music-styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    /* Base styles */
+    :root {
+      --primary: #583D91;
+      --secondary: #4CAF50;
+      --accent: #FF9800;
+      --light: #f9f9f9;
+      --dark: #333;
+      --gray: #666;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    
+    .admin-link {
+      background-color: var(--accent);
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .admin-link:hover {
+      background-color: #e68a00;
+    }
+
+    /* Main container */
+    .music-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Search and filter */
+    .music-container .search-filter {
+  margin: 100px 0 20px;
+  text-align: center;
+  color: var(--section-title-light);
+
+  /* center children vertically & horizontally */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.music-container .search-filter input {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  margin-bottom: 15px;
+}
+
+.music-container .search-filter .filter-group {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.music-container .search-filter .filter-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--border-radius);
+  background: var(--light-bg);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.music-container .search-filter .filter-btn.active,
+.music-container .search-filter .filter-btn:hover {
+  background: var(--accent-color);
+  color: white;
+}
+
+
+    #search {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-btn.active {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Music sections */
+    .section-title {
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 5px;
+      margin-top: 30px;
+    }
+
+    .song-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .song-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s;
+    }
+
+    .song-item:hover {
+      background-color: #f0f0f0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .song-info {
+      flex-grow: 1;
+    }
+
+    .song-title {
+      font-weight: bold;
+      margin: 0;
+      color: #333;
+    }
+
+    .song-artist {
+      margin: 5px 0 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .song-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .play-btn,
+    .download-btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .play-btn {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .play-btn:hover {
+      background-color: #4a2d7a;
+    }
+
+    .download-btn {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    .download-btn:hover {
+      background-color: #45a049;
+    }
+
+    .premium-tag {
+      background-color: var(--accent);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .free-tag {
+      background-color: var(--secondary);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    /* Player modal */
+    .player-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .player-modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .player-content {
+      background-color: white;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .player-cover {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .player-info {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .player-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .player-artist {
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+    }
+
+    .audio-player {
+      width: 100%;
+      margin: 1rem 0;
+    }
+
+    .player-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* Footer styles */
+    footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section h3 {
+      color: #ddd;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-section ul li a {
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-section ul li a:hover {
+      color: white;
+    }
+
+    .footer-section ul li i {
+      margin-right: 0.5rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-links a {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+
+    .social-links a:hover {
+      background-color: var(--primary);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 1.5rem;
+      margin-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #bbb;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      nav ul {
+        margin-top: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      nav ul li {
+        margin: 0.5rem;
+      }
+
+      .search-filter {
+        flex-direction: column;
+      }
+
+      #search {
+        min-width: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .song-controls {
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .play-btn,
+      .download-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -21,215 +426,64 @@
     <nav>
       <ul>
         <li><a href="choir-composition.html">Choir composition</a></li>
+        <li><a href="music.html">Music</a></li>
         <li><a href="activities.html">Activities</a></li>
         <li><a href="events.html">Events</a></li>
-        <li><a href="announcements.html">Announcements</a></li>
-        <!-- <li><a href="contact.html">Contact</a></li> -->
+        <li><a href="announcements.html" class="active">Announcements</a></li>
+        <li class="has-dropdown">
+          <a href="#">Important Links</a>
+          <ul class="dropdown-menu">
+            <li><a href="https://www.vatican.va/content/vatican/en.html" target="_blank" rel="noopener">Vatican Website</a></li>
+            <li><a href="https://www.zambia-mission.org/" target="_blank" rel="noopener">Zambia Episcopal Conference</a></li>
+            <li><a href="https://www.ccrl.ca/" target="_blank" rel="noopener">Catholic Resources</a></li>
+            <li><a href="liturgical-calendar.html">Liturgical Calendar</a></li>
+            <li><a href="choir-resources.html">Choir Resources</a></li>
+            <li><a href="music-notation.html">Music Notation Guides</a></li>
+          </ul>
+        </li>
         <li><a href="login.html"><i class="fas fa-sign-in-alt login-icon"></i> Login</a></li>
       </ul>
+      <div class="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
     </nav>
   </header>
 
+
   <div class="music-container">
-    <h1>Our Music Collection</h1>
-
-    <!-- Free Music Section -->
-    <section class="music-section">
-      <h2><i class="fas fa-music"></i> Free Music</h2>
-      <p>Enjoy these songs at no cost</p>
-      <div class="music-grid">
-        <!-- Free Song 1 -->
-        <div class="music-card">
-          <img
-            src="https://i.fbcd.co/products/resized/resized-750-500/mpfoto71-a-colorful-music-background-1-1b33636aeb8eb0a5c3d22bd73b58803cd8858ff9339338233f936b8172a65ca0.jpg"
-            alt="Free Song 1" class="music-cover">
-          <div class="music-info">
-            <h3 class="music-title">Amazing Grace</h3>
-            <p class="music-artist">VOEZ Worship Team</p>
-            <div class="music-controls">
-              <span class="price-tag free-tag">FREE</span>
-              <button class="btn btn-play"><i class="fas fa-play"></i> Play</button>
-            </div>
-            <audio src="music/mwasimu_ya_gethsemani_mp3_76745.mp3" controls
-              style="width: 100%; margin-top: 10px;"></audio>
-          </div>
-        </div>
-
-        <!-- Free Song 2 -->
-        <div class="music-card">
-          <img src="https://th.bing.com/th/id/OIP.h-bTRWcIKs9ZN7MHaCREWwHaE7?cb=iwc2&w=740&h=493&rs=1&pid=ImgDetMain"
-            alt="Free Song 2" class="music-cover">
-          <div class="music-info">
-            <h3 class="music-title">His Love Endures</h3>
-            <p class="music-artist">VOEZ Choir</p>
-            <div class="music-controls">
-              <span class="price-tag free-tag">FREE</span>
-              <button class="btn btn-play"><i class="fas fa-play"></i> Play</button>
-            </div>
-            <audio src="music/Natu Sefye Christu Kalubula.mp3" controls style="width: 100%; margin-top: 10px;"></audio>
-          </div>
-        </div>
+    <div class="search-filter">
+      <input type="text" id="search" placeholder="Search songs by title or artist...">
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="free">Free</button>
+        <button class="filter-btn" data-filter="premium">Premium</button>
+        <button class="filter-btn" data-filter="albums">Albums</button>
       </div>
-    </section>
-
-    <!-- Premium Music Section -->
-    <section class="music-section">
-      <h2><i class="fas fa-crown"></i> Premium Music</h2>
-      <p>Unlock these songs with a small donation to support our ministry</p>
-      <div class="music-grid">
-
-        <!-- Premium Song 1 -->
-        <div class="music-card">
-          <div class="locked-content">
-            <img src="https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
-              alt="Premium Song 1" class="music-cover">
-            <div class="locked-overlay">
-              <i class="fas fa-lock locked-icon" style="color: red;"></i>
-
-              <p>Purchase to unlock</p>
-              <button class="btn btn-buy" onclick="openPaymentModal('song', 'Heavenly Sounds', 2.99, 'premium-song1')">
-                Buy for $2.99
-              </button>
-            </div>
-          </div>
-          <div class="music-info">
-            <h3 class="music-title">Heavenly Sounds</h3>
-            <p class="music-artist">VOEZ Band</p>
-            <div class="music-controls">
-              <span class="price-tag">$2.99</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Premium Song 2 -->
-        <div class="music-card">
-          <div class="locked-content">
-            <img src="https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
-              alt="Premium Song 2" class="music-cover">
-            <div class="locked-overlay">
-              <i class="fas fa-lock locked-icon" style="color: red;"></i>
-              <p>Purchase to unlock</p>
-              <button class="btn btn-buy" onclick="openPaymentModal('song', 'Glory to God', 2.99, 'premium-song2')">
-                Buy for $2.99
-              </button>
-            </div>
-          </div>
-          <div class="music-info">
-            <h3 class="music-title">Glory to God</h3>
-            <p class="music-artist">VOEZ Worship Team</p>
-            <div class="music-controls">
-              <span class="price-tag">$2.99</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Albums Section -->
-    <section class="music-section">
-      <h2><i class="fas fa-compact-disc"></i> Albums</h2>
-      <p>Complete collections of our worship music</p>
-      <div class="music-grid">
-        <!-- Album 1 -->
-        <div class="music-card">
-          <div class="locked-content">
-            <img src="https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
-              alt="Worship Collection" class="music-cover">
-            <div class="locked-overlay">
-              <i class="fas fa-lock locked-icon" style="color: red;"></i>
-              <p>Purchase to unlock</p>
-              <button class="btn btn-buy"
-                onclick="openPaymentModal('album', ' Ndithandizeni Chauta (Help me, Lord)', 9.99, 'album1')">
-                Buy Album for $9.99
-              </button>
-            </div>
-          </div>
-          <div class="music-info">
-            <h3 class="music-title">Album 1 - Ndithandizeni Chauta (Help me, Lord)</h3>
-            <p class="music-artist">VOEZ Choir</p>
-            <p class="album-price">$9.99 (Save 30%)</p>
-            <p>Our Album one, includes 10 tracks in 7 Zambian languages ♡</p>
-            <button class="btn btn-buy-album"
-              onclick="openPaymentModal('album', ' Ndithandizeni Chauta (Help me, Lord)', 9.99, 'album1')">
-              Buy Full Album
-            </button>
-          </div>
-        </div>
-
-        <!-- Album 2 -->
-        <div class="music-card">
-          <div class="locked-content">
-            <img src="https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
-              alt="Praise Anthems" class="music-cover">
-            <div class="locked-overlay">
-              <i class="fas fa-lock locked-icon" style="color: red;"></i>
-              <p>Purchase to unlock</p>
-              <button class="btn btn-buy"
-                onclick="openPaymentModal('album', 'Mulimu Yasishemo Lwakulumbeka', 12.99, 'album2')">
-                Buy Album for $12.99
-              </button>
-            </div>
-          </div>
-          <div class="music-info">
-            <h3 class="music-title">Album 2 - Mulimu Yasishemo Lwakulumbeka (God of Mercy we thank you)</h3>
-            <p class="music-artist">VOEZ Choir</p>
-            <p class="album-price">$12.99 (Save 35%)</p>
-            <p>Our Second Album, contains 10 tracks in 7 Zambian languages ♡</p>
-            <button class="btn btn-buy-album"
-              onclick="openPaymentModal('album', 'Mulimu Yasishemo Lwakulumbeka', 12.99, 'album2')">
-              Buy Full Album
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Payment Modal -->
-  <div id="paymentModal" class="payment-modal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closePaymentModal()">&times;</span>
-      <h2 id="modalTitle">Purchase Song</h2>
-      <p id="modalDescription">You're about to purchase: <span id="itemName"></span></p>
-      <p>Price: $<span id="itemPrice">0.00</span></p>
-
-      <div class="payment-options">
-        <h3>Select Payment Method</h3>
-        <label class="payment-option">
-          <input type="radio" name="payment" value="mobile_money" checked onchange="togglePaymentFields()">
-          Mobile Money (Zambia)
-        </label>
-        <label class="payment-option">
-          <input type="radio" name="payment" value="card" onchange="togglePaymentFields()">
-          Credit/Debit Card
-        </label>
-        <label class="payment-option">
-          <input type="radio" name="payment" value="paypal" onchange="togglePaymentFields()">
-          PayPal
-        </label>
-      </div>
-
-
-
-      <!-- Mobile Money Fields -->
-      <div id="mobileMoneyFields" style="display: block;">
-        <label for="network">Select Mobile Network:</label>
-        <select id="network">
-          <option value="">-- Choose Network --</option>
-          <option value="mtn">MTN Money</option>
-          <option value="airtel">Airtel Money</option>
-          <option value="zamtel">Zamtel Money</option>
-        </select>
-        <label for="mobileNumber">Mobile Number:</label>
-        <input type="tel" id="mobileNumber" placeholder="e.g. 0966123456">
-      </div>
-
     </div>
 
-    <button class="btn btn-buy" style="width: 100%; margin-top: 20px;" onclick="processPayment()">
-      Complete Purchase
-    </button>
+    <h2 class="section-title">Free Songs</h2>
+    <ul id="freeSongs" class="song-list"></ul>
+
+    <h2 class="section-title">Premium Songs</h2>
+    <ul id="premiumSongs" class="song-list"></ul>
+
+    <h2 class="section-title">Albums</h2>
+    <ul id="albumSongs" class="song-list"></ul>
   </div>
+
+  <!-- Player Modal -->
+  <div class="player-modal" id="playerModal">
+    <div class="player-content">
+      <button class="player-close" id="closePlayer" title="Close Player"><i class="fas fa-times"></i></button>
+      <img src="" alt="Song Cover" class="player-cover" id="playerCover">
+      <div class="player-info">
+        <h3 class="player-title" id="playerTitle"></h3>
+        <p class="player-artist" id="playerArtist"></p>
+        <audio controls class="audio-player" id="audioPlayer">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+    </div>
   </div>
 
   <footer>
@@ -241,8 +495,8 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About Us</a></li>
           <li><a href="music.html">Music</a></li>
-          <!-- <li><a href="events.html">Events</a></li>
-          <li><a href="gallery.html">Gallery</a></li> -->
+          <li><a href="events.html">Events</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
           <li><a href="join.html">Join Us</a></li>
           <li><a href="contact.html">Contact Us</a></li>
         </ul>
@@ -315,7 +569,6 @@
             </a>
             <div class="tooltip">YouTube</div>
           </li>
-
           <li class="icon-content">
             <a data-social="tiktok" aria-label="TikTok" href="https://www.tiktok.com/@anadalitsika_james"
               target="_blank" rel="noopener noreferrer">
@@ -329,6 +582,7 @@
             </a>
             <div class="tooltip">TikTok</div>
           </li>
+
         </ul>
       </div>
 
@@ -357,7 +611,297 @@
       <p>&copy; 2023 Voice of Ecclesia Zambia. All rights reserved.</p>
     </div>
   </footer>
-  <script src="js/music.js"></script>
+
+  <script>
+    // Music data
+    const songs = {
+      free: [
+        {
+          title: "Mwasimu ya Gethsemani",
+          artist: "Voez Choir",
+          url: "music/mwasimu_ya_gethsemani_mp3_76745.mp3",
+          cover: "https://i.fbcd.co/products/resized/resized-750-500/mpfoto71-a-colorful-music-background-1-1b33636aeb8eb0a5c3d22bd73b58803cd8858ff9339338233f936b8172a65ca0.jpg"
+        },
+        {
+          title: "Natu Sefye Christu Kalubula",
+          artist: "VOEZ Choir",
+          url: "music/Natu Sefye Christu Kalubula.mp3",
+          cover: "https://th.bing.com/th/id/OIP.h-bTRWcIKs9ZN7MHaCREWwHaE7?cb=iwc2&w=740&h=493&rs=1&pid=ImgDetMain"
+        },
+        {
+          title: "ee mfumu ee yamba",
+          artist: "Unknown Artist",
+          url: "music/ee_mfumu_ee_yamba_lyrics_with_english_translation_lingala_dr_congo_aac_75573.m4a",
+          cover: "https://i.fbcd.co/products/resized/resized-750-500/mpfoto71-a-colorful-music-background-1-1b33636aeb8eb0a5c3d22bd73b58803cd8858ff9339338233f936b8172a65ca0.jpg"
+        },
+        {
+          title: "His Love Endures",
+          artist: "Unknown Artist",
+          url: "music/Natu Sefye Christu Kalubula.mp3",
+          cover: "https://th.bing.com/th/id/OIP.h-bTRWcIKs9ZN7MHaCREWwHaE7?cb=iwc2&w=740&h=493&rs=1&pid=ImgDetMain"
+        }
+      ],
+      premium: [
+        {
+          title: "Heavenly Sounds",
+          artist: "VOEZ Band",
+          url: "#",
+          price: "$2.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        },
+        {
+          title: "Glory to God",
+          artist: "VOEZ Worship Team",
+          url: "#",
+          price: "$2.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        },
+        {
+          title: "Heavenly Sounds",
+          artist: "VOEZ Band",
+          url: "#",
+          price: "$2.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        },
+        {
+          title: "Glory to God",
+          artist: "VOEZ Worship Team",
+          url: "#",
+          price: "$2.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        },
+        {
+          title: "Heavenly Sounds",
+          artist: "VOEZ Band",
+          url: "#",
+          price: "$2.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        },
+        {
+          title: "Glory to God",
+          artist: "VOEZ Worship Team",
+          url: "#",
+          price: "$2.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        },
+        {
+          title: "Heavenly Sounds",
+          artist: "VOEZ Band",
+          url: "#",
+          price: "$2.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        },
+        {
+          title: "Glory to God",
+          artist: "VOEZ Worship Team",
+          url: "#",
+          price: "$2.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        },
+        {
+          title: "Heavenly Sounds",
+          artist: "VOEZ Band",
+          url: "#",
+          price: "$2.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        },
+        {
+          title: "Glory to God",
+          artist: "VOEZ Worship Team",
+          url: "#",
+          price: "$2.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        }
+      ],
+      albums: [
+        {
+          title: "Ndithandizeni Chauta (Help me, Lord)",
+          artist: "VOEZ Choir (10 tracks)",
+          url: "#",
+          price: "$9.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        },
+        {
+          title: "Mulimu Yasishemo Lwakulumbeka (God of Mercy we thank you)",
+          artist: "VOEZ Choir (10 tracks)",
+          url: "#",
+          price: "$12.99",
+          cover: "https://th.bing.com/th/id/OIP.qD7Vei8wryWZ1CSqAwipFAHaE7?cb=iwc2&pid=ImgDet&w=191&h=127&c=7"
+        }
+      ]
+    };
+
+    // DOM elements
+    const freeSongList = document.getElementById("freeSongs");
+    const premiumSongList = document.getElementById("premiumSongs");
+    const albumSongList = document.getElementById("albumSongs");
+    const searchInput = document.getElementById("search");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const playerModal = document.getElementById("playerModal");
+    const closePlayer = document.getElementById("closePlayer");
+    const playerCover = document.getElementById("playerCover");
+    const playerTitle = document.getElementById("playerTitle");
+    const playerArtist = document.getElementById("playerArtist");
+    const audioPlayer = document.getElementById("audioPlayer");
+    const sectionTitles = document.querySelectorAll(".section-title");
+
+    // Render songs based on category
+    function renderSongs(filter = "") {
+      freeSongList.innerHTML = "";
+      premiumSongList.innerHTML = "";
+      albumSongList.innerHTML = "";
+
+      // Render free songs
+      songs.free
+        .filter(song => matchesFilter(song, filter))
+        .forEach(song => {
+          const li = createSongItem(song, true);
+          freeSongList.appendChild(li);
+        });
+
+      // Render premium songs
+      songs.premium
+        .filter(song => matchesFilter(song, filter))
+        .forEach(song => {
+          const li = createSongItem(song, false);
+          premiumSongList.appendChild(li);
+        });
+
+      // Render albums
+      songs.albums
+        .filter(album => matchesFilter(album, filter))
+        .forEach(album => {
+          const li = createAlbumItem(album);
+          albumSongList.appendChild(li);
+        });
+    }
+
+    // Check if song matches search filter
+    function matchesFilter(item, filter) {
+      if (!filter) return true;
+      return item.title.toLowerCase().includes(filter.toLowerCase()) ||
+        item.artist.toLowerCase().includes(filter.toLowerCase());
+    }
+
+    // Create song item element
+    function createSongItem(song, isFree) {
+      const li = document.createElement("li");
+      li.className = "song-item";
+
+      li.innerHTML = `
+    <div class="song-info">
+      <p class="song-title">${song.title} ${isFree ? '<span class="free-tag">FREE</span>' : `<span class="premium-tag">${song.price}</span>`}</p>
+      <p class="song-artist">${song.artist}</p>
+    </div>
+    <div class="song-controls">
+      <button class="play-btn" data-url="${song.url}" data-cover="${song.cover}" data-title="${song.title}" data-artist="${song.artist}">
+        <i class="fas fa-play"></i> Play
+      </button>
+      <a href="${song.url}" class="download-btn" ${song.url === '#' ? 'onclick="return false;"' : ''}>
+        <i class="fas fa-download"></i> Download
+      </a>
+    </div>
+  `;
+
+      return li;
+    }
+
+    // Create album item element
+    function createAlbumItem(album) {
+      const li = document.createElement("li");
+      li.className = "song-item";
+
+      li.innerHTML = `
+    <div class="song-info">
+      <p class="song-title">${album.title} <span class="premium-tag">${album.price}</span></p>
+      <p class="song-artist">${album.artist}</p>
+    </div>
+    <div class="song-controls">
+      <button class="play-btn">
+        <i class="fas fa-play"></i> Preview
+      </button>
+      <a href="${album.url}" class="download-btn" onclick="return false;">
+        <i class="fas fa-shopping-cart"></i> Buy Album
+      </a>
+    </div>
+  `;
+
+      return li;
+    }
+
+    // Filter songs by category
+    function filterSongs(category) {
+      // Hide all sections first
+      sectionTitles.forEach(title => {
+        title.style.display = "none";
+        title.nextElementSibling.style.display = "none";
+      });
+
+      if (category === "all") {
+        // Show all sections
+        sectionTitles.forEach(title => {
+          title.style.display = "block";
+          title.nextElementSibling.style.display = "block";
+        });
+      } else {
+        // Show only the selected category
+        const sectionToShow = document.querySelector(`#${category}Songs`);
+        if (sectionToShow) {
+          sectionToShow.previousElementSibling.style.display = "block";
+          sectionToShow.style.display = "block";
+        }
+      }
+    }
+
+    // Initialize the page
+    function init() {
+      renderSongs();
+
+      // Search functionality
+      searchInput.addEventListener("input", (e) => {
+        renderSongs(e.target.value);
+      });
+
+      // Filter buttons
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          filterButtons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+          filterSongs(button.dataset.filter);
+        });
+      });
+
+      // Play button click handler
+      document.addEventListener("click", function (e) {
+        if (e.target.classList.contains("play-btn") || e.target.closest(".play-btn")) {
+          const btn = e.target.classList.contains("play-btn") ? e.target : e.target.closest(".play-btn");
+          const url = btn.dataset.url;
+          const cover = btn.dataset.cover;
+          const title = btn.dataset.title;
+          const artist = btn.dataset.artist;
+
+          if (url && url !== "#") {
+            playerCover.src = cover;
+            playerTitle.textContent = title;
+            playerArtist.textContent = artist;
+            audioPlayer.src = url;
+            playerModal.classList.add("active");
+          } else {
+            alert("This is a premium song. Please purchase to listen.");
+          }
+        }
+      });
+
+      // Close player modal
+      closePlayer.addEventListener("click", () => {
+        playerModal.classList.remove("active");
+        audioPlayer.pause();
+      });
+    }
+
+    // Initialize the page when loaded
+    window.addEventListener("DOMContentLoaded", init);
+  </script>
 </body>
 
 </html>

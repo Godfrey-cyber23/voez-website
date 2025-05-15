@@ -7,6 +7,7 @@
   <meta name="description" content="Upcoming events for Voice of Ecclesia Zambia choir. Join us for concerts and community outreach programs.">
   <title>Events - Voice of Ecclesia Zambia (VOEZ)</title>
   <link rel="stylesheet" href="css/events-styles.css">
+  <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <!-- <link rel="stylesheet" href="css/animations.css"> -->
   <!-- Preconnect to external domains for performance -->
@@ -18,32 +19,37 @@
   <!-- Skip to content link for accessibility -->
   <a class="skip-link" href="#main-content">Skip to main content</a>
   
-  <header class="header">
-    <div class="container">
-      <div class="logo">
-        <a href="index.html">
-          <img src="https://i.postimg.cc/Ss5YL5pt/logo.png" alt="VOEZ Logo - Voice of Ecclesia Zambia" width="150" height="auto">
-        </a>
-      </div>
-      
-      <!-- Mobile menu button -->
-      <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span class="hamburger"></span>
-        <span class="hamburger"></span>
-        <span class="hamburger"></span>
-      </button>
-      
-      <nav class="main-nav" aria-label="Main navigation">
-        <ul>
-          <li><a href="choir-composition.html">Choir Composition</a></li>
-          <li><a href="music.html">Music</a></li>
-          <li><a href="activities.html">Activities</a></li>
-          <li><a href="events.html" aria-current="page">Events</a></li>
-          <li><a href="announcements.html">Announcements</a></li>
-          <li><a href="login.html" class="login-link"><i class="fas fa-sign-in-alt login-icon" aria-hidden="true"></i> Login</a></li>
-        </ul>
-      </nav>
+  <header>
+    <div class="logo">
+      <a href="index.html">
+        <img src="https://i.postimg.cc/Ss5YL5pt/logo.png" alt="VOEZ Logo">
+      </a>
     </div>
+    <nav>
+      <ul>
+        <li><a href="choir-composition.html">Choir composition</a></li>
+        <li><a href="music.html"><i class="fas fa-music"></i> Music</a></li>
+        <li><a href="activities.html"><i class="fas fa-running"></i> Activities</a></li>
+        <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+        <li><a href="announcements.html" class="active"> Announcements</a></li>
+        <li class="has-dropdown">
+          <a href="#">Important Links</a>
+          <ul class="dropdown-menu">
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="https://www.vatican.va/content/vatican/en.html" target="_blank" rel="noopener">Vatican Website</a></li>
+            <li><a href="https://www.zambia-mission.org/" target="_blank" rel="noopener">Zambia Episcopal Conference</a></li>
+            <li><a href="liturgical-calendar.html"><i class="fas fa-running"></i> Liturgical Calendar</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            <li><a href="join.html" target="_blank" rel="noopener"><i class="fas fa-user-plus"></i>Join Us</a></li>
+            <li><a href="login.html" class="admin-link"><i class="fas fa-lock"></i> Admin</a></li>
+          </ul>
+        </li>
+        <li><a href="login.html"><i class="fas fa-sign-in-alt login-icon"></i> Login</a></li>
+      </ul>
+      <div class="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
   </header>
 
   <main id="main-content" class="main-content">
@@ -55,7 +61,7 @@
         <div class="event-list">
           <article class="event-card">
             <div class="event-image">
-              <img src="https://via.placeholder.com/400x225?text=Christmas+Concert" alt="Christmas choir performance" loading="lazy">
+              <img src="https://th.bing.com/th/id/R.b0c6e5f082777560dbb54f5e9973f116?rik=anPkvccQPGD3Og&riu=http%3a%2f%2fwww.summersidenazarene.org%2fwp-content%2fuploads%2f2017%2f11%2f775335216-christmasconcert.jpg&ehk=kg%2fK4UZUMylKY44eSjJE3Up9vpqZvMErblwVBcvvrt8%3d&risl=&pid=ImgRaw&r=0" alt="Christmas choir performance" loading="lazy">
             </div>
             <div class="event-details">
               <h2 class="event-title">Christmas Concert</h2>
@@ -71,7 +77,7 @@
           
           <article class="event-card">
             <div class="event-image">
-              <img src="https://via.placeholder.com/400x225?text=Community+Outreach" alt="Choir members with children" loading="lazy">
+              <img src="https://th.bing.com/th/id/OIP.iSOKeYvb-OlBcTFuMmLXLAHaFC?cb=iwc2&rs=1&pid=ImgDetMain" alt="Choir members with children" loading="lazy">
             </div>
             <div class="event-details">
               <h2 class="event-title">Community Outreach</h2>
@@ -87,7 +93,7 @@
           
           <article class="event-card">
             <div class="event-image">
-              <img src="https://via.placeholder.com/400x225?text=Easter+Concert" alt="Easter performance" loading="lazy">
+              <img src="https://th.bing.com/th/id/OIP.uk7b8hizBtvNE7DFA96ZTQHaE7?cb=iwc2&rs=1&pid=ImgDetMain" alt="Easter performance" loading="lazy">
             </div>
             <div class="event-details">
               <h2 class="event-title">Easter Celebration Concert</h2>
