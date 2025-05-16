@@ -1043,7 +1043,7 @@ nav a.active {
 .donations {
   background:
     linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url('../images/donation1.jpeg') no-repeat center 30%;
+    url('https://res.cloudinary.com/dne8dug4k/image/upload/v1747329525/donation1_gdmvvc.jpg') no-repeat center 30%;
   background-size: cover;
   padding: clamp(3rem, 6vw, 5rem) clamp(0.5rem, 2vw, 1.5rem);
   color: white;

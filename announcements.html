@@ -16,7 +16,7 @@
       max-width: 1200px;
       margin: 0 auto;
     }
-    
+
     .page-title {
       text-align: center;
       margin-bottom: 40px;
@@ -24,7 +24,7 @@
       font-size: 2.5rem;
       position: relative;
     }
-    
+
     .page-title::after {
       content: '';
       display: block;
@@ -34,7 +34,7 @@
       margin: 15px auto;
       border-radius: 2px;
     }
-    
+
     .page-intro {
       text-align: center;
       margin-bottom: 50px;
@@ -45,36 +45,36 @@
       margin-left: auto;
       margin-right: auto;
     }
-    
+
     .announcements-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 30px;
       margin-bottom: 60px;
     }
-    
+
     .announcement-card {
       background: white;
       border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       transition: transform 0.3s ease;
     }
-    
+
     .announcement-card:hover {
       transform: translateY(-5px);
     }
-    
+
     .announcement-image {
       width: 100%;
       height: 200px;
       object-fit: cover;
     }
-    
+
     .announcement-content {
       padding: 25px;
     }
-    
+
     .announcement-date {
       color: #8e44ad;
       font-weight: 600;
@@ -82,23 +82,23 @@
       display: flex;
       align-items: center;
     }
-    
+
     .announcement-date i {
       margin-right: 8px;
     }
-    
+
     .announcement-title {
       margin: 0 0 15px;
       font-size: 1.5rem;
       color: #2c3e50;
     }
-    
+
     .announcement-excerpt {
       color: #555;
       line-height: 1.6;
       margin-bottom: 20px;
     }
-    
+
     .read-more {
       display: inline-block;
       color: #8e44ad;
@@ -106,20 +106,20 @@
       text-decoration: none;
       transition: color 0.3s ease;
     }
-    
+
     .read-more:hover {
       color: #6c3483;
     }
-    
+
     .read-more i {
       margin-left: 5px;
       transition: transform 0.3s ease;
     }
-    
+
     .read-more:hover i {
       transform: translateX(3px);
     }
-    
+
     .categories-filter {
       display: flex;
       justify-content: center;
@@ -127,7 +127,7 @@
       gap: 15px;
       margin-bottom: 40px;
     }
-    
+
     .category-btn {
       padding: 8px 20px;
       background: #f5f5f5;
@@ -137,19 +137,20 @@
       transition: all 0.3s ease;
       font-weight: 500;
     }
-    
-    .category-btn:hover, .category-btn.active {
+
+    .category-btn:hover,
+    .category-btn.active {
       background: #8e44ad;
       color: white;
     }
-    
+
     .pagination {
       display: flex;
       justify-content: center;
       gap: 10px;
       margin-top: 40px;
     }
-    
+
     .page-btn {
       width: 40px;
       height: 40px;
@@ -159,13 +160,14 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
-    
-    .page-btn:hover, .page-btn.active {
+
+    .page-btn:hover,
+    .page-btn.active {
       background: #8e44ad;
       color: white;
       border-color: #8e44ad;
     }
-    
+
     .subscribe-section {
       text-align: center;
       padding: 40px;
@@ -175,18 +177,18 @@
       margin: 60px auto;
       max-width: 800px;
     }
-    
+
     .subscribe-section h2 {
       margin-top: 0;
       font-size: 2rem;
     }
-    
+
     .subscribe-form {
       display: flex;
       max-width: 500px;
       margin: 20px auto 0;
     }
-    
+
     .subscribe-input {
       flex: 1;
       padding: 12px 20px;
@@ -194,7 +196,7 @@
       border-radius: 50px 0 0 50px;
       font-size: 1rem;
     }
-    
+
     .subscribe-btn {
       padding: 0 25px;
       background: #2c3e50;
@@ -204,40 +206,40 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
-    
+
     .subscribe-btn:hover {
       background: #1a252f;
     }
-    
+
     @media (max-width: 768px) {
       .page-title {
         font-size: 2rem;
       }
-      
+
       .announcements-container {
         grid-template-columns: 1fr;
       }
-      
+
       .subscribe-form {
         flex-direction: column;
       }
-      
+
       .subscribe-input {
         border-radius: 50px;
         margin-bottom: 10px;
       }
-      
+
       .subscribe-btn {
         border-radius: 50px;
         padding: 12px;
       }
     }
-    
+
     /* Dropdown styles */
     nav ul li {
       position: relative;
     }
-    
+
     .dropdown-menu {
       display: none;
       position: absolute;
@@ -245,32 +247,32 @@
       left: 0;
       background: white;
       min-width: 200px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       border-radius: 5px;
       z-index: 1000;
       padding: 10px 0;
     }
-    
+
     .dropdown-menu li {
       padding: 0;
     }
-    
+
     .dropdown-menu a {
       color: #333;
       padding: 10px 20px;
       display: block;
       white-space: nowrap;
     }
-    
+
     .dropdown-menu a:hover {
       background: #f5f5f5;
       color: #8e44ad;
     }
-    
+
     .has-dropdown:hover .dropdown-menu {
       display: block;
     }
-    
+
     .has-dropdown::after {
       content: '\f078';
       font-family: 'Font Awesome 6 Free';
@@ -278,20 +280,21 @@
       margin-left: 5px;
       font-size: 0.8em;
     }
-    
+
     @media (max-width: 768px) {
+
       /* Mobile dropdown styles */
       .has-dropdown::after {
         display: none;
       }
-      
+
       .dropdown-menu {
         position: static;
         display: none;
         box-shadow: none;
         padding-left: 20px;
       }
-      
+
       .dropdown-menu.show {
         display: block;
       }
@@ -302,46 +305,50 @@
 <body>
   <!-- Header -->
   <header>
-  <div class="logo">
-    <a href="index.html">
-      <img src="https://i.postimg.cc/Ss5YL5pt/logo.png" alt="VOEZ Logo">
-    </a>
-  </div>
-  <nav>
-    <ul>
-      <li><a href="choir-composition.html"><i class="fas fa-users"></i> Choir Composition</a></li>
-      <li><a href="music.html"><i class="fas fa-music"></i> Music</a></li>
-      <li><a href="activities.html"><i class="fas fa-running"></i> Activities</a></li>
-      <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
-      <li><a href="announcements.html" class="active"><i class="fas fa-bullhorn"></i> Announcements</a></li>
-      <li class="has-dropdown">
-        <a href="#"><i class="fas fa-link"></i> Important Links</a>
-        <ul class="dropdown-menu">
-          <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
-          <li><a href="https://www.vatican.va/content/vatican/en.html" target="_blank" rel="noopener"><i class="fas fa-globe"></i> Vatican Website</a></li>
-          <li><a href="https://www.zambia-mission.org/" target="_blank" rel="noopener"><i class="fas fa-globe-africa"></i> Zambia Episcopal Conference</a></li>
-          <li><a href="liturgical-calendar.html"><i class="fas fa-calendar-day"></i> Liturgical Calendar</a></li>
-          <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
-          <li><a href="join.html" target="_blank" rel="noopener"><i class="fas fa-user-plus"></i> Join Us</a></li>
-          <li><a href="login.html" class="admin-link"><i class="fas fa-lock"></i> Admin</a></li>
-        </ul>
-      </li>
-      <li><a href="login.html"><i class="fas fa-sign-in-alt login-icon"></i> Login</a></li>
-    </ul>
-    <div class="hamburger">
-      <i class="fas fa-bars"></i>
+    <div class="logo">
+      <a href="index.html">
+        <img src="https://res.cloudinary.com/dne8dug4k/image/upload/v1747329692/logo_oglrez.svg" alt="VOEZ Logo">
+      </a>
     </div>
-  </nav>
-</header>
+    <nav>
+      <ul>
+        <li><a href="choir-composition.html"><i class="fas fa-users"></i> Choir Composition</a></li>
+        <li><a href="music.html"><i class="fas fa-music"></i> Music</a></li>
+        <li><a href="activities.html"><i class="fas fa-running"></i> Activities</a></li>
+        <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+        <li><a href="announcements.html" class="active"><i class="fas fa-bullhorn"></i> Announcements</a></li>
+        <li class="has-dropdown">
+          <a href="#"><i class="fas fa-link"></i> Important Links</a>
+          <ul class="dropdown-menu">
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="https://www.vatican.va/content/vatican/en.html" target="_blank" rel="noopener"><i
+                  class="fas fa-globe"></i> Vatican Website</a></li>
+            <li><a href="https://www.zambia-mission.org/" target="_blank" rel="noopener"><i
+                  class="fas fa-globe-africa"></i> Zambia Episcopal Conference</a></li>
+            <li><a href="liturgical-calendar.html"><i class="fas fa-calendar-day"></i> Liturgical Calendar</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            <li><a href="join.html" target="_blank" rel="noopener"><i class="fas fa-user-plus"></i> Join Us</a></li>
+            <li><a href="login.html" class="admin-link"><i class="fas fa-lock"></i> Admin</a></li>
+          </ul>
+        </li>
+        <li><a href="login.html"><i class="fas fa-sign-in-alt login-icon"></i> Login</a></li>
+      </ul>
+      <div class="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+  </header>
 
   <!-- Announcements Content -->
   <main class="announcements-page">
     <h1 class="page-title">Latest Announcements</h1>
-    
+
     <div class="page-intro">
-      <p>Stay updated with the latest news, events, and important information from Voice of Ecclesia Zambia. Here you'll find announcements about upcoming performances, choir practices, special events, and other important updates.</p>
+      <p>Stay updated with the latest news, events, and important information from Voice of Ecclesia Zambia. Here you'll
+        find announcements about upcoming performances, choir practices, special events, and other important updates.
+      </p>
     </div>
-    
+
     <div class="categories-filter">
       <button class="category-btn active">All</button>
       <button class="category-btn">Events</button>
@@ -349,99 +356,111 @@
       <button class="category-btn">Performances</button>
       <button class="category-btn">Important</button>
     </div>
-    
+
     <div class="announcements-container">
       <!-- Announcement 1 -->
       <div class="announcement-card">
-        <img src="https://i.postimg.cc/8z7vZ9Tz/choir-practice.jpg" alt="Choir Practice" class="announcement-image">
+        <img src="https://res.cloudinary.com/dne8dug4k/image/upload/v1747332262/OIP_ueoo7g.jpg" alt="Choir Practice"
+          class="announcement-image">
         <div class="announcement-content">
           <div class="announcement-date">
             <i class="far fa-calendar-alt"></i> June 15, 2023
           </div>
           <h3 class="announcement-title">Special Choir Practice This Sunday</h3>
-          <p class="announcement-excerpt">We're preparing for our upcoming performance at the Cathedral. All members are required to attend this special practice session from 2-5pm.</p>
+          <p class="announcement-excerpt">We're preparing for our upcoming performance at the Cathedral. All members are
+            required to attend this special practice session from 2-5pm.</p>
           <a href="announcement-detail.html" class="read-more">
             Read more <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </div>
-      
+
       <!-- Announcement 2 -->
       <div class="announcement-card">
-        <img src="https://i.postimg.cc/3xQz5w2K/charity-event.jpg" alt="Charity Event" class="announcement-image">
+        <img src="https://res.cloudinary.com/dne8dug4k/image/upload/v1747332497/download_kwpxet.jpg" alt="Charity Event"
+          class="announcement-image">
         <div class="announcement-content">
           <div class="announcement-date">
             <i class="far fa-calendar-alt"></i> June 20, 2023
           </div>
           <h3 class="announcement-title">Annual Charity Concert</h3>
-          <p class="announcement-excerpt">Join us for our annual charity concert to raise funds for the Kabwata Orphanage. The event will feature special guests and performances.</p>
+          <p class="announcement-excerpt">Join us for our annual charity concert to raise funds for the Kabwata
+            Orphanage. The event will feature special guests and performances.</p>
           <a href="announcement-detail.html" class="read-more">
             Read more <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </div>
-      
+
       <!-- Announcement 3 -->
       <div class="announcement-card">
-        <img src="https://i.postimg.cc/8z7vZ9Tz/choir-practice.jpg" alt="New Members" class="announcement-image">
+        <img src="https://res.cloudinary.com/dne8dug4k/image/upload/v1747332752/th_twvmj2.jpg" alt="New Members"
+          class="announcement-image">
         <div class="announcement-content">
           <div class="announcement-date">
             <i class="far fa-calendar-alt"></i> June 25, 2023
           </div>
           <h3 class="announcement-title">Welcome Our New Choir Members</h3>
-          <p class="announcement-excerpt">We're excited to welcome 5 new members to our choir family. Let's make them feel at home in our next practice session.</p>
+          <p class="announcement-excerpt">We're excited to welcome 5 new members to our choir family. Let's make them
+            feel at home in our next practice session.</p>
           <a href="announcement-detail.html" class="read-more">
             Read more <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </div>
-      
+
       <!-- Announcement 4 -->
       <div class="announcement-card">
-        <img src="https://i.postimg.cc/3xQz5w2K/charity-event.jpg" alt="Liturgical Workshop" class="announcement-image">
+        <img src="https://res.cloudinary.com/dne8dug4k/image/upload/v1747332752/th_twvmj2.jpg" alt="Liturgical Workshop"
+          class="announcement-image">
         <div class="announcement-content">
           <div class="announcement-date">
             <i class="far fa-calendar-alt"></i> July 1, 2023
           </div>
           <h3 class="announcement-title">Liturgical Music Workshop</h3>
-          <p class="announcement-excerpt">Fr. Marko Phiri will be conducting a special workshop on liturgical music traditions. Open to all choir members and interested parishioners.</p>
+          <p class="announcement-excerpt">Fr. Marko Phiri will be conducting a special workshop on liturgical music
+            traditions. Open to all choir members and interested parishioners.</p>
           <a href="announcement-detail.html" class="read-more">
             Read more <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </div>
-      
+
       <!-- Announcement 5 -->
       <div class="announcement-card">
-        <img src="https://i.postimg.cc/8z7vZ9Tz/choir-practice.jpg" alt="Album Recording" class="announcement-image">
+        <img src="https://res.cloudinary.com/dne8dug4k/image/upload/v1747332752/th_twvmj2.jpg" alt="Album Recording"
+          class="announcement-image">
         <div class="announcement-content">
           <div class="announcement-date">
             <i class="far fa-calendar-alt"></i> July 5, 2023
           </div>
           <h3 class="announcement-title">New Album Recording Schedule</h3>
-          <p class="announcement-excerpt">We're beginning recording sessions for our third album. Check the schedule for your section's recording times.</p>
+          <p class="announcement-excerpt">We're beginning recording sessions for our third album. Check the schedule for
+            your section's recording times.</p>
           <a href="announcement-detail.html" class="read-more">
             Read more <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </div>
-      
+
       <!-- Announcement 6 -->
       <div class="announcement-card">
-        <img src="https://i.postimg.cc/3xQz5w2K/charity-event.jpg" alt="Retreat" class="announcement-image">
+        <img src="https://res.cloudinary.com/dne8dug4k/image/upload/v1747332752/th_twvmj2.jpg" alt="Retreat"
+          class="announcement-image">
         <div class="announcement-content">
           <div class="announcement-date">
             <i class="far fa-calendar-alt"></i> July 10, 2023
           </div>
           <h3 class="announcement-title">Annual Choir Retreat</h3>
-          <p class="announcement-excerpt">Save the date for our spiritual retreat at Fringilla Farm. This will be a time for prayer, reflection, and team building.</p>
+          <p class="announcement-excerpt">Save the date for our spiritual retreat at Fringilla Farm. This will be a time
+            for prayer, reflection, and team building.</p>
           <a href="announcement-detail.html" class="read-more">
             Read more <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </div>
     </div>
-    
+
     <div class="pagination">
       <button class="page-btn active">1</button>
       <button class="page-btn">2</button>
@@ -449,7 +468,7 @@
       <button class="page-btn">4</button>
       <button class="page-btn">5</button>
     </div>
-    
+
     <div class="subscribe-section">
       <h2>Never Miss an Announcement</h2>
       <p>Subscribe to our newsletter to receive important updates directly to your email</p>
@@ -590,7 +609,7 @@
   <!-- Back-to-Top Button -->
   <button id="back-to-top" title="Go to top"><i class="fas fa-arrow-up"></i></button>
   <script src="js/main.js"></script>
-  <script src="css/announcement.js"></script></
+  <script src="css/announcement.js"></script>
 </body>
 
 </html>
